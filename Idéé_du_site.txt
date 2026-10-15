@@ -1,0 +1,26 @@
+Devellope une eboche de site  pour des therapeute :
+-partager avec plusieurs personne 
+-une page d'acuille perso puis une page de group different 
+-une fiche pour chaque client mes uniquement pour le propriétaire
+- leur émotion qui est problématique 
+-nombre De séance (découper en 1 parcoure en 3 séance , puis bilan ,et après séance en plus possible ) 
+-Age , prénom ,nm date de naissance genre 
+-disigne violet (premier temps )
+-logo ou titre (apres nom de dommain peut etre )
+-systeme compte 
+-uniquement francais 
+-pas de vente (en premier temp)
+-pas de limite d'utilisation 
+
+(emploie du temps optionnel pas pour l'instant )
+Suite :
+ajoute sur tablette et tactile
+rajout de graphic possible 
+mail de relence
+15 jour apres mail de relence avec lien vers le site qui permet de remplire un questionnaire qui mes a jour la fiche client simple avec des not et des curseur vraiment simple puis envopie des message au therapeut et il l'avertie sur le resultat du questionnaire
+voire des mail envoyer automatiquement pas seulement des Template 
+fait en sorte que le therapeut puisse changer les question du questionnaire
+ajoute au onglet tache qui permet a l'application de dire au therapeut de dire d'envoyer le Template de mail ou de sms a envoyer au client cree par le site il doit pouvoir modifier tout les combien de temps il doit envoyer un mail de relence et ajoute un onblet parametre qui doit permettre de parmetrer tout le système
+ajoute des securiter et ameliore les comptes
+ajoute un statistique de rentabiliter des compt et mes un prix a configurer sur tout les fiche client et un prix a mettre par defaut dans les paraeetre pour totu les comptes
+ajoute dans les parametre modification des couleur et du site
