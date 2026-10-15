@@ -1,0 +1,278 @@
+/* Questionnaire public (client, téléphone d'abord) */
+
+/* ------------------------------------------------------------------ */
+/* Questionnaire public (client, téléphone d'abord)                    */
+/* ------------------------------------------------------------------ */
+.page-publique {
+  display: grid;
+  justify-items: center;
+  min-height: 100dvh;
+  padding: 24px 14px 48px;
+  background: linear-gradient(180deg, var(--violet-100), var(--fond) 260px);
+}
+.carte-publique {
+  display: grid;
+  gap: 18px;
+  width: min(620px, 100%);
+  align-self: start;
+  padding: 24px clamp(16px, 4vw, 32px) 28px;
+}
+.marque-publique {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--violet-800);
+}
+.question-publique {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 18px 16px;
+  border: 1px solid var(--bordure);
+  border-radius: 14px;
+  background: var(--surface-2);
+}
+.question-publique legend {
+  float: left;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  font-weight: 650;
+  font-size: 1.02rem;
+  line-height: 1.4;
+}
+.numero-question {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+.curseur-public {
+  display: grid;
+  gap: 6px;
+  clear: both;
+}
+.valeur-curseur {
+  justify-self: center;
+  font-size: 2rem;
+  font-weight: 750;
+  color: var(--violet-800);
+  line-height: 1;
+}
+.valeur-curseur small {
+  font-size: 0.95rem;
+  color: var(--encre-3);
+}
+.curseur-public input[type='range'] {
+  width: 100%;
+  height: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  accent-color: var(--accent);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.curseur-public input[type='range']:focus {
+  box-shadow: none;
+}
+.curseur-public input[type='range']::-webkit-slider-runnable-track {
+  height: 10px;
+  border-radius: 5px;
+  background: linear-gradient(90deg, var(--violet-200), var(--violet-500));
+}
+.curseur-public input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 34px;
+  height: 34px;
+  margin-top: -12px;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 25%);
+}
+.curseur-public input[type='range']::-moz-range-track {
+  height: 10px;
+  border-radius: 5px;
+  background: linear-gradient(90deg, var(--violet-200), var(--violet-500));
+}
+.curseur-public input[type='range']::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 25%);
+}
+.curseur-public input[type='range']:focus-visible::-webkit-slider-thumb {
+  outline: 3px solid var(--violet-300);
+}
+.reperes-curseur {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.8rem;
+  color: var(--encre-3);
+}
+.etoiles {
+  display: flex;
+  gap: 4px;
+  clear: both;
+}
+.etoiles button {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--bordure-forte);
+  cursor: pointer;
+}
+.etoiles button.allumee {
+  color: var(--accent);
+}
+.etoiles button.allumee svg {
+  fill: currentColor;
+}
+.etoiles button:hover {
+  background: var(--violet-50);
+}
+.question-publique textarea {
+  clear: both;
+}
+.bouton-grand {
+  min-height: 54px;
+  font-size: 1.05rem;
+  border-radius: 12px;
+}
+.merci {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--succes-doux);
+  color: var(--succes);
+}
+
+/* Types de questions : choix, oui/non, émotions ; question à reprendre */
+.question-publique.question-en-defaut {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 2px var(--danger-doux);
+}
+.facultative {
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: var(--encre-3);
+}
+.aide-question {
+  clear: both;
+  font-size: 0.86rem;
+  color: var(--encre-3);
+}
+.curseur-public.non-repondu input[type='range']::-webkit-slider-thumb {
+  background: var(--surface);
+  border-color: var(--accent);
+}
+.curseur-public.non-repondu input[type='range']::-moz-range-thumb {
+  background: var(--surface);
+  border-color: var(--accent);
+}
+.invite-curseur {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--encre-3);
+}
+.choix-oui-non {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  clear: both;
+}
+.choix-bouton {
+  min-height: 52px;
+  border: 1.5px solid var(--bordure-forte);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--encre);
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+.choix-bouton:hover {
+  border-color: var(--violet-300);
+}
+.choix-bouton.choisi {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+.choix-liste {
+  display: grid;
+  gap: 8px;
+  clear: both;
+}
+.choix-ligne {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 50px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--bordure-forte);
+  border-radius: 12px;
+  background: var(--surface);
+  cursor: pointer;
+}
+.choix-ligne:hover {
+  border-color: var(--violet-300);
+}
+.choix-ligne.choisi {
+  border-color: var(--accent);
+  background: var(--violet-50);
+  font-weight: 600;
+}
+.choix-ligne input {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  min-height: 0;
+  margin: 0;
+  accent-color: var(--accent);
+}
+.choix-emotions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  clear: both;
+}
+.puce-choix {
+  min-height: 42px;
+  padding: 8px 14px;
+  border: 1.5px solid var(--bordure-forte);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--encre);
+  font: inherit;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+.puce-choix.choisi {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+.puce-choix.choisi::before {
+  content: '✓ ';
+}

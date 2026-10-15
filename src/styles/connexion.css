@@ -1,0 +1,93 @@
+/* Écran de connexion */
+
+/* ------------------------------------------------------------------ */
+/* Connexion                                                           */
+/* ------------------------------------------------------------------ */
+.connexion {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  min-height: 100dvh;
+}
+.connexion-visuel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 48px clamp(24px, 5vw, 72px);
+  background:
+    radial-gradient(
+      1200px 600px at 110% -10%,
+      color-mix(in oklab, var(--violet-400) 35%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(900px 500px at -20% 120%, color-mix(in oklab, var(--violet-600) 45%, transparent), transparent 60%),
+    var(--violet-950);
+  color: color-mix(in oklab, var(--marque) 8%, white);
+}
+.connexion-visuel h1 {
+  max-width: 16ch;
+  font-size: clamp(1.9rem, 3.4vw, 2.8rem);
+  color: #fff;
+}
+.connexion-visuel ul {
+  display: grid;
+  gap: 14px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+  max-width: 44ch;
+}
+.connexion-visuel li {
+  display: flex;
+  gap: 12px;
+  color: color-mix(in oklab, var(--marque) 18%, white);
+}
+.connexion-visuel li svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--violet-300);
+}
+.connexion-formulaire {
+  display: grid;
+  place-items: center;
+  padding: 40px 20px;
+}
+.connexion-formulaire form {
+  width: min(400px, 100%);
+  display: grid;
+  gap: 16px;
+}
+.onglets {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 4px;
+  border-radius: var(--rayon);
+  background: var(--piste);
+}
+.onglets button {
+  min-height: 36px;
+  border: 0;
+  border-radius: var(--rayon-petit);
+  background: transparent;
+  color: var(--encre-2);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.onglets button[aria-selected='true'] {
+  background: var(--surface);
+  color: var(--violet-800);
+  box-shadow: var(--ombre);
+}
+@media (max-width: 860px) {
+  .connexion {
+    grid-template-columns: 1fr;
+  }
+  .connexion-visuel {
+    gap: 20px;
+    padding: 32px 20px;
+  }
+  .connexion-visuel ul {
+    display: none;
+  }
+}

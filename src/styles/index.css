@@ -1,0 +1,16 @@
+/* Feuilles de style de l'application, dans l'ordre de la cascade :
+   les fichiers suivants peuvent surcharger les précédents. */
+@import './base.css';
+@import './composants.css';
+@import './structure.css';
+@import './connexion.css';
+@import './tableaux-de-bord.css';
+@import './clients.css';
+@import './seance.css';
+@import './taches.css';
+@import './questionnaire.css';
+@import './parametres.css';
+@import './agenda.css';
+@import './outils.css';
+@import './tactile.css';
+@import './accessibilite.css';

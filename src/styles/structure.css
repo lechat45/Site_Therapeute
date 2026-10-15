@@ -1,0 +1,277 @@
+/* Mise en page : menu latéral, barre mobile, contenu, badges de navigation */
+
+/* ------------------------------------------------------------------ */
+/* Structure                                                           */
+/* ------------------------------------------------------------------ */
+.app {
+  display: grid;
+  grid-template-columns: 248px 1fr;
+  min-height: 100dvh;
+}
+
+.barre-laterale {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 20px 14px;
+  background: var(--violet-950);
+  color: color-mix(in oklab, var(--marque) 8%, white);
+}
+.marque {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 10px 20px;
+  font-weight: 700;
+  font-size: 1.02rem;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+.marque-pastille {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--violet-300), var(--violet-500));
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--violet-400) 20%, transparent);
+}
+.nav-lien {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 12px;
+  border-radius: var(--rayon-petit);
+  color: color-mix(in oklab, var(--marque) 18%, white);
+  text-decoration: none;
+  font-weight: 520;
+}
+.nav-lien:hover {
+  background: rgb(255 255 255 / 7%);
+  color: #fff;
+}
+.nav-lien.active {
+  background: var(--violet-700);
+  color: #fff;
+}
+.nav-lien svg {
+  flex: none;
+}
+.nav-titre {
+  padding: 16px 12px 6px;
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--marque) 40%, white);
+}
+.barre-laterale .pied {
+  margin-top: auto;
+  padding: 14px 12px 0;
+  border-top: 1px solid rgb(255 255 255 / 10%);
+  display: grid;
+  gap: 10px;
+}
+.utilisateur {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  margin: -6px;
+  padding: 6px;
+  border-radius: var(--rayon-petit);
+  color: inherit;
+  text-decoration: none;
+}
+.utilisateur:hover {
+  background: rgb(255 255 255 / 8%);
+}
+.avatar-photo {
+  object-fit: cover;
+  background: var(--surface-2);
+}
+.avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--violet-700);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+.utilisateur-nom {
+  font-weight: 600;
+  color: #fff;
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.utilisateur-courriel {
+  font-size: 0.78rem;
+  color: color-mix(in oklab, var(--marque) 32%, white);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bouton-deconnexion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: var(--rayon-petit);
+  background: transparent;
+  color: color-mix(in oklab, var(--marque) 12%, white);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.bouton-deconnexion:hover {
+  background: rgb(255 255 255 / 8%);
+}
+.badge-demo {
+  margin: 0 10px 8px;
+  padding: 8px 10px;
+  border-radius: var(--rayon-petit);
+  background: color-mix(in oklab, var(--violet-400) 16%, transparent);
+  color: color-mix(in oklab, var(--marque) 12%, white);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.contenu {
+  min-width: 0;
+  padding: 32px clamp(16px, 3vw, 44px) 64px;
+}
+.page {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  gap: 22px;
+}
+.page-etroite {
+  max-width: 1040px;
+}
+
+.entete-page {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+}
+.entete-page .sous-titre {
+  margin-top: 6px;
+  color: var(--encre-3);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.barre-mobile {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+  .barre-mobile {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: var(--violet-950);
+    color: #fff;
+  }
+  .barre-laterale {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 30;
+    width: min(280px, 86vw);
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+  }
+  .barre-laterale.ouverte {
+    transform: none;
+    box-shadow: var(--ombre-haute);
+  }
+  .voile {
+    position: fixed;
+    inset: 0;
+    z-index: 25;
+    background: rgb(20 10 40 / 40%);
+  }
+  .contenu {
+    padding-top: 20px;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Navigation : badges                                                 */
+/* ------------------------------------------------------------------ */
+.badge-nav {
+  margin-left: auto;
+  min-width: 22px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--violet-800);
+  font-size: 0.75rem;
+  font-weight: 750;
+  text-align: center;
+}
+.bouton-menu {
+  position: relative;
+  background: transparent;
+  color: #fff;
+  border-color: rgb(255 255 255 / 25%);
+}
+.bouton-menu:hover {
+  background: rgb(255 255 255 / 10%);
+}
+.pastille-menu {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ffb020;
+  box-shadow: 0 0 0 2px var(--violet-950);
+}
+
+.bandeau-taches {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  padding: 14px 18px;
+  border: 1px solid var(--violet-200);
+  border-radius: var(--rayon);
+  background: var(--violet-50);
+  color: var(--encre);
+  font-weight: 600;
+  text-decoration: none;
+}
+.bandeau-taches svg {
+  color: var(--accent);
+}
+.bandeau-taches-lien {
+  margin-left: auto;
+  color: var(--accent);
+}
+.bandeau-taches:hover {
+  border-color: var(--violet-300);
+}

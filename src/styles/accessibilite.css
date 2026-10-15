@@ -1,0 +1,156 @@
+/* Préférences d'affichage (Paramètres > Affichage) : attributs posés sur
+   <html> par etat/reglages.tsx → appliquerAffichage(). Puis impression. */
+
+/* ------------------------------------------------------------------ */
+/* Vision des couleurs                                                 */
+/* Palettes d'état vérifiées par simulation (Machado 2009, OKLab) :    */
+/*  - rouge-vert : bleu / ocre / framboise, ΔE ≥ 10 en protan/deutan ;  */
+/*  - bleu-jaune : sarcelle / prune / rouge, ΔE ≥ 13 en tritan.         */
+/* Toutes gardent un contraste de texte ≥ 5,8:1 sur blanc. `data-apercu` */
+/* sert aux vignettes d'aperçu du choix.                               */
+/* ------------------------------------------------------------------ */
+[data-apercu='standard'] {
+  --succes: #177245;
+  --succes-doux: #e3f5eb;
+  --alerte: #9a5b00;
+  --alerte-doux: #fdf1dc;
+  --danger: #b42318;
+  --danger-doux: #fde8e6;
+}
+html[data-vision='rouge_vert'],
+[data-apercu='rouge_vert'] {
+  --succes: #0b5cad;
+  --succes-doux: #e3eefb;
+  --alerte: #8a5a00;
+  --alerte-doux: #fbf0d9;
+  --danger: #a3195b;
+  --danger-doux: #fbe4ee;
+}
+html[data-vision='bleu_jaune'],
+[data-apercu='bleu_jaune'] {
+  --succes: #0f6e6e;
+  --succes-doux: #ddf2f0;
+  --alerte: #7a4a99;
+  --alerte-doux: #f1e8f7;
+  --danger: #b3261e;
+  --danger-doux: #fde8e6;
+}
+/* Repères qui ne dépendent pas de la couleur */
+html[data-vision='rouge_vert'] a,
+html[data-vision='bleu_jaune'] a {
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+html[data-vision='rouge_vert'] .puce-alerte,
+html[data-vision='bleu_jaune'] .puce-alerte,
+html[data-vision='rouge_vert'] .puce-danger,
+html[data-vision='bleu_jaune'] .puce-danger {
+  box-shadow: inset 0 0 0 1.5px currentColor;
+}
+html[data-vision='rouge_vert'] .puce-danger,
+html[data-vision='bleu_jaune'] .puce-danger {
+  font-weight: 750;
+}
+
+/* ------------------------------------------------------------------ */
+/* Taille du texte (tout est en rem : il suffit de changer la base)    */
+/* ------------------------------------------------------------------ */
+html[data-taille='grand'],
+html[data-taille='grand'] body {
+  font-size: 17px;
+}
+html[data-taille='tres_grand'],
+html[data-taille='tres_grand'] body {
+  font-size: 19px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Densité compacte : plus d'informations à l'écran                    */
+/* ------------------------------------------------------------------ */
+html[data-densite='compacte'] .contenu {
+  padding-top: 20px;
+}
+html[data-densite='compacte'] .page {
+  gap: 14px;
+}
+html[data-densite='compacte'] .carte-entete {
+  padding: 12px 14px 0;
+}
+html[data-densite='compacte'] .carte-corps {
+  padding: 12px 14px;
+}
+html[data-densite='compacte'] th,
+html[data-densite='compacte'] td {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+html[data-densite='compacte'] .tache {
+  padding: 12px 14px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Animations                                                          */
+/* ------------------------------------------------------------------ */
+html[data-animations='reduites'] *,
+html[data-animations='reduites'] *::before,
+html[data-animations='reduites'] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Impression (fiche client, fiche de séance, statistiques)            */
+/* ------------------------------------------------------------------ */
+@media print {
+  @page {
+    margin: 14mm;
+  }
+  html,
+  body {
+    background: #fff !important;
+    font-size: 11pt;
+  }
+  .barre-laterale,
+  .barre-mobile,
+  .voile,
+  .toast,
+  .onglets-page,
+  .bandeau-taches,
+  .entete-page .actions,
+  .entete-page > .bouton,
+  .entete-page > a.bouton,
+  .barre-enregistrer,
+  dialog,
+  button:not(.pave) {
+    display: none !important;
+  }
+  .app {
+    display: block !important;
+  }
+  .contenu {
+    padding: 0 !important;
+  }
+  .carte {
+    border: 1px solid #bbb !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

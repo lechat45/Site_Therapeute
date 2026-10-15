@@ -1,0 +1,364 @@
+/* Onglet Tâches et réponses aux questionnaires */
+
+/* ------------------------------------------------------------------ */
+/* Tâches                                                              */
+/* ------------------------------------------------------------------ */
+.tache {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 6px 14px;
+  align-items: start;
+  padding: 16px 18px;
+}
+.tache > .actions {
+  grid-column: 2;
+}
+.tache-icone {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--violet-100);
+  color: var(--violet-800);
+}
+.tache-questionnaire {
+  border-color: var(--violet-300);
+}
+.tache-questionnaire .tache-icone {
+  background: var(--accent);
+  color: #fff;
+}
+.tache-texte {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.tache-texte h3 {
+  font-size: 1rem;
+}
+.tache-resume {
+  display: grid;
+  gap: 2px;
+  margin: 6px 0 4px;
+  padding: 0;
+  list-style: none;
+  font-size: 0.86rem;
+  color: var(--encre-2);
+}
+.tache-resume li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 520px;
+  padding: 3px 0;
+  border-bottom: 1px dashed var(--bordure);
+}
+.tache-resume strong {
+  flex: none;
+  color: var(--encre);
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 560px) {
+  .tache {
+    grid-template-columns: 1fr;
+  }
+  .tache > .actions {
+    grid-column: 1;
+  }
+}
+
+.message-envoye {
+  margin-top: 8px;
+  padding: 12px 14px;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon-petit);
+  background: var(--surface-2);
+  white-space: pre-line;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--encre-2);
+}
+.bulle-sms {
+  max-width: 320px;
+  border: 0;
+  border-radius: 18px 18px 18px 4px;
+  background: var(--violet-100);
+  color: var(--encre);
+}
+.apercu-objet {
+  margin-top: 8px;
+  font-weight: 650;
+}
+
+/* Réponses au questionnaire */
+.reponses {
+  display: grid;
+  gap: 10px;
+  padding: 4px 0;
+}
+.reponse {
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon-petit);
+  background: var(--surface);
+}
+.reponse-question {
+  font-size: 0.84rem;
+  color: var(--encre-2);
+}
+.reponse-texte {
+  font-style: italic;
+}
+.reponse-etoiles {
+  font-size: 1.15rem;
+  letter-spacing: 2px;
+  color: var(--accent);
+}
+.reponse-etoiles span {
+  color: var(--piste);
+}
+.reponse-curseur {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.reponse-curseur .mini-piste {
+  flex: 1;
+  height: 7px;
+}
+
+/* Lecture d'un questionnaire reçu (locale ou IA) */
+.lecture {
+  display: grid;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 0.9rem;
+}
+.lecture .tache-resume li {
+  display: list-item;
+  margin-left: 18px;
+  list-style: disc;
+  border: 0;
+}
+.lecture-suggestion {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--encre);
+}
+.lecture-suggestion svg {
+  flex: none;
+  margin-top: 3px;
+  color: var(--accent);
+}
+.tache-urgente {
+  border-color: var(--danger);
+  box-shadow: inset 4px 0 0 var(--danger);
+}
+.tache-urgente .tache-icone {
+  background: var(--danger);
+  color: #fff;
+}
+.reponse > .puce {
+  justify-self: start;
+}
+.accord-manquant {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  margin-top: 4px;
+}
+.lecture-rappel {
+  font-size: 0.78rem;
+}
+
+/* Filtres des tâches (icône + libellé + compteur : jamais la couleur seule) */
+.filtres-taches {
+  display: flex;
+  max-width: 100%;
+}
+.filtres-taches .segment {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.compteur {
+  min-width: 22px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--bordure);
+  color: var(--encre);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+.segment[aria-pressed='true'] .compteur {
+  border-color: transparent;
+}
+
+/* « Plus tard » : petit menu déroulant */
+.plus-tard {
+  position: relative;
+}
+.plus-tard > summary {
+  list-style: none;
+}
+.plus-tard > summary::-webkit-details-marker {
+  display: none;
+}
+.plus-tard[open] > summary {
+  background: var(--violet-50);
+}
+.plus-tard-menu {
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + 4px);
+  left: 0;
+  display: grid;
+  gap: 4px;
+  min-width: 170px;
+  padding: 6px;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon-petit);
+  background: var(--surface);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.12);
+}
+.plus-tard-menu .bouton {
+  justify-content: flex-start;
+}
+
+/* Tâche personnelle : bordure pointillée (motif) en plus de l'icône */
+.tache-perso {
+  border-style: dashed;
+}
+.tache-en-retard {
+  box-shadow: inset 4px 0 0 var(--alerte);
+}
+
+.liste-reportees {
+  display: grid;
+  margin: 0;
+  padding: 4px 16px;
+  list-style: none;
+}
+.liste-reportees li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--bordure);
+}
+.liste-reportees li:last-child {
+  border-bottom: 0;
+}
+.liste-reportees li > span {
+  flex: 1 1 240px;
+}
+.liste-reportees li > svg {
+  color: var(--encre-3);
+}
+
+.ajout-tache {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px 12px;
+}
+.sous-titre-section {
+  margin-bottom: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--encre-3);
+}
+.liste-miennes {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.liste-miennes li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--bordure);
+}
+.mienne-faite .mienne-titre {
+  text-decoration: line-through;
+  color: var(--encre-3);
+}
+
+/* Récapitulatif de la semaine */
+.recap-semaine > summary {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  padding: 16px 48px 16px 18px;
+  cursor: pointer;
+  list-style: none;
+}
+.recap-semaine > summary::-webkit-details-marker {
+  display: none;
+}
+.recap-bascule {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  display: grid;
+  transform: translateY(-50%) rotate(90deg);
+  color: var(--encre-3);
+  transition: transform 0.15s;
+}
+.recap-semaine[open] .recap-bascule {
+  transform: translateY(-50%) rotate(-90deg);
+}
+.recap-titre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.recap-grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px 24px;
+  padding: 0 18px 18px;
+}
+.recap-grille h3 {
+  margin-bottom: 6px;
+  font-size: 0.92rem;
+}
+.recap-liste {
+  display: grid;
+  gap: 4px;
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+}
+.recap-liste li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.recap-liste li.recap-ligne {
+  flex-wrap: nowrap;
+  align-items: flex-start;
+}
+.recap-ligne > svg {
+  flex: none;
+  margin-top: 4px;
+}

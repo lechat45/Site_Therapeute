@@ -1,0 +1,31 @@
+# Vérification automatique à chaque envoi de code (GitHub Actions).
+# Même contenu que `npm run verifier` en local, plus les tests de bout en bout.
+name: Vérifier
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      # lint, mise en forme, types, tests (dont PostgreSQL via PGlite), version de production
+      - run: npm run verifier
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: rapport-playwright
+          path: |
+            playwright-report
+            test-results
+          retention-days: 7

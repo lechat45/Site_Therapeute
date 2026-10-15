@@ -1,0 +1,110 @@
+/* Jetons de couleur (dérivés de --marque), remise à zéro, typographie */
+
+/* =====================================================================
+   Suivi thérapeutique — charte violette
+   ===================================================================== */
+:root {
+  /* Couleur principale choisie par le thérapeute (Paramètres > Affichage) :
+     toutes les nuances en dérivent. Les couleurs d'état (--succes, --alerte,
+     --danger) changent avec le mode daltonien : voir accessibilite.css. */
+  --marque: #7436e6;
+  --violet-50: color-mix(in oklab, var(--marque) 6%, white);
+  --violet-100: color-mix(in oklab, var(--marque) 13%, white);
+  --violet-200: color-mix(in oklab, var(--marque) 26%, white);
+  --violet-300: color-mix(in oklab, var(--marque) 45%, white);
+  --violet-400: color-mix(in oklab, var(--marque) 70%, white);
+  --violet-500: color-mix(in oklab, var(--marque) 88%, white);
+  --violet-600: var(--marque);
+  --violet-700: color-mix(in oklab, var(--marque) 86%, black);
+  --violet-800: color-mix(in oklab, var(--marque) 72%, black);
+  --violet-900: color-mix(in oklab, var(--marque) 56%, black);
+  --violet-950: color-mix(in oklab, var(--marque) 34%, black);
+  --piste: color-mix(in oklab, var(--marque) 10%, #efeef3);
+
+  --fond: color-mix(in oklab, var(--marque) 4%, #f8f8fa);
+  --surface: #ffffff;
+  --surface-2: color-mix(in oklab, var(--marque) 2%, white);
+  --bordure: color-mix(in oklab, var(--marque) 10%, #e5e4ea);
+  --bordure-forte: color-mix(in oklab, var(--marque) 18%, #cbc9d3);
+
+  --encre: #1d1530;
+  --encre-2: #4a4160;
+  --encre-3: #6a6182; /* 5,6:1 sur blanc */
+
+  --accent: var(--violet-700);
+  --accent-survol: var(--violet-800);
+  --accent-doux: var(--violet-100);
+
+  --succes: #177245;
+  --succes-doux: #e3f5eb;
+  --alerte: #9a5b00;
+  --alerte-doux: #fdf1dc;
+  --danger: #b42318;
+  --danger-doux: #fde8e6;
+
+  --rayon: 10px;
+  --rayon-petit: 7px;
+  --ombre: 0 1px 2px rgb(37 16 77 / 6%), 0 1px 3px rgb(37 16 77 / 5%);
+  --ombre-haute: 0 12px 32px rgb(37 16 77 / 18%);
+
+  --police: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--fond);
+  color: var(--encre);
+  font-family: var(--police);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+h2 {
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+h3 {
+  font-size: 0.95rem;
+  font-weight: 650;
+}
+p {
+  margin: 0;
+}
+a {
+  color: var(--accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--violet-500);
+  outline-offset: 2px;
+}
+
+.visuellement-cache {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

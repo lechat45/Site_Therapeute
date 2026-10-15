@@ -1,0 +1,560 @@
+/* Fiche de séance : barre d'actions, feuille papier, assistant IA */
+
+/* ------------------------------------------------------------------ */
+/* Fiche de séance                                                     */
+/* ------------------------------------------------------------------ */
+.barre-actions {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: -8px 0 0;
+  padding: 12px 16px;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  background: rgb(255 255 255 / 92%);
+  backdrop-filter: blur(6px);
+  box-shadow: var(--ombre);
+}
+@media (max-width: 900px) {
+  .barre-actions {
+    top: 58px;
+  }
+}
+.titre-seance {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.etat-enregistrement {
+  font-size: 0.82rem;
+  color: var(--encre-3);
+}
+.etat-enregistrement.modifie {
+  color: var(--alerte);
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------------ */
+/* La feuille : la fiche papier, case pour case                        */
+/* ------------------------------------------------------------------ */
+.feuille {
+  --trait: #2b2440;
+  container-type: inline-size;
+  padding: 28px 32px 32px;
+  background: #fff;
+  border: 1px solid var(--bordure);
+  border-radius: 14px;
+  box-shadow:
+    0 1px 2px rgb(37 16 77 / 6%),
+    0 10px 28px rgb(37 16 77 / 6%);
+}
+@media (max-width: 480px) {
+  .feuille {
+    padding: 18px 14px 20px;
+  }
+}
+
+.etiquette-feuille {
+  margin: 0;
+  font-size: 0.95rem;
+  font-style: italic;
+  font-weight: 700;
+  color: var(--encre);
+  white-space: nowrap;
+}
+.ligne-feuille {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  min-height: 36px;
+  margin: 0;
+}
+.valeur-feuille {
+  min-width: 120px;
+  padding: 0 4px 1px;
+  border-bottom: 1px dotted var(--bordure-forte);
+  color: var(--encre-2);
+}
+
+/* En-tête : trois colonnes, l'Objectif au centre, au-dessus de la flèche */
+.feuille-haut {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 190px minmax(0, 1fr);
+  column-gap: 20px;
+}
+.haut-gauche {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+}
+.haut-centre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.haut-droite {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 6px;
+}
+.date-feuille {
+  width: auto;
+  min-height: 34px;
+}
+.objectif-feuille {
+  position: relative;
+  display: block;
+}
+.etiquette-objectif {
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 12px);
+  transform: translateY(-50%);
+}
+.boite-texte {
+  display: block;
+  width: 190px;
+  height: 140px;
+  padding: 10px 12px;
+  border: 2px solid var(--trait);
+  border-radius: 14px;
+  resize: none;
+  font-size: 0.9rem;
+}
+.boite-texte:hover {
+  border-color: var(--trait);
+  background: var(--violet-50);
+}
+.boite-tim {
+  width: 140px;
+  height: 120px;
+}
+.tim-feuille {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.seance-feuille {
+  gap: 12px;
+}
+.type-feuille {
+  margin-top: -6px;
+  font-size: 0.8rem;
+  color: var(--encre-3);
+}
+.coche-lecture,
+.coche-feuille input {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  min-height: 0;
+  padding: 0;
+  border: 2px solid var(--trait);
+  border-radius: 8px;
+  background: #fff;
+}
+.coche-lecture {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+  font-weight: 800;
+}
+.lignees {
+  gap: 22px;
+}
+.coche-feuille {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.coche-feuille input {
+  appearance: none;
+  cursor: pointer;
+}
+.coche-feuille input:hover {
+  border-color: var(--trait);
+  background: var(--violet-50);
+}
+.coche-feuille input:checked {
+  border-color: var(--accent);
+  background: var(--accent)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E")
+    center / 16px no-repeat;
+}
+
+/* Corps : deux colonnes séparées par la flèche qui monte vers l'Objectif */
+.feuille-corps {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 36px minmax(0, 1fr);
+  column-gap: 12px;
+}
+.corps-gauche,
+.corps-droite {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding-top: 24px;
+}
+.corps-fleche {
+  position: relative;
+}
+.corps-fleche::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--trait);
+}
+.corps-fleche::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -7px;
+  border-right: 7px solid transparent;
+  border-bottom: 13px solid var(--trait);
+  border-left: 7px solid transparent;
+}
+.titre-feuille {
+  margin: 0;
+  text-align: center;
+  font-size: 1.02rem;
+  font-style: italic;
+  font-weight: 700;
+}
+.centre-feuille {
+  display: flex;
+  justify-content: center;
+}
+
+/* Une case = un menu déroulant, sans flèche, comme une case du papier */
+.boite {
+  display: inline-block;
+  height: 38px;
+  border: 2px solid var(--trait);
+  border-radius: 11px;
+  background: #fff;
+  transition:
+    background 0.12s,
+    border-color 0.12s;
+}
+.boite:hover {
+  background: var(--violet-50);
+}
+.boite:focus-within {
+  outline: 2px solid var(--violet-500);
+  outline-offset: 2px;
+}
+.boite select {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 0 6px;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  color: var(--encre-3);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: center;
+  text-align-last: center;
+  cursor: pointer;
+}
+.boite select:focus {
+  box-shadow: none;
+}
+.boite-remplie {
+  border-color: var(--violet-700);
+  background: var(--violet-50);
+}
+.boite-remplie select {
+  color: var(--violet-900);
+}
+
+.barre-double {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: min(100%, 420px);
+  margin: 0 auto;
+  border: 2px solid var(--trait);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.barre-double .boite {
+  height: 50px;
+  border: 0;
+  border-radius: 0;
+}
+.barre-double .boite + .boite {
+  border-left: 2px solid var(--trait);
+}
+.barre-double .boite:focus-within {
+  outline-offset: -3px;
+}
+
+.pile-feuille {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 36px minmax(0, 1fr);
+}
+.pile-cases {
+  grid-column: 1;
+  justify-self: end;
+  display: grid;
+  gap: 8px;
+}
+.boite-pile {
+  width: 150px;
+  height: 34px;
+}
+.double-fleche {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  min-height: 100px;
+  padding: 2px 0;
+}
+.fleche-bas,
+.fleche-haut {
+  position: relative;
+  width: 2px;
+  background: var(--trait);
+}
+.fleche-bas::after,
+.fleche-haut::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  margin-left: -6px;
+  border-right: 6px solid transparent;
+  border-left: 6px solid transparent;
+}
+.fleche-bas::after {
+  bottom: -2px;
+  border-top: 11px solid var(--trait);
+}
+.fleche-haut::after {
+  top: -2px;
+  border-bottom: 11px solid var(--trait);
+}
+.fleche-courte {
+  height: 120px;
+}
+.boite-large {
+  width: min(100%, 240px);
+  height: 46px;
+}
+
+.pointilles {
+  width: 72%;
+  margin: 8px auto;
+  border: 0;
+  border-top: 3px dotted var(--trait);
+  opacity: 0.75;
+}
+.rangee-croisee {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 1fr);
+  align-items: end;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.croise-case {
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+}
+.croise-case .etiquette-feuille {
+  font-size: 0.85rem;
+}
+.boite-croisee {
+  width: 100%;
+  max-width: 140px;
+  height: 36px;
+}
+.niveau-feuille {
+  padding-bottom: 8px;
+  text-align: center;
+  white-space: normal;
+}
+
+.grille-feuille {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+.rangee-4 {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.boite-grille {
+  width: 100%;
+  height: 44px;
+}
+/* Comme sur le papier, le cadre des notes descend jusqu'en bas de la feuille. */
+.notes-feuille {
+  display: flex;
+  flex: 1 1 auto;
+  margin-top: 12px;
+}
+.notes-feuille textarea {
+  flex: 1 1 auto;
+  min-height: 330px;
+  padding: 14px 16px;
+  border: 2px solid var(--trait);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Feuille compacte : même disposition, cases resserrées */
+@container (max-width: 900px) {
+  .feuille-haut {
+    grid-template-columns: minmax(0, 1fr) 160px minmax(0, 1fr);
+    column-gap: 14px;
+  }
+  .objectif-feuille {
+    display: grid;
+    justify-items: center;
+    gap: 4px;
+  }
+  .etiquette-objectif {
+    position: static;
+    transform: none;
+  }
+  .boite-texte {
+    width: 160px;
+    height: 120px;
+  }
+  .boite-tim {
+    width: 120px;
+    height: 110px;
+  }
+  .boite select {
+    padding: 0 2px;
+    font-size: 0.8rem;
+  }
+  .boite-pile {
+    width: 118px;
+  }
+  .rangee-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .niveau-feuille {
+    font-size: 0.85rem;
+  }
+}
+/* Feuille étroite (téléphone) : tout s'empile, la flèche centrale disparaît */
+@container (max-width: 560px) {
+  .feuille-haut {
+    grid-template-columns: 1fr;
+    row-gap: 14px;
+  }
+  .haut-centre,
+  .haut-droite {
+    align-items: stretch;
+  }
+  .objectif-feuille,
+  .tim-feuille {
+    display: grid;
+    gap: 6px;
+  }
+  .etiquette-objectif {
+    position: static;
+    transform: none;
+  }
+  .boite-texte,
+  .boite-tim {
+    width: 100%;
+    height: 96px;
+  }
+  .feuille-corps {
+    grid-template-columns: 1fr;
+  }
+  .corps-fleche {
+    display: none;
+  }
+}
+@container (max-width: 440px) {
+  .rangee-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Assistant IA sous la feuille */
+.ia-grille {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  gap: 24px;
+}
+.ia-resultats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+@media (max-width: 760px) {
+  .ia-grille {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Panneau IA */
+.panneau-ia {
+  border-color: var(--violet-200);
+  background: linear-gradient(180deg, var(--violet-50), #fff 140px);
+}
+.suggestion {
+  display: grid;
+  gap: 6px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--bordure);
+}
+.suggestion:last-child {
+  border-bottom: 0;
+}
+.suggestion-tete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.suggestion p {
+  font-size: 0.84rem;
+  color: var(--encre-2);
+}
+.confiance {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.76rem;
+  color: var(--encre-3);
+}
+.confiance .mini-piste {
+  width: 80px;
+}
+.liste-points {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 0.86rem;
+  color: var(--encre-2);
+}
+.liste-points li + li {
+  margin-top: 4px;
+}

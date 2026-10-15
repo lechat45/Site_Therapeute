@@ -1,0 +1,445 @@
+/* Emploi du temps. La couleur d'une catégorie (--c) n'est jamais seule :
+   pictogramme et libellé partout, et un motif propre à chaque type
+   (barre double, barre épaisse, pointillés, hachures) pour les personnes
+   daltoniennes et l'impression en noir et blanc. Le texte reste à l'encre. */
+
+.agenda-barre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Pastille et motifs par catégorie                                    */
+/* ------------------------------------------------------------------ */
+.legende-pastille {
+  flex: none;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  background: var(--c);
+}
+.pave-administratif .legende-pastille,
+.pave-administratif.pave {
+  background-image: radial-gradient(color-mix(in oklab, var(--c) 55%, transparent) 1px, transparent 1.4px);
+  background-size: 6px 6px;
+}
+.pave-personnel .legende-pastille,
+.pave-personnel.pave {
+  background-image: repeating-linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--c) 30%, transparent) 0 3px,
+    transparent 3px 8px
+  );
+}
+.pave-premier .legende-pastille {
+  box-shadow:
+    inset 0 0 0 2px #fff,
+    inset 0 0 0 4px var(--c);
+}
+
+.agenda-legende {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+}
+.legende-categorie {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 4px 10px;
+  border: 1px solid var(--bordure-forte);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--encre);
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+button.legende-categorie {
+  cursor: pointer;
+}
+.legende-categorie[aria-pressed='false'] {
+  opacity: 0.55;
+  text-decoration: line-through;
+  border-style: dashed;
+}
+.legende-statuts {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 6px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Rendez-vous (pavé)                                                  */
+/* ------------------------------------------------------------------ */
+.pave {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  overflow: hidden;
+  padding: 3px 6px;
+  border: 0;
+  border-left: 5px solid var(--c);
+  border-radius: 6px;
+  background-color: color-mix(in oklab, var(--c) 15%, white);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--c) 35%, white);
+  color: var(--encre);
+  font: inherit;
+  font-size: 0.76rem;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+}
+.pave:hover {
+  background-color: color-mix(in oklab, var(--c) 24%, white);
+}
+.pave:focus-visible {
+  z-index: 3;
+  outline: 2px solid var(--encre);
+  outline-offset: 1px;
+}
+/* motifs de bordure propres à chaque type */
+.pave-premier.pave {
+  border-left: 7px double var(--c);
+}
+.pave-bilan.pave {
+  border-left-width: 8px;
+}
+.pave-bilan .pave-nom {
+  font-weight: 750;
+}
+.pave-tete {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  color: var(--encre-2);
+}
+.pave-heure {
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+}
+.pave-nom {
+  overflow: hidden;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pave-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--encre-2);
+  white-space: nowrap;
+}
+.pave-statut {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: auto;
+  padding: 0 5px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.statut-honore {
+  color: var(--succes);
+}
+.statut-absent {
+  color: var(--danger);
+}
+.statut-annule {
+  color: var(--encre-3);
+}
+/* annulé : barré, pointillés, estompé */
+.pave-annule.pave {
+  border-left-style: dashed;
+  background-color: var(--surface-2);
+  opacity: 0.7;
+}
+.pave-annule .pave-nom {
+  text-decoration: line-through;
+}
+.pave-conflit {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--alerte);
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------------ */
+/* Grille de la semaine                                                */
+/* ------------------------------------------------------------------ */
+.agenda-carte {
+  overflow: hidden;
+}
+.agenda-grille {
+  display: grid;
+  grid-template-columns: 48px repeat(var(--colonnes), minmax(112px, 1fr));
+  overflow-x: auto;
+}
+.agenda-coin,
+.agenda-entete-jour {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  border-bottom: 1px solid var(--bordure-forte);
+  background: var(--surface);
+}
+.agenda-entete-jour {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding: 8px 4px;
+  border-left: 1px solid var(--bordure);
+}
+.agenda-nom-jour {
+  font-size: 0.74rem;
+  font-weight: 650;
+  color: var(--encre-2);
+  text-transform: capitalize;
+}
+.agenda-num-jour {
+  min-width: 30px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-align: center;
+}
+/* aujourd'hui : cercle plein (forme + couleur), et « (aujourd'hui) » lu à voix haute */
+.agenda-entete-jour.aujourdhui .agenda-num-jour {
+  background: var(--accent);
+  color: #fff;
+}
+.agenda-heures {
+  position: relative;
+}
+.agenda-heures span {
+  position: absolute;
+  right: 6px;
+  margin-top: 2px;
+  font-size: 0.7rem;
+  color: var(--encre-3);
+  font-variant-numeric: tabular-nums;
+}
+.agenda-colonne {
+  position: relative;
+  border-left: 1px solid var(--bordure);
+  background-image: repeating-linear-gradient(to bottom, var(--bordure) 0 1px, transparent 1px var(--h-heure));
+  cursor: copy;
+}
+.agenda-colonne.aujourdhui {
+  background-color: color-mix(in oklab, var(--marque) 4%, white);
+}
+.agenda-maintenant {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  height: 2px;
+  background: var(--encre);
+  pointer-events: none;
+}
+.agenda-maintenant::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: -4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--encre);
+}
+
+/* ------------------------------------------------------------------ */
+/* Vue du jour (et listes)                                             */
+/* ------------------------------------------------------------------ */
+.agenda-liste {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 12px;
+  list-style: none;
+}
+.agenda-liste li {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+}
+.agenda-liste-heures {
+  display: grid;
+  padding-top: 6px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.agenda-liste-heures small {
+  font-weight: 500;
+  color: var(--encre-3);
+}
+.pave.pave-ligne {
+  position: static;
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 0.88rem;
+  gap: 3px;
+}
+.agenda-bande-jours {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+}
+.agenda-bande-jour {
+  display: grid;
+  justify-items: center;
+  gap: 1px;
+  min-height: 58px;
+  padding: 6px 2px;
+  border: 1px solid var(--bordure-forte);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--encre);
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+.agenda-bande-jour[aria-current='date'] {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent);
+  font-weight: 700;
+}
+.agenda-bande-jour strong {
+  font-size: 1rem;
+}
+.agenda-bande-jour small {
+  color: var(--encre-3);
+}
+
+/* ------------------------------------------------------------------ */
+/* Ailleurs : dialogue, tâches, fiche client, réglages                 */
+/* ------------------------------------------------------------------ */
+.choix-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.choix-categorie {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 6px 12px;
+  border: 1px solid var(--bordure-forte);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--encre);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.choix-categorie[aria-checked='true'] {
+  border-color: var(--encre);
+  box-shadow: 0 0 0 2px var(--encre);
+  background: color-mix(in oklab, var(--c) 15%, white);
+}
+.puce-categorie {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 650;
+  color: var(--encre);
+}
+.tache-rdv {
+  border-left: 5px solid var(--c);
+}
+.tache-rdv .tache-icone {
+  background: color-mix(in oklab, var(--c) 15%, white);
+  color: var(--encre);
+}
+.liste-rdv-client {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+}
+.ligne-rdv-client {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  align-items: center;
+  gap: 2px 8px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--bordure);
+  border-left: 5px solid var(--c);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--encre);
+  font: inherit;
+  font-size: 0.88rem;
+  text-align: left;
+  cursor: pointer;
+}
+.ligne-rdv-client .meta {
+  grid-column: 3;
+}
+.ligne-couleur-agenda {
+  display: grid;
+  grid-template-columns: minmax(200px, auto) minmax(0, 1fr);
+  align-items: center;
+  gap: 6px 14px;
+}
+.ligne-couleur-agenda .erreur-champ {
+  grid-column: 2;
+}
+@media (max-width: 700px) {
+  .ligne-couleur-agenda {
+    grid-template-columns: 1fr;
+  }
+  .ligne-couleur-agenda .erreur-champ {
+    grid-column: 1;
+  }
+}
+.nuancier-petit {
+  margin-top: 0;
+  gap: 6px;
+}
+.nuancier-petit .pastille-couleur,
+.nuancier-petit .couleur-libre input {
+  width: 32px;
+  height: 32px;
+}
+.apercu-daltonisme {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px dashed var(--bordure-forte);
+  border-radius: var(--rayon);
+}
+.apercu-paves {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+}
+.apercu-paves .pave {
+  cursor: default;
+}
+
+.pave-tete svg,
+.pave-meta svg {
+  flex: none;
+}

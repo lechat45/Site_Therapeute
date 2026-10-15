@@ -1,0 +1,46 @@
+{
+  "name": "suivi-therapeutique",
+  "private": true,
+  "engines": {
+    "node": ">=24"
+  },
+  "version": "0.9.1",
+  "type": "module",
+  "description": "SaaS de suivi thérapeutique pour thérapeutes comportementalistes émotionnels",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc",
+    "test": "vitest run",
+    "test:sql": "vitest run sql",
+    "test:e2e": "playwright test",
+    "lint": "oxlint src tests e2e supabase scripts",
+    "format": "prettier --write .",
+    "format:verifier": "prettier --check .",
+    "verifier": "npm run lint && npm run format:verifier && tsc && vitest run && vite build",
+    "verifier:complet": "npm run verifier && npm run test:e2e",
+    "comptes": "node --env-file-if-exists=.env.admin scripts/comptes.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.117.2",
+    "qrcode": "^1.5.4",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-router-dom": "^7.18.4"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.6.3",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.86.0",
+    "prettier": "^3.9.9",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.1",
+    "vitest": "^5.0.3"
+  }
+}

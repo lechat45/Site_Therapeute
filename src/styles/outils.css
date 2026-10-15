@@ -1,0 +1,504 @@
+/* Journal, exercices et documents, reçus, activité, versions à imprimer */
+
+/* ------------------------------------------------------------------ */
+/* Journal                                                             */
+/* ------------------------------------------------------------------ */
+.liste-notes {
+  display: grid;
+  gap: 12px;
+}
+.note {
+  display: grid;
+  gap: 8px;
+  padding: 16px 18px;
+}
+.note-epinglee {
+  border-color: var(--violet-300);
+  box-shadow: inset 4px 0 0 var(--accent);
+}
+.note-entete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 12px;
+}
+.note-entete h2 {
+  font-size: 1.02rem;
+}
+.note-texte {
+  white-space: pre-line;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--encre-2);
+}
+.note > .bouton-lien {
+  justify-self: start;
+}
+.note-pied {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--bordure);
+}
+a.puce {
+  text-decoration: none;
+}
+a.puce:hover {
+  border-color: var(--violet-300);
+}
+
+.notes-client,
+.remises-client {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.note-mini {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon-petit);
+  background: var(--surface);
+  color: var(--encre);
+  font: inherit;
+  font-size: 0.88rem;
+  text-align: left;
+  cursor: pointer;
+}
+.note-mini:hover {
+  border-color: var(--violet-300);
+  background: var(--violet-50);
+}
+.note-mini strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.remises-client li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.88rem;
+}
+.remises-client svg {
+  flex: none;
+  margin-top: 3px;
+  color: var(--encre-3);
+}
+
+/* ------------------------------------------------------------------ */
+/* Exercices et documents                                              */
+/* ------------------------------------------------------------------ */
+.grille-documents {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+.document {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto auto;
+  gap: 6px;
+  padding: 16px 18px;
+}
+.document h2 {
+  font-size: 1.02rem;
+}
+.document-categorie {
+  justify-self: start;
+}
+.document-remises {
+  font-size: 0.8rem;
+}
+.document .actions {
+  margin-top: 6px;
+}
+
+.choix-remise {
+  display: grid;
+  gap: 8px;
+}
+.choix {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--bordure-forte);
+  border-radius: var(--rayon-petit);
+  cursor: pointer;
+}
+.choix input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  min-height: 0;
+  margin: 2px 0 0;
+  accent-color: var(--accent);
+}
+.choix > svg {
+  flex: none;
+  margin-top: 1px;
+  color: var(--encre-3);
+}
+.choix > span {
+  display: grid;
+  gap: 2px;
+}
+/* sélection : bordure plus épaisse + fond (en plus du bouton radio coché) */
+.choix.choisi {
+  border-width: 2px;
+  border-color: var(--accent);
+  background: var(--violet-50);
+}
+.choix.choisi > svg {
+  color: var(--accent);
+}
+
+.apercu-document {
+  max-height: 340px;
+  overflow: auto;
+  padding: 12px 14px;
+  border: 1px dashed var(--bordure-forte);
+  border-radius: var(--rayon-petit);
+  background: var(--surface-2);
+}
+
+/* Texte d'un document (aperçu, page du client, impression) */
+.document-texte {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+  line-height: 1.6;
+}
+.document-texte h2 {
+  margin-top: 6px;
+  font-size: 1.08rem;
+}
+.document-texte ul {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding-left: 22px;
+}
+.document-public {
+  max-width: 720px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Reçus                                                               */
+/* ------------------------------------------------------------------ */
+.liste-a-emettre {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.liste-a-emettre li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--bordure);
+}
+.liste-a-emettre li:last-child {
+  border-bottom: 0;
+}
+/* reçu annulé : barré (motif) en plus de la puce « Annulé » */
+.recu-annule td:not(:nth-last-child(-n + 2)) {
+  text-decoration: line-through;
+  color: var(--encre-3);
+}
+
+/* Groupe de champs (Mon profil > reçus) */
+.groupe-champs {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 12px 14px 14px;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon-petit);
+}
+.groupe-champs legend {
+  padding: 0 6px;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+/* ------------------------------------------------------------------ */
+/* Feuille à imprimer (document remis, reçu)                           */
+/* ------------------------------------------------------------------ */
+.feuille {
+  display: grid;
+  gap: 12px;
+  padding: 32px 36px;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  background: #fff;
+  color: #111;
+}
+.feuille h1 {
+  font-size: 1.4rem;
+}
+.feuille-entete {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #ccc;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.feuille-droite {
+  text-align: right;
+}
+.feuille-numero {
+  font-weight: 700;
+  font-size: 1.02rem;
+}
+.tableau-recu {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+.tableau-recu th,
+.tableau-recu td {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+.tableau-recu .num {
+  text-align: right;
+}
+.tableau-recu thead th {
+  background: #f4f4f6;
+}
+.feuille-signature {
+  margin-top: 28px;
+  min-height: 60px;
+}
+.feuille-annulee {
+  background-image: repeating-linear-gradient(-45deg, transparent 0 18px, rgb(180 35 24 / 5%) 18px 22px);
+}
+.tampon-annule {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 2px solid var(--danger);
+  border-radius: var(--rayon-petit);
+  color: var(--danger);
+  font-weight: 700;
+}
+
+/* Carte thermique des créneaux : heures en en-tête horizontal */
+.thermique-horaire thead th {
+  writing-mode: horizontal-tb;
+  transform: none;
+  height: auto;
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .feuille {
+    padding: 20px 16px;
+  }
+  .feuille-droite {
+    text-align: left;
+  }
+}
+
+@media print {
+  .ne-pas-imprimer {
+    display: none !important;
+  }
+  .feuille {
+    padding: 0;
+    border: 0 !important;
+  }
+  .page-publique {
+    padding: 0 !important;
+    background: #fff !important;
+  }
+  .carte-publique {
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* 0.8.0 : exercices à compléter, reçus par lien, récapitulatif        */
+/* ------------------------------------------------------------------ */
+.alerte-succes {
+  border-color: color-mix(in oklab, var(--succes) 35%, white);
+  background: var(--succes-doux);
+  color: var(--succes);
+}
+.alerte-succes svg {
+  color: var(--succes);
+}
+/* puce cliquable (« Réponses reçues · voir ») : soulignée en plus de la couleur */
+button.puce-bouton {
+  border: 1px solid currentColor;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+button.puce-bouton:hover {
+  text-decoration: underline;
+}
+
+.document-question {
+  display: grid;
+  gap: 6px;
+  margin: 4px 0;
+}
+.document-question-texte {
+  font-weight: 650;
+  color: var(--encre);
+}
+/* lignes pour répondre à la main (aperçu, version papier) */
+.lignes-ecriture {
+  height: 66px;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 21px, var(--bordure-forte) 21px 22px);
+}
+.document-public textarea {
+  font-size: 1rem;
+}
+
+.reponses-exercice {
+  display: grid;
+  gap: 12px;
+  margin: 12px 0 0;
+  padding-left: 20px;
+}
+.reponses-exercice li {
+  padding-left: 4px;
+}
+.reponses-exercice .reponse-question {
+  font-weight: 650;
+  color: var(--encre);
+}
+.reponse-texte-libre {
+  margin-top: 4px;
+  padding: 8px 10px;
+  border-left: 3px solid var(--violet-300);
+  background: var(--surface-2);
+  white-space: pre-line;
+}
+.tache-exercice .tache-icone {
+  background: var(--succes-doux);
+  color: var(--succes);
+}
+
+.recu-lien {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+.recap-recus {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 18px 28px;
+  align-items: start;
+}
+@media (max-width: 760px) {
+  .recap-recus {
+    grid-template-columns: 1fr;
+  }
+}
+.recap-recus tr.ligne-vide th,
+.recap-recus tr.ligne-vide td {
+  color: var(--encre-3);
+}
+.recap-recus th[scope='row'] {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.liste-modes {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.liste-modes li {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 12px;
+  align-items: baseline;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--bordure);
+}
+.liste-modes li > span:first-child::first-letter {
+  text-transform: uppercase;
+}
+.recu-public {
+  display: grid;
+  gap: 14px;
+  width: min(820px, 100%);
+  margin: 0 auto;
+}
+
+@media print {
+  .lignes-ecriture {
+    height: 88px;
+    background-image: repeating-linear-gradient(to bottom, transparent 0 21px, #999 21px 22px);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* 0.9.0 : rappel d'exercice, exercices rendus, reçu groupé            */
+/* ------------------------------------------------------------------ */
+.tache-rappel-exercice {
+  border-style: dashed;
+}
+.tache-rappel-exercice .tache-icone {
+  background: var(--alerte-doux);
+  color: var(--alerte);
+}
+.exercices-rendus {
+  border-color: var(--violet-300);
+  box-shadow: inset 4px 0 0 var(--accent);
+}
+.exercices-rendus summary {
+  cursor: pointer;
+}
+.barre-selection {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  margin: 0 18px;
+  padding: 10px 12px;
+  border: 2px solid var(--accent);
+  border-radius: var(--rayon-petit);
+  background: var(--violet-50);
+  font-size: 0.9rem;
+}
+.barre-selection > span {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+.liste-a-emettre .case-a-cocher {
+  align-items: center;
+  flex: 1 1 260px;
+}
+.liste-a-emettre .case-a-cocher input:disabled + span {
+  color: var(--encre-3);
+}
