@@ -3,6 +3,29 @@
 Format : une entrée par livraison, la plus récente en haut. Numéro de version dans
 `package.json`.
 
+## 0.10.1 — 2026-10-21
+
+Projet compréhensible sans rien d'autre que ses fichiers (Codex, Claude, humains).
+
+### Documentation
+- `docs/DESIGN.md` : transcription complète du système de design Flow (dont le PDF n'est pas
+  dans le dépôt), adaptée au violet : principes, correspondance des variables Flow → projet,
+  typographie, formes, composants et classes, mise en page, bandeau fort, à faire / à éviter.
+- `docs/DEPLOIEMENT.md` : publication sur GitHub Pages (dépôt, réglage Pages, `CHEMIN_BASE`,
+  `404.html`, conséquences pour le code), production Supabase, poste Windows.
+- `src/styles/AGENTS.md` : ordre de la cascade, règles des variables, bandeaux forts,
+  tactile, classes utilisées par les tests.
+- `AGENTS.md` : liens vers ces documents, règles 14 (design Flow en violet) et 15 (sous-dossier),
+  lignes « Style », « Menu » et « Publication » dans l'index des fonctionnalités, recettes
+  (menu, composant visuel), pièges (Git Bash, Node, taille du texte, variables CSS composées).
+- `docs/CAHIER_DES_CHARGES.md` : décisions (design Flow en violet, menu sans Rentabilité ni
+  Reçus, démonstration GitHub Pages, pas de polices téléchargées) ; `docs/IDEES.md` : thème
+  sombre et barre d'onglets mobile de Flow, polices hébergées.
+- Commentaires : en-tête de `vite.config.ts`, raison du menu dans `Structure.tsx`.
+
+### Modifié
+- Icônes au trait de 1,6 px (au lieu de 2 px), comme le demande Flow.
+
 ## 0.10.0 — 2026-10-21
 
 Nouveau style : système de design **Flow** (calme, net, chaleureux, inspiré de Windows 11),

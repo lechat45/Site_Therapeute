@@ -62,7 +62,10 @@ réalisé est dans `CHANGELOG.md`.
 
 | Idée | Pourquoi | Effort |
 |---|---|---|
-| **Mode sombre** (les couleurs sont déjà des variables) | confort le soir | M |
+| **Mode sombre** du design Flow (valeurs dans `docs/DESIGN.md`, section 2 ; nouveau réglage d'affichage : migration + `demo.ts` + `OngletAffichage`) | confort le soir ; prévu par Flow | M |
+| **Barre d'onglets en bas sur téléphone** (design Flow) à la place du menu en tiroir | navigation au pouce | M |
+| **Polices Segoe UI Variable / Geist / DM Mono hébergées avec le site** (fichiers `.woff2` dans `public/`, autorisés par la CSP) | même rendu sur Mac et Android | S |
+| **Accès à « Rentabilité » et « Reçus »** depuis un autre endroit que le menu (Paramètres › Tarifs, fiche client), si l'utilisateur le souhaite | retirés du menu en 0.9.3 | S |
 | **Application installable (PWA)** et consultation hors ligne de la liste des clients | tablette au cabinet sans réseau fiable | M |
 | **Sauvegarde / export de toutes ses données** (JSON + CSV) | portabilité RGPD, sérénité | S |
 | **Hébergement de données de santé (HDS)** : choix d'un hébergeur certifié | obligation probable en France, voir `docs/ARCHITECTURE.md` | L |

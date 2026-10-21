@@ -63,7 +63,8 @@ export function Icone({ nom, taille = 18, titre }: { nom: NomIcone; taille?: num
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={2}
+      // Design Flow (docs/DESIGN.md) : traits fins de 1,6 px, bouts arrondis, grille de 24 px.
+      strokeWidth={1.6}
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden={titre ? undefined : true}

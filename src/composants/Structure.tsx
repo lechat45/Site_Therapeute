@@ -107,6 +107,9 @@ export function Structure() {
         <Lien vers="/exercices" icone="document" libelle="Exercices et documents" />
         <div className="nav-titre">Suivi de l'activité</div>
         <Lien vers="/activite" icone="activite" libelle="Activité" />
+        {/* « Rentabilité » et « Reçus » retirés du menu à la demande de l'utilisateur (0.9.3) :
+            les écrans existent toujours (/rentabilite, /recus). Ne pas les remettre sans lui
+            (docs/CAHIER_DES_CHARGES.md, décisions). */}
         <div className="nav-titre">Espace partagé</div>
         <Lien vers="/groupe" icone="groupe" libelle="Espace de groupe" />
         <div className="nav-titre">Compte</div>

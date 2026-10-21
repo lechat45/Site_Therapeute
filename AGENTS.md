@@ -1,8 +1,13 @@
 # AGENTS.md — reprendre le projet (Codex, Claude, humains)
 
 Lisez ce fichier en entier avant de modifier le code. Chaque dossier important a aussi son
-`AGENTS.md` (`src/`, `src/domaine/`, `src/donnees/`, `supabase/`, `tests/`, `e2e/`) : le
-plus proche du fichier modifié s'applique **en plus** de celui-ci.
+`AGENTS.md` (`src/`, `src/domaine/`, `src/donnees/`, `src/styles/`, `supabase/`, `tests/`,
+`e2e/`) : le plus proche du fichier modifié s'applique **en plus** de celui-ci.
+
+Tout ce qu'il faut savoir est **dans le dépôt** : les documents extérieurs (système de design
+de l'utilisateur, réglages GitHub) y sont transcrits (`docs/DESIGN.md`, `docs/DEPLOIEMENT.md`).
+Les choix faits avec l'utilisateur sont dans `docs/CAHIER_DES_CHARGES.md` : ne pas les défaire
+sans lui.
 
 ## 1. Le projet en une minute
 
@@ -20,7 +25,10 @@ plus proche du fichier modifié s'applique **en plus** de celui-ci.
   **Supabase** (production).
 - **Version** : `package.json` ; historique dans `CHANGELOG.md` ; demande d'origine de
   l'utilisateur et décisions : `docs/CAHIER_DES_CHARGES.md` ; pistes : `docs/IDEES.md` ;
-  architecture détaillée : `docs/ARCHITECTURE.md`.
+  architecture détaillée : `docs/ARCHITECTURE.md` ; **style** (design Flow en violet) :
+  `docs/DESIGN.md` ; **mise en ligne** (GitHub Pages) : `docs/DEPLOIEMENT.md`.
+- **En ligne** : démonstration (mode démo) sur <https://lechat45.github.io/Site_Therapeute/>,
+  publiée automatiquement à chaque envoi sur `main` du dépôt `lechat45/Site_Therapeute`.
 
 ## 2. Démarrer et vérifier
 
@@ -43,6 +51,9 @@ plus proche du fichier modifié s'applique **en plus** de celui-ci.
   (l'intégration continue fait `npx playwright install --with-deps chromium`). Si aucun
   navigateur n'est disponible, lancez au moins `npm run verifier` et dites-le.
 - L'intégration continue (`.github/workflows/verifier.yml`) lance `verifier` puis `test:e2e`.
+- `.github/workflows/github-pages.yml` publie le site sur GitHub Pages (`CHEMIN_BASE`, voir
+  `docs/DEPLOIEMENT.md`). Construction locale identique :
+  `MSYS_NO_PATHCONV=1 CHEMIN_BASE=/Site_Therapeute/ npm run build` (Git Bash).
 
 ## 3. « Terminé » veut dire
 
@@ -58,6 +69,8 @@ plus proche du fichier modifié s'applique **en plus** de celui-ci.
       `README.md` si l'usage change ; idée réalisée retirée de `docs/IDEES.md`.
 - [ ] Forme du jeu de démo changée → `VERSION_JEU_DEMO` incrémentée (`src/donnees/jeuDemo.ts`).
 - [ ] Textes en français ; aucun état signalé par la seule couleur.
+- [ ] Changement visuel : conforme à `docs/DESIGN.md` (variables, un seul accent violet par
+      zone, pas de dégradés) et regardé sur ordinateur **et** téléphone.
 
 ## 4. Carte du code
 
@@ -70,7 +83,7 @@ src/
   etat/                 contextes React : session, réglages, tâches ; hooks
   composants/           composants réutilisables (cartes, boîtes de dialogue, graphiques…)
   pages/                un fichier par écran ; pages/parametres/ = un onglet par fichier
-  styles/               CSS par zone ; index.css fixe l'ordre de la cascade
+  styles/               CSS par zone ; index.css fixe l'ordre de la cascade — voir styles/AGENTS.md
 supabase/
   migrations/           schéma, RLS, fonctions SQL — AJOUT SEULEMENT, dans l'ordre des noms
   functions/_shared/    code partagé app + fonction Edge + tests (sans dépendance)
@@ -78,6 +91,8 @@ supabase/
 tests/                  Vitest : logique pure et SQL réel (PGlite) — voir tests/AGENTS.md
 e2e/                    Playwright sur le mode démo — voir e2e/AGENTS.md
 scripts/comptes.mjs     administration des comptes (clé service_role, hors application)
+.github/workflows/      verifier.yml (tests) et github-pages.yml (publication de la démo)
+vite.config.ts          Vite + Vitest ; `base` = CHEMIN_BASE (sous-dossier de GitHub Pages)
 docs/                   ARCHITECTURE, CAHIER_DES_CHARGES, IDEES
 ```
 
@@ -102,6 +117,9 @@ Jamais l'inverse : `domaine/` n'importe ni React, ni `donnees/`, ni le navigateu
 | Tarifs et rentabilité | `relances_questionnaires` (`tarifer_seance`) | `rentabilite.ts` | `Rentabilite`, `parametres/OngletTarifs` | `logique`, `sql` (tarifs) |
 | Reçus : émission, annulation, lien, groupés, export, livre des recettes | `journal_exercices_recus` (`recus`, `emettre_recu`, `annuler_recu`), `prolongements` (`preparer_lien_recu`, `recu_public`), `rappels_recus_groupes` (`recus_lignes`, `emettre_recu_groupe`) | `recus.ts`, `texte.ts` (`numeroRecu`), `config/ressources.ts` | `Recus` (+ impression), `RecuPublic`, `FeuilleRecu`, `DialogueLienRecu` | `prolongements`, `rappelsRecus`, `sqlOutils`, `sqlProlongements`, `sqlRappelsRecus`, e2e |
 | Réglages, affichage, daltonisme | `parametres` (toutes migrations) | `config/parametresDefaut.ts` | `Parametres`, `pages/parametres/*`, `etat/reglages`, `styles/accessibilite.css` | `sql` (défauts SQL = TS), e2e `parcours` |
+| Style (design Flow en violet) | — | — | `styles/base.css` (variables), `structure.css` (menu), `composants.css`, `Icone` ; règles : `docs/DESIGN.md` | e2e (ordinateur + téléphone) |
+| Menu de navigation | — | — | `composants/Structure.tsx` (sans Rentabilité ni Reçus : décision de l'utilisateur) | e2e `parcours` |
+| Publication (GitHub Pages, sous-dossier) | — | `domaine/messages.ts` (`racineSite`, liens clients) | `vite.config.ts` (`base`), `App.tsx` (`basename`), `.github/workflows/github-pages.yml` ; `docs/DEPLOIEMENT.md` | `outils`, `prolongements` (liens) |
 
 Les migrations sont désignées par la fin de leur nom (`supabase/migrations/AAAAMMJJHHMMSS_nom.sql`).
 
@@ -151,6 +169,15 @@ Les migrations sont désignées par la fin de leur nom (`supabase/migrations/AAA
     (voir `supabase/AGENTS.md`). Une fonction redéfinie (`create or replace`) l'est en entier.
 13. **Français.** Interface, messages d'erreur (ils remontent tels quels du SQL à l'écran),
     commentaires ; noms de code métier en français **sans accents** (`seance`, `therapeute`).
+14. **Design Flow, en violet.** Tout changement visuel suit `docs/DESIGN.md` : variables de
+    `styles/base.css` uniquement, un seul accent (le violet, jamais le corail ni l'orange de
+    Flow), un seul bouton principal par zone, un seul bandeau fort par écran, pas de
+    dégradés, icônes `Icone` au trait (jamais d'emojis). *Pourquoi : design commun à tous les
+    sites de l'utilisateur, qui a choisi d'y garder son violet.*
+15. **Le site peut vivre dans un sous-dossier** (`/Site_Therapeute/` sur GitHub Pages).
+    Naviguer avec le routeur (`Link`, `useNavigate`, `Navigate`), jamais `<a href="/…">` ni
+    `location.href = '/…'` ; liens envoyés aux clients avec `lienQuestionnaire`,
+    `lienDocument`, `lienRecu`. *Pourquoi : sinon page blanche ou liens morts en ligne.*
 
 ## 7. Lexique (français → anglais)
 
@@ -214,6 +241,11 @@ Les migrations sont désignées par la fin de leur nom (`supabase/migrations/AAA
 - **Nouveau modèle d'exercice** : `MODELES_RESSOURCES` (`config/ressources.ts`). Texte simple :
   `# intertitre`, `- liste`, `? question`, ligne vide = paragraphe. Jamais de HTML.
 - **Remplacer les 14 émotions** : README, section dédiée.
+- **Ajouter ou retirer un lien du menu** : `composants/Structure.tsx` (composant `Lien`,
+  groupé sous un `nav-titre`). Retirer un lien ne supprime pas l'écran : la route reste dans
+  `App.tsx`. Vérifier les tests e2e qui cliquent sur ce lien (`getByRole('link', …)`).
+- **Nouveau composant visuel** : réutiliser les classes de `styles/composants.css` ; sinon,
+  nouvelles règles dans le fichier CSS de la zone, avec les variables (`src/styles/AGENTS.md`).
 
 ## 9. Pièges connus
 
@@ -231,6 +263,15 @@ Les migrations sont désignées par la fin de leur nom (`supabase/migrations/AAA
   `grant execute` à `authenticated` (sinon toute mise à jour d'une remise échoue).
 - **Tests e2e** : ils s'appuient sur le jeu de démo (noms, nombre de séances…) ; le modifier
   peut casser un test sans bogue réel (voir `e2e/AGENTS.md`).
+- **Git Bash (Windows)** : il convertit tout argument ou variable commençant par `/` en chemin
+  Windows (`/Site_Therapeute/` devient `C:/Program Files/Git/Site_Therapeute/`). Préfixer de
+  `MSYS_NO_PATHCONV=1`, ou utiliser PowerShell.
+- **Node.js introuvable** : Node 24 est dans `C:\Program Files\nodejs` ; une application ouverte
+  avant son installation ne le voit pas tant qu'elle n'est pas relancée.
+- **Taille du texte** : la base des `rem` est 15 px (`html`) et le texte courant 14 px
+  (`0.9333rem`). Ne pas passer la base à 14 px : les petits textes deviendraient illisibles.
+- **Variables CSS composées** : `--courbes` utilise `--courbe` ; elle est calculée là où elle est
+  déclarée, d'où sa déclaration sur les bandeaux et non sur `:root` (`styles/AGENTS.md`).
 - **Tâches** : la clé d'une relance contient son rang (`r-<client>-<rang>`) ; reporter une
   relance ne masque pas la suivante.
 

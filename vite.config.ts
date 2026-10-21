@@ -1,3 +1,5 @@
+// Configuration de Vite (serveur de développement, construction) et de Vitest (tests).
+// Publication sur GitHub Pages et variable CHEMIN_BASE : voir docs/DEPLOIEMENT.md.
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vitest/config';
 

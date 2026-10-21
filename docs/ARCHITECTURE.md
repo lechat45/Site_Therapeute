@@ -333,6 +333,10 @@ que sur un seul reçu valide, et `annuler_recu()` annule les lignes avec le reç
 
 ## 3 quater. Profil, affichage, accessibilité, tablette
 
+- **Style** : système de design **Flow** de l'utilisateur, avec le violet comme seul accent
+  (fond beige, cartes blanches, menu sur le fond, un seul bandeau sombre par écran). Règles
+  et correspondance des variables : `docs/DESIGN.md`. Mise en ligne de la démonstration
+  (GitHub Pages, sous-dossier) : `docs/DEPLOIEMENT.md`.
 - **Profil** : photo (réduite à 160 px dans le navigateur, 300 Ko au plus), spécialité,
   téléphone, signature des messages (variable `{signature}`).
 - Chaque thérapeute choisit le **nom du site** et la **couleur principale**. Toutes les

@@ -48,6 +48,16 @@ Tout ce qui a été ajouté ensuite (journal, exercices, reçus, activité, tâc
 - **Chacun règle tout pour lui seul** (paramètres par thérapeute).
 - **Accessible aux personnes daltoniennes partout** : jamais la couleur seule.
 - **Tarifs facultatifs**, reçus sans paiement en ligne.
+- **Style : système de design Flow, en violet** (octobre 2026). Flow est le design commun à
+  tous les sites de l'utilisateur ; il a demandé de tout en reprendre **sauf le corail/orange**
+  : l'accent reste le violet. Règles complètes : `docs/DESIGN.md`.
+- **Menu sans « Rentabilité » ni « Reçus »** (version 0.9.3) : l'utilisateur les a fait retirer
+  de la liste du menu, sans supprimer les écrans : ils restent accessibles par leur adresse
+  (`/rentabilite`, `/recus`) et les tests e2e les ouvrent ainsi.
+- **Démonstration publique sur GitHub Pages** (`lechat45/Site_Therapeute`, mode démo
+  seulement, jamais de vraies données) : `docs/DEPLOIEMENT.md`.
+- **Pas de polices téléchargées** (Google Fonts) : la politique de sécurité du site
+  n'autorise que ses propres fichiers ; Segoe UI ou police système.
 - Écartées pour l'instant (gardées dans `docs/IDEES.md`) : numéros d'urgence affichés au
   client, changement obligatoire du mot de passe provisoire, double authentification
   obligatoire.
