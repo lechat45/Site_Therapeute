@@ -107,8 +107,6 @@ export function Structure() {
         <Lien vers="/exercices" icone="document" libelle="Exercices et documents" />
         <div className="nav-titre">Suivi de l'activité</div>
         <Lien vers="/activite" icone="activite" libelle="Activité" />
-        {parametres.tarifs_actifs && <Lien vers="/rentabilite" icone="euro" libelle="Rentabilité" />}
-        {parametres.tarifs_actifs && <Lien vers="/recus" icone="recu" libelle="Reçus" />}
         <div className="nav-titre">Espace partagé</div>
         <Lien vers="/groupe" icone="groupe" libelle="Espace de groupe" />
         <div className="nav-titre">Compte</div>

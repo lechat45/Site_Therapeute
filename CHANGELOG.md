@@ -3,6 +3,12 @@
 Format : une entrée par livraison, la plus récente en haut. Numéro de version dans
 `package.json`.
 
+## 0.9.3 — 2026-10-21
+
+### Modifié
+- Menu : « Rentabilité » et « Reçus » n'y figurent plus. Les écrans restent accessibles
+  par leur adresse (`/rentabilite`, `/recus`).
+
 ## 0.9.2 — 2026-10-21
 
 Publication possible sur GitHub Pages (page blanche corrigée).
