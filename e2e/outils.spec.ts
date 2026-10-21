@@ -7,6 +7,11 @@ test('tâches : ma tâche, « plus tard », filtres et tâches reportées @telep
   await seConnecter(page);
   await page.goto('/taches');
   const filtres = page.getByRole('group', { name: 'Afficher' });
+  await expect(filtres).toBeVisible();
+
+  // seulement des tâches : pas de planning des rendez-vous du jour (choix de l'utilisateur, 0.10.2)
+  await expect(page.getByRole('heading', { name: 'Aujourd’hui' })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'Rendez-vous', exact: true })).toHaveCount(0);
 
   // tâche personnelle sans échéance : elle apparaît tout de suite dans « À faire »
   await page.getByLabel('Nouvelle tâche').fill('Appeler la mutuelle');

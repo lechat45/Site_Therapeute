@@ -72,7 +72,8 @@
    bas-droit. Définies sur les bandeaux eux-mêmes pour que --courbe (leur taille)
    puisse changer d'un bandeau à l'autre. */
 .indicateur-vedette,
-.connexion-visuel {
+.connexion-visuel,
+.bandeau-client {
   --courbe: 90px;
   --courbes:
     radial-gradient(

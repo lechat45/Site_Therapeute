@@ -41,18 +41,23 @@
   align-items: center;
   gap: 4px;
 }
+/* Barrettes de progression (design Flow) ; le bilan garde sa forme de losange :
+   l'étape se lit à la forme, pas seulement à la couleur. */
 .parcours-mini span {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+  width: 14px;
+  height: 6px;
+  border-radius: 3px;
   background: var(--piste);
 }
 .parcours-mini span.fait {
   background: var(--violet-600);
 }
 .parcours-mini span.bilan {
+  width: 9px;
+  height: 9px;
+  margin-left: 3px;
   border-radius: 2px;
-  transform: rotate(45deg) scale(0.9);
+  transform: rotate(45deg);
 }
 .parcours-mini em {
   margin-left: 4px;
@@ -239,4 +244,149 @@ a.etape:hover {
   padding: 4px 6px;
   border: 0;
   text-align: right;
+}
+
+/* ------------------------------------------------------------------ */
+/* Design Flow (0.10.2) : liste des clients                             */
+/* ------------------------------------------------------------------ */
+.cellule-client {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
+  text-decoration: none;
+}
+.avatar-client {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--accent-doux);
+  color: var(--violet-800);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.ligne-cliquable:hover .avatar-client {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ------------------------------------------------------------------ */
+/* Design Flow (0.10.2) : en-tête de la fiche client = bandeau fort     */
+/* (un seul par écran ; courbes : --courbes, déclarée dans base.css).   */
+/* ------------------------------------------------------------------ */
+.bandeau-client {
+  --courbe: 130px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px 28px;
+  align-items: start;
+  padding: 26px 28px;
+  border-radius: var(--rayon-bandeau);
+  background: var(--courbes), var(--bandeau);
+  background-repeat: no-repeat;
+  color: rgb(255 255 255 / 82%);
+}
+.bandeau-client h1 {
+  margin-top: 4px;
+  color: #fff;
+  font-weight: 700;
+}
+.bandeau-client .sur-titre {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 65%);
+}
+.bandeau-client .sous-titre {
+  margin-top: 4px;
+  color: rgb(255 255 255 / 75%);
+}
+.bandeau-client .coordonnees {
+  color: rgb(255 255 255 / 80%);
+}
+.bandeau-client .coordonnees a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+.bandeau-progression {
+  max-width: 420px;
+  height: 6px;
+  margin-top: 16px;
+  border-radius: 3px;
+  background: rgb(255 255 255 / 14%);
+  overflow: hidden;
+}
+.bandeau-progression span {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: var(--violet-400);
+}
+.bandeau-progression-libelle {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: rgb(255 255 255 / 65%);
+}
+.bandeau-tuiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.tuile {
+  min-width: 130px;
+  padding: 10px 14px;
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: var(--rayon);
+  background: rgb(255 255 255 / 7%);
+}
+.tuile span {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 65%);
+}
+.tuile strong {
+  display: block;
+  margin-top: 2px;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #fff;
+}
+.bandeau-client > .actions {
+  grid-column: 1 / -1;
+}
+/* Boutons sur fond sombre : translucides ; l'action principale reste violette. */
+.bandeau-client .bouton:not(.bouton-principal) {
+  background: rgb(255 255 255 / 8%);
+  border-color: rgb(255 255 255 / 18%);
+  color: #fff;
+}
+.bandeau-client .bouton:not(.bouton-principal):hover {
+  background: rgb(255 255 255 / 15%);
+}
+.bandeau-client .bouton-danger:not(.bouton-principal) {
+  color: color-mix(in oklab, var(--danger) 30%, white);
+}
+.bandeau-client .bouton-principal {
+  background: var(--violet-600);
+  border-color: var(--violet-600);
+}
+.bandeau-client .bouton-principal:hover {
+  background: var(--violet-700);
+  border-color: var(--violet-700);
+}
+.bandeau-client :focus-visible {
+  outline-color: #fff;
+}
+@media (max-width: 760px) {
+  .bandeau-client {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
 }

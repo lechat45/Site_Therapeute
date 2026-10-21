@@ -1,23 +1,18 @@
-// « Votre semaine » : rendez-vous, relances prévues, questionnaires en
-// attente et tâches personnelles du lundi au dimanche. Déplié le lundi.
+// « Votre semaine » : relances prévues, questionnaires en attente et tâches
+// personnelles du lundi au dimanche. Déplié le lundi. Les rendez-vous n'y sont
+// plus (choix de l'utilisateur, 0.10.2) : ils sont dans l'emploi du temps.
 
-import type { CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
-import { CATEGORIES, couleursAgenda } from '../config/agenda';
 import { jourSemaine } from '../domaine/agenda';
 import { dateDuJour, jourLisible as jourCourt } from '../domaine/format';
-import { useReglages } from '../etat/reglages';
 import { useTaches } from '../etat/tachesContexte';
 import { Icone } from './Icone';
 
 export function RecapSemaine({ toujoursOuvert = false }: { toujoursOuvert?: boolean }) {
   const { semaine: s } = useTaches();
-  const { parametres } = useReglages();
-  const couleurs = couleursAgenda(parametres);
   const aujourdhui = dateDuJour();
   const lundi = jourSemaine(aujourdhui) === 1;
   const resume = [
-    `${s.rdv.total} rendez-vous`,
     `${s.relances.length} relance${s.relances.length > 1 ? 's' : ''} prévue${s.relances.length > 1 ? 's' : ''}`,
     `${s.questionnairesEnAttente} questionnaire${s.questionnairesEnAttente > 1 ? 's' : ''} en attente`,
     `${s.tachesPerso.length} tâche${s.tachesPerso.length > 1 ? 's' : ''} à échéance`,
@@ -27,7 +22,7 @@ export function RecapSemaine({ toujoursOuvert = false }: { toujoursOuvert?: bool
     <details className="carte recap-semaine" open={toujoursOuvert || lundi}>
       <summary>
         <span className="recap-titre">
-          <Icone nom="calendrier" /> Votre semaine
+          <Icone nom="taches" /> Votre semaine
           <span className="meta">
             du {jourCourt(s.lundi)} au {jourCourt(s.dimanche)}
           </span>
@@ -38,23 +33,6 @@ export function RecapSemaine({ toujoursOuvert = false }: { toujoursOuvert?: bool
         </span>
       </summary>
       <div className="recap-grille">
-        <div>
-          <h3>Rendez-vous</h3>
-          <p className="meta">
-            {s.rdv.total} rendez-vous, {String(s.rdv.heures).replace('.', ',')} h planifiées
-          </p>
-          <ul className="recap-liste">
-            {CATEGORIES.filter((c) => s.rdv.parCategorie[c.cle] > 0).map((c) => (
-              <li key={c.cle} className={`pave-${c.cle}`} style={{ '--c': couleurs[c.cle] } as CSSProperties}>
-                <span className="legende-pastille" aria-hidden />
-                <Icone nom={c.icone} taille={13} /> {c.libelle} : <strong>{s.rdv.parCategorie[c.cle]}</strong>
-              </li>
-            ))}
-          </ul>
-          <Link to="/emploi-du-temps" className="meta">
-            Ouvrir l’emploi du temps →
-          </Link>
-        </div>
         <div>
           <h3>Relances prévues</h3>
           {s.relances.length === 0 ? (

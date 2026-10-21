@@ -54,6 +54,10 @@ Tout ce qui a été ajouté ensuite (journal, exercices, reçus, activité, tâc
 - **Menu sans « Rentabilité » ni « Reçus »** (version 0.9.3) : l'utilisateur les a fait retirer
   de la liste du menu, sans supprimer les écrans : ils restent accessibles par leur adresse
   (`/rentabilite`, `/recus`) et les tests e2e les ouvrent ainsi.
+- **Écran Tâches : seulement les tâches** (version 0.10.2) : pas de planning des rendez-vous
+  du jour ni de résumé des rendez-vous de la semaine (ils sont dans l'emploi du temps). Les
+  tâches liées aux rendez-vous (rappel, rendez-vous à compléter) restent. Un test e2e le
+  vérifie (`e2e/outils.spec.ts`).
 - **Démonstration publique sur GitHub Pages** (`lechat45/Site_Therapeute`, mode démo
   seulement, jamais de vraies données) : `docs/DEPLOIEMENT.md`.
 - **Pas de polices téléchargées** (Google Fonts) : la politique de sécurité du site

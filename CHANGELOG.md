@@ -3,6 +3,27 @@
 Format : une entrée par livraison, la plus récente en haut. Numéro de version dans
 `package.json`.
 
+## 0.10.2 — 2026-10-21
+
+### Modifié
+- **Tâches : seulement les tâches.** Le planning « Aujourd'hui » (rendez-vous du jour) et la
+  colonne « Rendez-vous » de « Votre semaine » sont retirés : ils sont dans l'emploi du temps.
+  Les tâches liées aux rendez-vous (rappel à envoyer, rendez-vous passé à compléter) restent,
+  avec leur filtre.
+- **Tâches, design Flow** : « À faire » devient une seule carte (filtres en tête, une ligne
+  par tâche séparée par un filet, petite barre de couleur à gauche pour les rendez-vous, les
+  urgences et les retards) ; l'action principale de chaque ligne est en violet léger (un seul
+  violet plein par zone) ; l'historique des envois montre 8 lignes avant « Tout afficher ».
+- **Mes clients** : quatre chiffres clés en tête (clients, parcours initial, bilan réalisé,
+  sans séance), initiales du client en pastille, parcours en barrettes (le bilan garde son
+  losange).
+- **Fiche client** : l'en-tête devient le bandeau fort de Flow (nom, coordonnées, barre de
+  progression du parcours avec son étape écrite, tuiles « Séances » et « Dernière séance »).
+
+### Corrigé
+- Liste des clients : le lien vers une fiche passe par le routeur (il gardait l'adresse sans
+  le sous-dossier de GitHub Pages à l'ouverture dans un nouvel onglet).
+
 ## 0.10.1 — 2026-10-21
 
 Projet compréhensible sans rien d'autre que ses fichiers (Codex, Claude, humains).

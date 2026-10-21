@@ -2,12 +2,12 @@
 // d'une fiche, corbeille (clients supprimés, restaurables 30 jours).
 
 import { useMemo, useState, type FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Chargement, Dialogue, Erreur, useNotifier } from '../composants/Commun';
 import { Icone } from '../composants/Icone';
 import { NUMERO_BILAN, PROBLEMATIQUES, SEANCES_INITIALES } from '../config/referentiels';
 import { donnees } from '../donnees';
-import { ageA, dateCourte, dateDuJour, messageErreur, sansAccents } from '../domaine/format';
+import { ageA, dateCourte, dateDuJour, initiales, messageErreur, sansAccents } from '../domaine/format';
 import type { ClientResume } from '../domaine/types';
 import { useChargement } from '../etat/useChargement';
 
@@ -62,6 +62,23 @@ export function Clients() {
       );
   }, [liste.donnees, recherche, filtre, tri]);
 
+  // Chiffres clés en tête de liste (sur tous les clients, pas seulement ceux filtrés).
+  const tous = liste.donnees ?? [];
+  const chiffres = [
+    { libelle: 'Clients', valeur: tous.length, detail: 'fiches actives' },
+    {
+      libelle: 'Parcours initial',
+      valeur: tous.filter((c) => c.nb_seances > 0 && c.nb_seances < NUMERO_BILAN).length,
+      detail: `de 1 à ${SEANCES_INITIALES} séances`,
+    },
+    {
+      libelle: 'Bilan réalisé',
+      valeur: tous.filter((c) => c.nb_seances >= NUMERO_BILAN).length,
+      detail: 'puis séances à l’unité',
+    },
+    { libelle: 'Sans séance', valeur: tous.filter((c) => c.nb_seances === 0).length, detail: 'fiche créée seulement' },
+  ];
+
   return (
     <div className="page">
       <div className="entete-page">
@@ -80,6 +97,18 @@ export function Clients() {
           </button>
         </div>
       </div>
+
+      {tous.length > 0 && (
+        <section className="indicateurs" aria-label="Vue d'ensemble">
+          {chiffres.map((x) => (
+            <div key={x.libelle} className="carte indicateur">
+              <div className="indicateur-libelle">{x.libelle}</div>
+              <div className="indicateur-valeur">{x.valeur}</div>
+              <div className="indicateur-detail">{x.detail}</div>
+            </div>
+          ))}
+        </section>
+      )}
 
       <div className="carte">
         <div className="filtres">
@@ -150,19 +179,20 @@ export function Clients() {
                 {clients.map((c) => (
                   <tr key={c.id} className="ligne-cliquable" onClick={() => naviguer(`/clients/${c.id}`)}>
                     <td>
-                      <a
-                        href={`/clients/${c.id}`}
-                        className="nom-client"
-                        style={{ color: 'inherit', textDecoration: 'none' }}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation(); // la ligne navigue déjà
-                          naviguer(`/clients/${c.id}`);
-                        }}
+                      {/* Link (et non <a href>) : garde le sous-dossier de publication (AGENTS.md, règle 15). */}
+                      <Link
+                        to={`/clients/${c.id}`}
+                        className="cellule-client"
+                        onClick={(e) => e.stopPropagation() /* la ligne navigue déjà */}
                       >
-                        {c.nom.toUpperCase()} {c.prenom}
-                        <small>né(e) en {c.annee_naissance}</small>
-                      </a>
+                        <span className="avatar-client" aria-hidden>
+                          {initiales(c.prenom, c.nom)}
+                        </span>
+                        <span className="nom-client">
+                          {c.nom.toUpperCase()} {c.prenom}
+                          <small>né(e) en {c.annee_naissance}</small>
+                        </span>
+                      </Link>
                     </td>
                     <td className="num">{ageA(c.annee_naissance)} ans</td>
                     <td>

@@ -1,13 +1,15 @@
 // Onglet « Tâches » : ce que l'application propose de faire aujourd'hui.
 // Les tâches sont calculées (domaine/taches.ts, via etat/tachesContexte.tsx) ;
-// cette page assemble le récapitulatif de la semaine, la journée, les filtres,
-// les cartes (composants/CartesTaches.tsx), « Mes tâches » et l'historique des
-// envois, et branche les actions (envoyer, reporter, clôturer…).
+// cette page assemble le récapitulatif de la semaine, les filtres, les cartes
+// (composants/CartesTaches.tsx), « Mes tâches » et l'historique des envois, et
+// branche les actions (envoyer, reporter, clôturer…).
+// Pas de planning des rendez-vous ici (choix de l'utilisateur, 0.10.2) : il est dans
+// l'emploi du temps. Seules les TÂCHES liées aux rendez-vous (rappel à envoyer,
+// rendez-vous passé à compléter) restent, avec leur filtre « Rendez-vous ».
 
 import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { MODELE_LECTURE_LOCALE } from '../../supabase/functions/_shared/questionnaire.ts';
-import { ListeJour } from '../composants/Agenda';
 import { Chargement, Erreur, useNotifier } from '../composants/Commun';
 import { DialogueEnvoi } from '../composants/DialogueEnvoi';
 import { DialogueRappel } from '../composants/DialogueRappel';
@@ -19,7 +21,7 @@ import { DialogueReponsesExercice } from '../composants/ReponsesExercice';
 import { StatutEnvoi } from '../composants/StatutEnvoi';
 import { couleursAgenda } from '../config/agenda';
 import { donnees } from '../donnees';
-import { decalerJour, heureLisible, jourDe } from '../domaine/agenda';
+import { decalerJour, jourDe } from '../domaine/agenda';
 import { dateCourte, dateDuJour, jourLisible, messageErreur } from '../domaine/format';
 import {
   echeanceSuivante,
@@ -50,7 +52,7 @@ import { MesTaches } from '../composants/MesTaches';
 type Filtre = 'tout' | FamilleTache | 'reportees';
 
 /** Lignes d'historique affichées avant « Tout afficher ». */
-const HISTORIQUE_COURT = 30;
+const HISTORIQUE_COURT = 8;
 
 const FILTRES: { cle: Filtre; libelle: string; icone: NomIcone }[] = [
   { cle: 'tout', libelle: 'Tout', icone: 'taches' },
@@ -64,8 +66,7 @@ const FILTRES: { cle: Filtre; libelle: string; icone: NomIcone }[] = [
 const estFiltre = (x: string | null): x is Filtre => FILTRES.some((f) => f.cle === x);
 
 export function Taches() {
-  const { taches, reportees, tachesPerso, clients, envois, rendezVous, aujourdhui, chargement, erreur, recharger } =
-    useTaches();
+  const { taches, reportees, tachesPerso, clients, envois, rendezVous, chargement, erreur, recharger } = useTaches();
   const { parametres } = useReglages();
   const couleurs = couleursAgenda(parametres);
   const notifier = useNotifier();
@@ -281,68 +282,48 @@ export function Taches() {
 
       <RecapSemaine />
 
-      <section className="carte" aria-labelledby="t-journee">
+      {/* Design Flow : une seule carte, filtres en tête, une ligne par tâche séparée par un filet
+          (styles/taches.css, .liste-taches). */}
+      <section className="carte" aria-labelledby="t-afaire">
         <div className="carte-entete">
           <div>
-            <h2 id="t-journee" style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-              <Icone nom="calendrier" /> Aujourd’hui
+            <h2 id="t-afaire">
+              À faire <span className="puce puce-neutre">{taches.length}</span>
             </h2>
-            <p className="aide">
-              {aujourdhui.length
-                ? `${aujourdhui.length} rendez-vous, de ${heureLisible(aujourdhui[0].debut)} à ${heureLisible(aujourdhui[aujourdhui.length - 1].fin)}.`
-                : 'Aucun rendez-vous prévu aujourd’hui.'}
-            </p>
+            {taches.length > 0 && <p className="aide">{resumeDuJour(taches)}</p>}
           </div>
-          <Link to="/emploi-du-temps" className="bouton bouton-petit">
-            Emploi du temps →
-          </Link>
         </div>
-        {aujourdhui.length > 0 && (
-          <div className="carte-corps" style={{ paddingTop: 4 }}>
-            <ListeJour
-              rdv={rendezVous.filter((r) => jourDe(r.debut) === jour)}
-              clients={parId}
-              couleurs={couleurs}
-              ouvrir={setRdvOuvert}
-            />
+        <div className="zone-filtres-taches">
+          <div className="segments filtres-taches" role="group" aria-label="Afficher">
+            {FILTRES.map((f) => (
+              <button
+                key={f.cle}
+                type="button"
+                className="segment"
+                aria-pressed={filtre === f.cle}
+                onClick={() => choisirFiltre(f.cle)}
+              >
+                <Icone nom={f.icone} taille={14} /> {f.libelle} <span className="compteur">{compte(f.cle)}</span>
+              </button>
+            ))}
           </div>
-        )}
-      </section>
-
-      <section aria-labelledby="t-afaire" style={{ display: 'grid', gap: 12 }}>
-        <div>
-          <h2 id="t-afaire">
-            À faire <span className="puce puce-neutre">{taches.length}</span>
-          </h2>
-          {taches.length > 0 && <p className="meta">{resumeDuJour(taches)}</p>}
         </div>
-        <div className="segments filtres-taches" role="group" aria-label="Afficher">
-          {FILTRES.map((f) => (
-            <button
-              key={f.cle}
-              type="button"
-              className="segment"
-              aria-pressed={filtre === f.cle}
-              onClick={() => choisirFiltre(f.cle)}
-            >
-              <Icone nom={f.icone} taille={14} /> {f.libelle} <span className="compteur">{compte(f.cle)}</span>
-            </button>
-          ))}
+        <div className="liste-taches">
+          {chargement && !clients.length ? (
+            <Chargement />
+          ) : erreur ? (
+            <Erreur message={erreur} reessayer={recharger} />
+          ) : filtre === 'reportees' ? (
+            <ListeReportees reportees={reportees} retablir={retablir} />
+          ) : affichees.length === 0 ? (
+            <div className="carte vide">
+              <Icone nom="valider" taille={28} />
+              <p>{filtre === 'tout' ? "Rien à faire pour l'instant." : 'Rien dans cette catégorie pour l’instant.'}</p>
+            </div>
+          ) : (
+            affichees.map(carte)
+          )}
         </div>
-        {chargement && !clients.length ? (
-          <Chargement />
-        ) : erreur ? (
-          <Erreur message={erreur} reessayer={recharger} />
-        ) : filtre === 'reportees' ? (
-          <ListeReportees reportees={reportees} retablir={retablir} />
-        ) : affichees.length === 0 ? (
-          <div className="carte vide">
-            <Icone nom="valider" taille={28} />
-            <p>{filtre === 'tout' ? "Rien à faire pour l'instant." : 'Rien dans cette catégorie pour l’instant.'}</p>
-          </div>
-        ) : (
-          affichees.map(carte)
-        )}
       </section>
 
       <MesTaches

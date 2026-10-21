@@ -124,6 +124,8 @@ tomberaient sous 11 px.
 | Progression | Barres de 4 à 6 px, toujours arrondies ; vert = terminé, accent = en cours, gris = à venir | barres de `tableaux-de-bord.css`, parcours de `clients.css` |
 | Carte | Fond blanc, 1 px de contour, 12 px d'arrondi ; titre + icône + information à droite ; lignes séparées par un filet | `.carte`, `.carte-entete`, `.carte-corps` |
 | Sélecteur | Pastille blanche en relief sur fond gris (Windows 11) | `.segments`, `.segment` |
+| Liste dans une carte | Une ligne par élément, séparées par un filet ; action principale de ligne en violet léger | `.liste-taches` (Tâches), tableaux |
+| Pastille d'initiales | Rond teinté d'accent, initiales en accent foncé | `.avatar-client` (liste des clients) |
 | Élément de menu actif | **Fond gris léger, texte gras, petite barre d'accent de 3 px à gauche** | `.nav-lien.active` |
 | Pastille de compteur | Rond d'accent, chiffre blanc | `.badge-nav` |
 
@@ -142,8 +144,10 @@ tomberaient sous 11 px.
 Fond brun très sombre (`--bandeau`), texte blanc, **courbes décoratives d'accent**
 (`--courbes` : deux anneaux violets dans le coin bas-droit, taille réglée par `--courbe`),
 petites tuiles translucides si besoin. **Un seul par écran**, pour l'information
-principale. Utilisé ici pour : l'écran de connexion (`.connexion-visuel`) et l'indicateur
-vedette des tableaux de bord (`.indicateur-vedette`). Un nouveau bandeau doit être ajouté à
+principale. Utilisé ici pour : l'écran de connexion (`.connexion-visuel`), l'indicateur
+vedette des tableaux de bord (`.indicateur-vedette`) et l'en-tête de la fiche client
+(`.bandeau-client` : barre de progression du parcours, tuiles « Séances » et « Dernière
+séance »). Un nouveau bandeau doit être ajouté à
 la liste des sélecteurs qui définissent `--courbes` dans `base.css`.
 
 ## 8. À faire / à éviter

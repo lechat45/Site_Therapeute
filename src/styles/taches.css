@@ -362,3 +362,94 @@
   flex: none;
   margin-top: 4px;
 }
+
+/* ------------------------------------------------------------------ */
+/* Design Flow (0.10.2) : la liste « À faire » est UNE carte ; chaque   */
+/* tâche y devient une ligne séparée par un filet. Les cartes des        */
+/* composants (CartesTaches.tsx) gardent leur classe .carte : on les     */
+/* aplatit ici plutôt que de changer chaque composant.                   */
+/* ------------------------------------------------------------------ */
+.zone-filtres-taches {
+  padding: 14px 20px 16px;
+  border-bottom: 1px solid var(--bordure);
+}
+.liste-taches > .carte {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+.liste-taches > .carte + .carte {
+  border-top: 1px solid var(--bordure);
+}
+.liste-taches > .tache {
+  position: relative;
+  padding: 16px 20px;
+}
+.liste-taches > .tache:hover {
+  background: var(--surface-2);
+}
+.liste-taches > .carte:last-child {
+  border-bottom-left-radius: var(--rayon);
+  border-bottom-right-radius: var(--rayon);
+}
+/* Repère à gauche : petite barre de 3 px (comme l'élément actif du menu), en plus
+   du pictogramme et du libellé qui disent déjà le type et l'urgence. */
+.liste-taches > .tache-rdv,
+.liste-taches > .tache-urgente,
+.liste-taches > .tache-en-retard {
+  border-left: 0;
+}
+.liste-taches > .tache-rdv::before,
+.liste-taches > .tache-urgente::before,
+.liste-taches > .tache-en-retard::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 16px;
+  bottom: 16px;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--c, var(--accent));
+}
+.liste-taches > .tache-urgente::before {
+  background: var(--danger);
+}
+.liste-taches > .tache-en-retard::before {
+  background: var(--alerte);
+}
+.liste-taches > .tache-urgente,
+.liste-taches > .tache-en-retard {
+  box-shadow: none;
+}
+.liste-taches .tache-icone {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+}
+/* Un seul accent plein par zone : dans la liste, l'action principale de chaque ligne
+   est en violet léger ; seule une tâche urgente garde le violet plein. */
+.liste-taches > .tache:not(.tache-urgente) .bouton-principal {
+  background: var(--accent-doux);
+  border-color: var(--violet-200);
+  border-bottom-color: var(--violet-300);
+  color: var(--violet-800);
+  box-shadow: none;
+}
+.liste-taches > .tache:not(.tache-urgente) .bouton-principal:hover {
+  background: var(--violet-200);
+}
+.liste-taches > .vide {
+  padding: 36px 20px;
+}
+.liste-taches > .liste-reportees {
+  padding: 4px 20px;
+}
+@media (max-width: 560px) {
+  .zone-filtres-taches {
+    padding: 12px 14px;
+  }
+  .liste-taches > .tache {
+    padding: 14px;
+  }
+}

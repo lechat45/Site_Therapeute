@@ -35,6 +35,16 @@ export function libelleSeanceSuivante(nb: number) {
   return 'Ajouter une séance supplémentaire';
 }
 
+/** Où en est le parcours (phrase sous la barre de progression du bandeau). */
+export function etapeParcours(nb: number) {
+  if (nb === 0) return 'Parcours pas encore commencé';
+  if (nb < SEANCES_INITIALES) return `Parcours initial : séance ${nb} sur ${SEANCES_INITIALES}`;
+  if (nb === SEANCES_INITIALES) return 'Séances initiales terminées : bilan à faire';
+  if (nb === NUMERO_BILAN) return 'Bilan réalisé';
+  const plus = nb - NUMERO_BILAN;
+  return `Bilan réalisé, puis ${plus} séance${plus > 1 ? 's' : ''} à l’unité`;
+}
+
 export function FicheClient() {
   const { clientId = '' } = useParams();
   const naviguer = useNavigate();
@@ -110,8 +120,10 @@ export function FicheClient() {
         </span>
       </nav>
 
-      <div className="entete-page">
+      {/* En-tête = bandeau fort du design Flow (docs/DESIGN.md, section 7) : un seul par écran. */}
+      <section className="bandeau-client" aria-label={`Fiche de ${client.prenom} ${client.nom}`}>
         <div>
+          <p className="sur-titre">Fiche client</p>
           <h1>
             {client.prenom} {client.nom.toUpperCase()}
           </h1>
@@ -142,6 +154,20 @@ export function FicheClient() {
               </span>
             )}
           </p>
+          <div className="bandeau-progression" aria-hidden>
+            <span style={{ width: `${(Math.min(seances.length, NUMERO_BILAN) / NUMERO_BILAN) * 100}%` }} />
+          </div>
+          <p className="bandeau-progression-libelle">{etapeParcours(seances.length)}</p>
+        </div>
+        <div className="bandeau-tuiles">
+          <div className="tuile">
+            <span>Séances</span>
+            <strong>{seances.length}</strong>
+          </div>
+          <div className="tuile">
+            <span>Dernière séance</span>
+            <strong>{derniere ? dateCourte(derniere.date_seance) : '—'}</strong>
+          </div>
         </div>
         <div className="actions">
           <button className="bouton" onClick={() => setEdition(true)}>
@@ -156,7 +182,7 @@ export function FicheClient() {
             <Icone nom="plus" /> {libelleSeanceSuivante(seances.length)}
           </button>
         </div>
-      </div>
+      </section>
 
       {client.supprime_le && (
         <div className="alerte alerte-danger" role="status">
