@@ -21,7 +21,7 @@
 .carte-entete .aide {
   margin-top: 3px;
   color: var(--encre-3);
-  font-size: 0.85rem;
+  font-size: 0.8667rem;
 }
 .carte-corps {
   padding: 16px 20px 20px;
@@ -32,15 +32,16 @@
   align-items: center;
   justify-content: center;
   gap: 7px;
-  min-height: 38px;
-  padding: 8px 15px;
+  min-height: 34px;
+  padding: 6px 14px;
   border: 1px solid var(--bordure-forte);
+  border-bottom-color: var(--bordure-bas);
   border-radius: var(--rayon-petit);
   background: var(--surface);
   color: var(--encre);
   font: inherit;
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 500;
+  font-size: 0.9333rem;
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
@@ -48,18 +49,24 @@
     background 0.12s,
     border-color 0.12s;
 }
+/* Boutons « fantômes » : fond blanc, contour fin, bord bas plus foncé (Windows) */
 .bouton:hover {
-  background: var(--violet-50);
-  border-color: var(--violet-300);
+  background: var(--surface-2);
+}
+.bouton:active {
+  background: var(--piste);
 }
 .bouton:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
+/* Un seul bouton d'accent par zone */
 .bouton-principal {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
+  font-weight: 600;
+  box-shadow: inset 0 -1px 0 rgb(0 0 0 / 18%);
 }
 .bouton-principal:hover {
   background: var(--accent-survol);
@@ -68,27 +75,29 @@
 .bouton-doux {
   background: var(--accent-doux);
   border-color: var(--violet-200);
+  border-bottom-color: var(--violet-300);
   color: var(--violet-800);
 }
 .bouton-doux:hover {
   background: var(--violet-200);
 }
 .bouton-danger {
+  background: var(--danger-doux);
   color: var(--danger);
-  border-color: #f0c4bf;
+  border-color: color-mix(in oklab, var(--danger) 22%, white);
 }
 .bouton-danger:hover {
-  background: var(--danger-doux);
-  border-color: #e9a59d;
+  background: color-mix(in oklab, var(--danger) 16%, white);
+  border-color: color-mix(in oklab, var(--danger) 35%, white);
 }
 .bouton-petit {
   min-height: 30px;
   padding: 4px 10px;
-  font-size: 0.82rem;
+  font-size: 0.8667rem;
 }
 .bouton-icone {
-  min-width: 32px;
-  min-height: 32px;
+  min-width: 34px;
+  min-height: 34px;
   padding: 0;
 }
 .bouton-lien {
@@ -106,33 +115,35 @@
   gap: 5px;
   min-width: 0;
 }
+/* Libellé toujours au-dessus du champ : 13 px semi-gras */
 .champ > label,
 .etiquette {
-  font-size: 0.8rem;
-  font-weight: 650;
-  color: var(--encre-2);
+  font-size: 0.8667rem;
+  font-weight: 600;
+  color: var(--encre);
 }
 .champ .indication {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   color: var(--encre-3);
 }
 input,
 select,
 textarea {
   width: 100%;
-  min-height: 38px;
-  padding: 7px 10px;
+  min-height: 34px;
+  padding: 6px 11px;
   border: 1px solid var(--bordure-forte);
+  border-bottom-color: var(--bordure-bas);
   border-radius: var(--rayon-petit);
   background: var(--surface);
   color: var(--encre);
   font: inherit;
-  font-size: 0.92rem;
+  font-size: 0.9333rem;
 }
 select {
   padding-right: 30px;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236325cc' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235c5c5c' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 10px center;
 }
@@ -143,14 +154,16 @@ textarea {
 input:hover,
 select:hover,
 textarea:hover {
-  border-color: var(--violet-300);
+  background-color: var(--surface-2);
 }
+/* Au clic, seul le bord bas prend la couleur d'accent (2 px) */
 input:focus,
 select:focus,
 textarea:focus {
   outline: none;
-  border-color: var(--violet-500);
-  box-shadow: 0 0 0 3px color-mix(in oklab, var(--violet-500) 22%, transparent);
+  background-color: var(--surface);
+  border-bottom-color: var(--accent);
+  box-shadow: inset 0 -1px 0 var(--accent);
 }
 input[readonly] {
   background: var(--surface-2);
@@ -162,16 +175,17 @@ input[readonly] {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 2px 9px;
+  min-height: 22px;
+  padding: 1px 10px;
   border-radius: 999px;
   background: var(--accent-doux);
-  color: var(--violet-900);
-  font-size: 0.78rem;
+  color: var(--violet-800);
+  font-size: 0.8rem;
   font-weight: 600;
   white-space: nowrap;
 }
 .puce-neutre {
-  background: #f1eff5;
+  background: rgb(0 0 0 / 6%);
   color: var(--encre-2);
 }
 .puce-succes {
@@ -183,9 +197,8 @@ input[readonly] {
   color: var(--alerte);
 }
 .puce-ia {
-  background: linear-gradient(135deg, var(--violet-100), var(--violet-50));
+  background: var(--accent-doux);
   color: var(--violet-800);
-  border: 1px solid var(--violet-200);
 }
 .puce button {
   display: grid;
@@ -214,11 +227,11 @@ input[readonly] {
   gap: 10px;
   align-items: flex-start;
   padding: 12px 14px;
-  border-radius: var(--rayon-petit);
+  border-radius: var(--rayon-menu);
   border: 1px solid var(--violet-200);
   background: var(--violet-50);
   color: var(--encre-2);
-  font-size: 0.88rem;
+  font-size: 0.9333rem;
 }
 .alerte svg {
   flex: none;
@@ -226,7 +239,7 @@ input[readonly] {
   color: var(--accent);
 }
 .alerte-danger {
-  border-color: #f0c4bf;
+  border-color: color-mix(in oklab, var(--danger) 22%, white);
   background: var(--danger-doux);
   color: var(--danger);
 }
@@ -270,14 +283,15 @@ input[readonly] {
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.9rem;
+  font-size: 0.9333rem;
 }
+/* En-têtes en sur-titre : 12 px, majuscules, +4 % d'espacement */
 th {
   padding: 10px 12px;
   border-bottom: 1px solid var(--bordure);
   color: var(--encre-3);
-  font-size: 0.75rem;
-  font-weight: 650;
+  font-size: 0.8rem;
+  font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   text-align: left;
@@ -295,7 +309,7 @@ tbody tr:last-child td {
   cursor: pointer;
 }
 .ligne-cliquable:hover td {
-  background: var(--violet-50);
+  background: var(--surface-2);
 }
 .num {
   text-align: right;
@@ -307,12 +321,12 @@ dialog {
   width: min(520px, calc(100vw - 32px));
   padding: 0;
   border: 1px solid var(--bordure);
-  border-radius: 14px;
+  border-radius: var(--rayon);
   box-shadow: var(--ombre-haute);
   color: var(--encre);
 }
 dialog::backdrop {
-  background: rgb(20 10 40 / 45%);
+  background: rgb(43 33 29 / 40%);
 }
 .dialogue-entete {
   padding: 20px 22px 0;
@@ -352,11 +366,11 @@ dialog::backdrop {
   gap: 10px;
   max-width: min(420px, calc(100vw - 40px));
   padding: 12px 16px;
-  border-radius: var(--rayon);
-  background: var(--encre);
+  border-radius: var(--rayon-menu);
+  background: var(--bandeau);
   color: #fff;
   box-shadow: var(--ombre-haute);
-  font-size: 0.9rem;
+  font-size: 0.9333rem;
 }
 .toast-erreur {
   background: var(--danger);
@@ -396,14 +410,14 @@ dialog {
   gap: 4px;
   padding: 4px;
   border: 1px solid var(--bordure);
-  border-radius: 12px;
+  border-radius: var(--rayon-menu);
   background: var(--surface-2);
 }
 .segment {
-  min-height: 36px;
-  padding: 6px 14px;
+  min-height: 30px;
+  padding: 4px 14px;
   border: 0;
-  border-radius: 9px;
+  border-radius: var(--rayon-petit);
   background: transparent;
   color: var(--encre-2);
   font: inherit;
@@ -412,12 +426,16 @@ dialog {
   cursor: pointer;
 }
 .segment:hover {
-  background: var(--violet-50);
+  background: rgb(0 0 0 / 4%);
 }
+/* Choix actif : pastille blanche en relief, comme les sélecteurs de Windows 11 */
 .segment[aria-checked='true'],
 .segment[aria-pressed='true'] {
-  background: var(--accent);
-  color: #fff;
+  background: var(--surface);
+  color: var(--encre);
+  box-shadow:
+    0 1px 2px rgb(60 30 20 / 10%),
+    inset 0 0 0 1px var(--bordure);
 }
 dialog:focus {
   outline: none;

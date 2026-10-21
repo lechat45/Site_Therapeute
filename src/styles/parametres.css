@@ -179,9 +179,10 @@
   align-items: center;
   gap: 10px;
   padding: 12px 16px;
-  background: var(--violet-950);
-  color: #fff;
-  font-weight: 700;
+  border-bottom: 1px solid var(--bordure);
+  background: var(--fond);
+  color: var(--encre);
+  font-weight: 600;
 }
 .apercu-contenu {
   display: flex;

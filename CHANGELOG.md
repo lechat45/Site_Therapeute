@@ -3,6 +3,27 @@
 Format : une entrée par livraison, la plus récente en haut. Numéro de version dans
 `package.json`.
 
+## 0.10.0 — 2026-10-21
+
+Nouveau style : système de design **Flow** (calme, net, chaleureux, inspiré de Windows 11),
+avec le **violet** comme seule couleur d'accent à la place du corail.
+
+### Modifié
+- Couleurs : fond beige chaud, cartes blanches, encre neutre, contours fins translucides,
+  ombres brun chaud très légères. Le violet (réglable dans Paramètres > Affichage) reste la
+  couleur d'accent ; les couleurs d'état et le mode daltonien sont inchangés.
+- Typographie : Segoe UI Variable (Geist en secours), texte courant de 14 px, titres de page
+  de 28 px semi-gras ; la taille du texte réglable agrandit tout comme avant.
+- Formes : arrondis de 6 px (boutons, champs), 8 px (menus), 12 px (cartes, fenêtres).
+- Menu posé sur le fond beige ; page active : fond gris léger, texte gras et petite barre
+  violette à gauche. Contenu dans une zone blanche translucide arrondie en haut à gauche.
+- Boutons « fantômes » blancs au bord bas plus foncé ; un seul bouton violet par zone.
+  Champs : seul le bord bas devient violet au clic. Puces de 22 px pleinement arrondies.
+- Bandeaux forts (connexion, indicateur vedette des tableaux de bord) : fond très sombre et
+  courbes violettes ; dégradés retirés ailleurs.
+- Sur ordinateur, boutons et champs de 34 px ; sur écran tactile, les cibles restent de
+  44 px.
+
 ## 0.9.3 — 2026-10-21
 
 ### Modifié

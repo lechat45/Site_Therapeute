@@ -518,7 +518,7 @@
 /* Panneau IA */
 .panneau-ia {
   border-color: var(--violet-200);
-  background: linear-gradient(180deg, var(--violet-50), #fff 140px);
+  background: var(--surface);
 }
 .suggestion {
   display: grid;

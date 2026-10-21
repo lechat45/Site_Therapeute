@@ -55,12 +55,10 @@ html[data-vision='bleu_jaune'] .puce-danger {
 /* ------------------------------------------------------------------ */
 /* Taille du texte (tout est en rem : il suffit de changer la base)    */
 /* ------------------------------------------------------------------ */
-html[data-taille='grand'],
-html[data-taille='grand'] body {
+html[data-taille='grand'] {
   font-size: 17px;
 }
-html[data-taille='tres_grand'],
-html[data-taille='tres_grand'] body {
+html[data-taille='tres_grand'] {
   font-size: 19px;
 }
 

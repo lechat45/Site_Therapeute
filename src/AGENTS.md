@@ -60,6 +60,9 @@ Routes : `App.tsx` ; menu : `composants/Structure.tsx`.
   `-doux`, `-danger`, `-petit`, `-icone`), `champ`, `puce` (`-succes`, `-alerte`, `-danger`,
   `-neutre`, `-ia`), `alerte`, `segments`/`segment`, `actions`, `grille-2`, `feuille`
   (version à imprimer), `ne-pas-imprimer`.
+- Style : système de design **Flow** (voir l'en-tête de `styles/base.css`) avec le violet
+  comme seul accent : fond beige `--fond`, cartes blanches, un seul bouton `bouton-principal`
+  par zone, un seul bandeau fort (`--bandeau`, `--courbes`) par écran, pas de dégradés.
 - Couleurs : toujours des variables (`--accent`, `--succes`, `--danger`…). `--marque` est
   réglable ; les couleurs d'état changent avec le mode daltonien
   (`styles/accessibilite.css`, attribut `data-vision` sur `<html>`). Un état = pictogramme +

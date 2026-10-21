@@ -14,19 +14,22 @@
   justify-content: space-between;
   gap: 40px;
   padding: 48px clamp(24px, 5vw, 72px);
-  background:
-    radial-gradient(
-      1200px 600px at 110% -10%,
-      color-mix(in oklab, var(--violet-400) 35%, transparent),
-      transparent 60%
-    ),
-    radial-gradient(900px 500px at -20% 120%, color-mix(in oklab, var(--violet-600) 45%, transparent), transparent 60%),
-    var(--violet-950);
-  color: color-mix(in oklab, var(--marque) 8%, white);
+  /* Bandeau fort de Flow, avec ses courbes d'accent */
+  background: var(--courbes), var(--bandeau);
+  background-repeat: no-repeat;
+  color: rgb(255 255 255 / 82%);
+}
+.connexion-visuel {
+  --courbe: 260px;
+}
+.connexion-visuel .marque {
+  color: #fff;
 }
 .connexion-visuel h1 {
   max-width: 16ch;
-  font-size: clamp(1.9rem, 3.4vw, 2.8rem);
+  font-size: clamp(2.1rem, 3.4vw, 3.05rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
   color: #fff;
 }
 .connexion-visuel ul {
@@ -40,7 +43,7 @@
 .connexion-visuel li {
   display: flex;
   gap: 12px;
-  color: color-mix(in oklab, var(--marque) 18%, white);
+  color: rgb(255 255 255 / 82%);
 }
 .connexion-visuel li svg {
   flex: none;

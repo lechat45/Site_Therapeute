@@ -15,7 +15,7 @@ l'utilisateur, et ce qui reste **à confirmer**. À lire avant de changer un com
 | Leur émotion problématique | 14 émotions (`config/referentiels.ts`), problématiques, cases de la fiche de séance | fait (liste provisoire) |
 | Nombre de séances : parcours de 3 séances, puis bilan, puis séances en plus | `numeroter_seance` (SQL), `FicheClient` (parcours) | fait |
 | Âge, prénom, nom, date de naissance, genre | prénom, nom, année de naissance (âge calculé) | partiel : date complète et genre non faits (`docs/IDEES.md`) |
-| Design violet, logo ou titre | couleur `--marque` violette, nom du site réglable | fait |
+| Design violet, logo ou titre | système de design Flow (`styles/base.css`) avec `--marque` violette comme accent, nom du site réglable | fait |
 | Système de comptes | comptes créés par l'administrateur (`scripts/comptes.mjs`), double authentification | fait |
 | Uniquement français | toute l'interface | fait |
 | Pas de vente, pas de limite d'utilisation | aucun paiement en ligne ; tarifs seulement indicatifs | fait |

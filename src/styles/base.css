@@ -1,12 +1,13 @@
 /* Jetons de couleur (dérivés de --marque), remise à zéro, typographie */
 
 /* =====================================================================
-   Suivi thérapeutique — charte violette
+   Suivi thérapeutique — système de design Flow (calme, net, chaleureux),
+   avec le violet comme seule couleur d'accent à la place du corail.
    ===================================================================== */
 :root {
   /* Couleur principale choisie par le thérapeute (Paramètres > Affichage) :
-     toutes les nuances en dérivent. Les couleurs d'état (--succes, --alerte,
-     --danger) changent avec le mode daltonien : voir accessibilite.css. */
+     toutes les nuances d'accent en dérivent. Les couleurs d'état (--succes,
+     --alerte, --danger) changent avec le mode daltonien : voir accessibilite.css. */
   --marque: #7436e6;
   --violet-50: color-mix(in oklab, var(--marque) 6%, white);
   --violet-100: color-mix(in oklab, var(--marque) 13%, white);
@@ -19,17 +20,26 @@
   --violet-800: color-mix(in oklab, var(--marque) 72%, black);
   --violet-900: color-mix(in oklab, var(--marque) 56%, black);
   --violet-950: color-mix(in oklab, var(--marque) 34%, black);
-  --piste: color-mix(in oklab, var(--marque) 10%, #efeef3);
 
-  --fond: color-mix(in oklab, var(--marque) 4%, #f8f8fa);
+  /* Neutres chauds : fond beige, zone de contenu translucide, cartes blanches */
+  --fond: #f3efec;
   --surface: #ffffff;
-  --surface-2: color-mix(in oklab, var(--marque) 2%, white);
-  --bordure: color-mix(in oklab, var(--marque) 10%, #e5e4ea);
-  --bordure-forte: color-mix(in oklab, var(--marque) 18%, #cbc9d3);
+  --surface-2: #f6f3f1; /* survol, en-têtes */
+  --piste: #ebe6e2; /* rails des barres de progression */
+  --zone-contenu: rgb(255 255 255 / 55%);
+  --bordure: rgb(0 0 0 / 7%);
+  --bordure-forte: rgb(0 0 0 / 14%);
+  --bordure-bas: rgb(0 0 0 / 22%); /* bord bas des boutons et champs (effet Windows) */
+  --actif: rgb(0 0 0 / 6%); /* élément de menu actif */
 
-  --encre: #1d1530;
-  --encre-2: #4a4160;
-  --encre-3: #6a6182; /* 5,6:1 sur blanc */
+  /* Bandeau fort : un seul par écran, pour l'information principale. Ses courbes
+     décoratives : voir --courbes plus bas. */
+  --bandeau: color-mix(in oklab, var(--marque) 14%, #2b211d);
+
+  --encre: #1a1a1a;
+  --encre-2: #3d3d3d;
+  --encre-3: #5c5c5c; /* texte secondaire */
+  --encre-4: #707070; /* gris le plus clair autorisé sur fond clair */
 
   --accent: var(--violet-700);
   --accent-survol: var(--violet-800);
@@ -42,13 +52,42 @@
   --danger: #b42318;
   --danger-doux: #fde8e6;
 
-  --rayon: 10px;
-  --rayon-petit: 7px;
-  --ombre: 0 1px 2px rgb(37 16 77 / 6%), 0 1px 3px rgb(37 16 77 / 5%);
-  --ombre-haute: 0 12px 32px rgb(37 16 77 / 18%);
+  /* Arrondis : 6 px boutons et champs, 8 px menus, 12 px cartes, 18 px bandeaux */
+  --rayon: 12px;
+  --rayon-petit: 6px;
+  --rayon-menu: 8px;
+  --rayon-bandeau: 18px;
+  /* Ombres brun chaud, jamais noires : sm au repos, md au survol, xl menus et fenêtres */
+  --ombre: 0 2px 6px rgb(60 30 20 / 4%);
+  --ombre-survol: 0 6px 16px rgb(60 30 20 / 8%);
+  --ombre-haute: 0 32px 64px rgb(60 30 20 / 16%);
 
-  --police: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --police:
+    'Segoe UI Variable Text', 'Segoe UI', 'Geist', system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --police-mono: 'DM Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
   color-scheme: light;
+}
+
+/* Courbes décoratives des bandeaux forts : deux anneaux d'accent dans le coin
+   bas-droit. Définies sur les bandeaux eux-mêmes pour que --courbe (leur taille)
+   puisse changer d'un bandeau à l'autre. */
+.indicateur-vedette,
+.connexion-visuel {
+  --courbe: 90px;
+  --courbes:
+    radial-gradient(
+      circle at calc(100% + var(--courbe) * 0.4) calc(100% + var(--courbe) * 0.7),
+      transparent 0 var(--courbe),
+      var(--violet-600) calc(var(--courbe) + 1px) calc(var(--courbe) * 1.22),
+      transparent calc(var(--courbe) * 1.22 + 1px)
+    ),
+    radial-gradient(
+      circle at calc(100% + var(--courbe) * 0.4) calc(100% + var(--courbe) * 0.7),
+      transparent 0 calc(var(--courbe) * 1.42),
+      color-mix(in oklab, var(--violet-300) 75%, transparent) calc(var(--courbe) * 1.42 + 1px)
+        calc(var(--courbe) * 1.56),
+      transparent calc(var(--courbe) * 1.56 + 1px)
+    );
 }
 
 *,
@@ -57,15 +96,21 @@
   box-sizing: border-box;
 }
 
+/* Base des rem : 15 px (réglable : Paramètres > Affichage). Texte courant 14 px. */
+html {
+  font-size: 15px;
+}
 html,
 body {
   margin: 0;
   background: var(--fond);
   color: var(--encre);
   font-family: var(--police);
-  font-size: 15px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+}
+body {
+  font-size: 0.9333rem;
 }
 
 h1,
@@ -75,24 +120,30 @@ h3 {
   line-height: 1.25;
   text-wrap: balance;
 }
+/* Titre de page 28 px, titre de carte 16 px, semi-gras */
 h1 {
-  font-size: 1.6rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  font-size: 1.8667rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
 }
 h2 {
-  font-size: 1.05rem;
-  font-weight: 650;
+  font-size: 1.0667rem;
+  font-weight: 600;
 }
 h3 {
-  font-size: 0.95rem;
-  font-weight: 650;
+  font-size: 0.9333rem;
+  font-weight: 600;
 }
 p {
   margin: 0;
 }
 a {
   color: var(--accent);
+}
+code,
+kbd,
+.chiffres-techniques {
+  font-family: var(--police-mono);
 }
 
 :focus-visible {

@@ -3,73 +3,93 @@
 /* ------------------------------------------------------------------ */
 /* Structure                                                           */
 /* ------------------------------------------------------------------ */
+/* Comme Flow : le menu est posé directement sur le fond beige ; la zone de
+   contenu est une couche blanche translucide arrondie en haut à gauche
+   (Paramètres de Windows 11). */
 .app {
   display: grid;
-  grid-template-columns: 248px 1fr;
+  grid-template-columns: 264px 1fr;
   min-height: 100dvh;
+  background: var(--fond);
 }
 
 .barre-laterale {
   position: sticky;
   top: 0;
   height: 100dvh;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 20px 14px;
-  background: var(--violet-950);
-  color: color-mix(in oklab, var(--marque) 8%, white);
+  gap: 2px;
+  padding: 16px 12px;
+  background: var(--fond);
+  color: var(--encre-2);
 }
 .marque {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 4px 10px 20px;
-  font-weight: 700;
-  font-size: 1.02rem;
+  padding: 4px 10px 16px;
+  font-weight: 600;
+  font-size: 1.05rem;
   letter-spacing: -0.01em;
-  color: #fff;
+  color: var(--encre);
 }
+/* Pastille du logo : carré arrondi à 22 %, dégradé de la couleur d'accent */
 .marque-pastille {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--violet-300), var(--violet-500));
-  box-shadow: 0 0 0 4px color-mix(in oklab, var(--violet-400) 20%, transparent);
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 22%;
+  background: linear-gradient(135deg, var(--violet-400), var(--violet-700));
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 18%);
 }
 .nav-lien {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 11px;
-  padding: 9px 12px;
-  border-radius: var(--rayon-petit);
-  color: color-mix(in oklab, var(--marque) 18%, white);
+  gap: 12px;
+  min-height: 36px;
+  padding: 7px 12px;
+  border-radius: var(--rayon-menu);
+  color: var(--encre-2);
   text-decoration: none;
-  font-weight: 520;
+  font-weight: 400;
 }
 .nav-lien:hover {
-  background: rgb(255 255 255 / 7%);
-  color: #fff;
+  background: rgb(0 0 0 / 4%);
+  color: var(--encre);
 }
+/* Élément actif : fond gris léger, texte gras, petite barre d'accent de 3 px à gauche */
 .nav-lien.active {
-  background: var(--violet-700);
-  color: #fff;
+  background: var(--actif);
+  color: var(--encre);
+  font-weight: 600;
+}
+.nav-lien.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 3px;
+  height: 16px;
+  border-radius: 3px;
+  background: var(--accent);
+  transform: translateY(-50%);
 }
 .nav-lien svg {
   flex: none;
 }
 .nav-titre {
-  padding: 16px 12px 6px;
-  font-size: 0.72rem;
-  font-weight: 650;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: color-mix(in oklab, var(--marque) 40%, white);
+  padding: 14px 12px 4px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--encre-3);
 }
 .barre-laterale .pied {
   margin-top: auto;
-  padding: 14px 12px 0;
-  border-top: 1px solid rgb(255 255 255 / 10%);
+  padding: 12px 12px 0;
+  border-top: 1px solid var(--bordure);
   display: grid;
   gap: 10px;
 }
@@ -80,12 +100,12 @@
   min-width: 0;
   margin: -6px;
   padding: 6px;
-  border-radius: var(--rayon-petit);
+  border-radius: var(--rayon-menu);
   color: inherit;
   text-decoration: none;
 }
 .utilisateur:hover {
-  background: rgb(255 255 255 / 8%);
+  background: rgb(0 0 0 / 4%);
 }
 .avatar-photo {
   object-fit: cover;
@@ -98,22 +118,22 @@
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: var(--violet-700);
+  background: var(--accent);
   color: #fff;
-  font-weight: 700;
-  font-size: 0.8rem;
+  font-weight: 600;
+  font-size: 0.85rem;
 }
 .utilisateur-nom {
   font-weight: 600;
-  color: #fff;
-  font-size: 0.9rem;
+  color: var(--encre);
+  font-size: 0.93rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .utilisateur-courriel {
-  font-size: 0.78rem;
-  color: color-mix(in oklab, var(--marque) 32%, white);
+  font-size: 0.86rem;
+  color: var(--encre-3);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -122,37 +142,45 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 7px 10px;
-  border: 1px solid rgb(255 255 255 / 16%);
+  min-height: 34px;
+  padding: 6px 12px;
+  border: 1px solid var(--bordure);
+  border-bottom-color: var(--bordure-bas);
   border-radius: var(--rayon-petit);
-  background: transparent;
-  color: color-mix(in oklab, var(--marque) 12%, white);
+  background: var(--surface);
+  color: var(--encre);
   font: inherit;
-  font-size: 0.85rem;
   cursor: pointer;
 }
 .bouton-deconnexion:hover {
-  background: rgb(255 255 255 / 8%);
+  background: var(--surface-2);
 }
 .badge-demo {
-  margin: 0 10px 8px;
+  margin: 0 4px 8px;
   padding: 8px 10px;
-  border-radius: var(--rayon-petit);
-  background: color-mix(in oklab, var(--violet-400) 16%, transparent);
-  color: color-mix(in oklab, var(--marque) 12%, white);
-  font-size: 0.78rem;
+  border: 1px solid var(--violet-200);
+  border-radius: var(--rayon-menu);
+  background: var(--violet-50);
+  color: var(--violet-900);
+  font-size: 0.86rem;
   line-height: 1.4;
 }
 
 .contenu {
   min-width: 0;
-  padding: 32px clamp(16px, 3vw, 44px) 64px;
+  margin-top: 12px;
+  padding: 28px clamp(16px, 3vw, 40px) 64px;
+  background: var(--zone-contenu);
+  border: 1px solid var(--bordure);
+  border-right: 0;
+  border-bottom: 0;
+  border-top-left-radius: var(--rayon);
 }
 .page {
   max-width: 1240px;
   margin: 0 auto;
   display: grid;
-  gap: 22px;
+  gap: 20px;
 }
 .page-etroite {
   max-width: 1040px;
@@ -191,9 +219,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 16px;
-    background: var(--violet-950);
-    color: #fff;
+    min-height: 52px;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--bordure);
+    background: var(--fond);
+    color: var(--encre);
   }
   .barre-laterale {
     position: fixed;
@@ -202,6 +232,7 @@
     width: min(280px, 86vw);
     transform: translateX(-100%);
     transition: transform 0.2s ease;
+    background: var(--fond);
   }
   .barre-laterale.ouverte {
     transform: none;
@@ -211,10 +242,13 @@
     position: fixed;
     inset: 0;
     z-index: 25;
-    background: rgb(20 10 40 / 40%);
+    background: rgb(43 33 29 / 35%);
   }
   .contenu {
+    margin-top: 0;
     padding-top: 20px;
+    border: 0;
+    border-radius: 0;
   }
 }
 
@@ -226,20 +260,14 @@
   min-width: 22px;
   padding: 1px 7px;
   border-radius: 999px;
-  background: #fff;
-  color: var(--violet-800);
-  font-size: 0.75rem;
-  font-weight: 750;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
   text-align: center;
 }
 .bouton-menu {
   position: relative;
-  background: transparent;
-  color: #fff;
-  border-color: rgb(255 255 255 / 25%);
-}
-.bouton-menu:hover {
-  background: rgb(255 255 255 / 10%);
 }
 .pastille-menu {
   position: absolute;
@@ -248,8 +276,8 @@
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: #ffb020;
-  box-shadow: 0 0 0 2px var(--violet-950);
+  background: var(--accent);
+  box-shadow: 0 0 0 2px var(--surface);
 }
 
 .bandeau-taches {

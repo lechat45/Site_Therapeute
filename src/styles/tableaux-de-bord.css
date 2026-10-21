@@ -52,14 +52,17 @@
   font-size: 0.8rem;
   color: var(--encre-3);
 }
+/* Bandeau fort de Flow : fond très sombre, courbes d'accent, un seul par écran */
 .indicateur-vedette {
-  background: linear-gradient(145deg, var(--violet-700), var(--violet-900));
-  border-color: var(--violet-800);
+  background: var(--courbes), var(--bandeau);
+  background-repeat: no-repeat;
+  border-color: transparent;
+  border-radius: var(--rayon-bandeau);
 }
 .indicateur-vedette .indicateur-libelle,
 .indicateur-vedette .indicateur-detail,
 .indicateur-vedette .indicateur-valeur small {
-  color: var(--violet-200);
+  color: rgb(255 255 255 / 72%);
 }
 .indicateur-vedette .indicateur-valeur {
   color: #fff;
@@ -178,8 +181,8 @@
   width: max-content;
   max-width: 260px;
   padding: 8px 10px;
-  border-radius: var(--rayon-petit);
-  background: var(--encre);
+  border-radius: var(--rayon-menu);
+  background: var(--bandeau);
   color: #fff;
   font-size: 0.8rem;
   line-height: 1.4;
@@ -314,7 +317,7 @@
   padding: 16px 20px;
   border-radius: var(--rayon);
   border: 1px solid var(--violet-200);
-  background: linear-gradient(120deg, var(--violet-50), #fff 70%);
+  background: var(--violet-50);
 }
 .bandeau-groupe .bloc {
   display: flex;
