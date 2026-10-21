@@ -51,37 +51,41 @@ function Protege() {
   );
 }
 
-const routeur = createBrowserRouter([
-  { path: '/connexion', element: <Connexion /> },
-  // Questionnaire du client : sans compte, par son lien personnel.
-  { path: '/q/:jeton', element: differe(<QuestionnairePublic />) },
-  // Exercice ou document remis au client, par son lien personnel.
-  { path: '/d/:jeton', element: differe(<DocumentPublic />) },
-  // Reçu envoyé au client, par son lien personnel.
-  { path: '/r/:jeton', element: differe(<RecuPublic />) },
-  {
-    path: '/',
-    element: <Protege />,
-    children: [
-      { index: true, element: <TableauDeBord /> },
-      { path: 'clients', element: <Clients /> },
-      { path: 'clients/:clientId', element: <FicheClient /> },
-      { path: 'clients/:clientId/seances/:seanceId', element: <FicheSeance /> },
-      { path: 'taches', element: <Taches /> },
-      { path: 'emploi-du-temps', element: <EmploiDuTemps /> },
-      { path: 'activite', element: differe(<Activite />) },
-      { path: 'journal', element: differe(<Journal />) },
-      { path: 'exercices', element: differe(<Exercices />) },
-      { path: 'exercices/:ressourceId/imprimer', element: differe(<ImpressionDocument />) },
-      { path: 'recus', element: differe(<Recus />) },
-      { path: 'recus/:recuId', element: differe(<ImpressionRecu />) },
-      { path: 'rentabilite', element: differe(<Rentabilite />) },
-      { path: 'groupe', element: <EspaceGroupe /> },
-      { path: 'parametres', element: differe(<Parametres />) },
-      { path: '*', element: <Navigate to="/" replace /> },
-    ],
-  },
-]);
+const routeur = createBrowserRouter(
+  [
+    { path: '/connexion', element: <Connexion /> },
+    // Questionnaire du client : sans compte, par son lien personnel.
+    { path: '/q/:jeton', element: differe(<QuestionnairePublic />) },
+    // Exercice ou document remis au client, par son lien personnel.
+    { path: '/d/:jeton', element: differe(<DocumentPublic />) },
+    // Reçu envoyé au client, par son lien personnel.
+    { path: '/r/:jeton', element: differe(<RecuPublic />) },
+    {
+      path: '/',
+      element: <Protege />,
+      children: [
+        { index: true, element: <TableauDeBord /> },
+        { path: 'clients', element: <Clients /> },
+        { path: 'clients/:clientId', element: <FicheClient /> },
+        { path: 'clients/:clientId/seances/:seanceId', element: <FicheSeance /> },
+        { path: 'taches', element: <Taches /> },
+        { path: 'emploi-du-temps', element: <EmploiDuTemps /> },
+        { path: 'activite', element: differe(<Activite />) },
+        { path: 'journal', element: differe(<Journal />) },
+        { path: 'exercices', element: differe(<Exercices />) },
+        { path: 'exercices/:ressourceId/imprimer', element: differe(<ImpressionDocument />) },
+        { path: 'recus', element: differe(<Recus />) },
+        { path: 'recus/:recuId', element: differe(<ImpressionRecu />) },
+        { path: 'rentabilite', element: differe(<Rentabilite />) },
+        { path: 'groupe', element: <EspaceGroupe /> },
+        { path: 'parametres', element: differe(<Parametres />) },
+        { path: '*', element: <Navigate to="/" replace /> },
+      ],
+    },
+  ],
+  // Le site peut être publié dans un sous-dossier (GitHub Pages) : voir `base` dans vite.config.ts.
+  { basename: import.meta.env.BASE_URL },
+);
 
 export function App() {
   return (

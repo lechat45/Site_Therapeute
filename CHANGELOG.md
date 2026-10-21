@@ -3,6 +3,20 @@
 Format : une entrée par livraison, la plus récente en haut. Numéro de version dans
 `package.json`.
 
+## 0.9.2 — 2026-10-21
+
+Publication possible sur GitHub Pages (page blanche corrigée).
+
+### Ajouté
+- `.github/workflows/github-pages.yml` : construit le site et le publie sur GitHub Pages à
+  chaque envoi sur `main` (mode démo), avec `404.html` pour que toutes les adresses
+  (`/clients`, `/q/…`…) ouvrent l'application.
+
+### Modifié
+- L'application peut vivre dans un sous-dossier (`https://<compte>.github.io/<dépôt>/`) :
+  variable `CHEMIN_BASE` au moment de la construction (`base` de Vite, `basename` du routeur).
+  Les liens envoyés aux clients (questionnaire, document, reçu) incluent ce sous-dossier.
+
 ## 0.9.1 — 2026-10-04
 
 Projet plus facile à reprendre par un agent (Codex, Claude) ou un humain ; aucun changement

@@ -36,12 +36,14 @@ export const lienMailto = (destinataire: string, objet: string, corps: string) =
 export const lienSms = (telephone: string, corps: string) =>
   `sms:${telephone.replace(/[^\d+]/g, '')}?&body=${encodeURIComponent(corps)}`;
 
-export const lienQuestionnaire = (jeton: string, origine = globalThis.location?.origin ?? '') =>
-  `${origine}/q/${jeton}`;
+/** Adresse du site, sous-dossier de publication compris (GitHub Pages : « …/<dépôt> »). */
+const racineSite = () => (globalThis.location?.origin ?? '') + (import.meta.env?.BASE_URL ?? '/').replace(/\/$/, '');
 
-export const lienDocument = (jeton: string, origine = globalThis.location?.origin ?? '') => `${origine}/d/${jeton}`;
+export const lienQuestionnaire = (jeton: string, origine = racineSite()) => `${origine}/q/${jeton}`;
 
-export const lienRecu = (jeton: string, origine = globalThis.location?.origin ?? '') => `${origine}/r/${jeton}`;
+export const lienDocument = (jeton: string, origine = racineSite()) => `${origine}/d/${jeton}`;
+
+export const lienRecu = (jeton: string, origine = racineSite()) => `${origine}/r/${jeton}`;
 
 /**
  * Ajoute un paragraphe avant celui qui contient la signature (formule de

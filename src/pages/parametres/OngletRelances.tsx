@@ -7,7 +7,7 @@ import { Erreur, useNotifier } from '../../composants/Commun';
 import { Icone } from '../../composants/Icone';
 import { PARAMETRES_PAR_DEFAUT, VARIABLES_MODELES } from '../../config/parametresDefaut';
 import { dateLongue, messageErreur } from '../../domaine/format';
-import { remplirModele } from '../../domaine/messages';
+import { lienQuestionnaire, remplirModele } from '../../domaine/messages';
 import { useReglages } from '../../etat/reglages';
 import { useTherapeute } from '../../etat/session';
 import type { Parametres } from '../../domaine/types';
@@ -61,7 +61,7 @@ export function OngletRelances() {
     nom: 'Exemple',
     therapeute: `${t.prenom} ${t.nom}`.trim(),
     signature: parametres.signature,
-    lien: `${location.origin}/q/…`,
+    lien: lienQuestionnaire('…'),
     expiration: dateLongue(new Date(Date.now() + f.lien_validite_jours * 86_400_000).toISOString()),
     site: parametres.nom_site,
   };

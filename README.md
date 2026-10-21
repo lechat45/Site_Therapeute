@@ -161,6 +161,14 @@ authentification. Ils vérifient notamment :
    doivent renvoyer vers `index.html`, y compris `/q/…` (questionnaire), `/d/…` (document
    remis au client) et `/r/…` (reçu envoyé au client).
 
+### GitHub Pages (démonstration)
+
+Le workflow `.github/workflows/github-pages.yml` publie le site à chaque envoi sur `main`,
+à l'adresse `https://<compte>.github.io/<dépôt>/`. À activer une fois dans le dépôt :
+*Settings → Pages → Source : « GitHub Actions »*. Sans variables `VITE_SUPABASE_*`, le site
+publié est en **mode démo** (données fictives). Pages n'envoie pas les en-têtes de `_headers`.
+Pour construire soi-même dans un sous-dossier : `CHEMIN_BASE=/mon-dossier/ npm run build`.
+
 La clé Gemini et la clé « service_role » ne doivent **jamais** figurer dans `.env` ou
 `.env.local` : tout ce qui commence par `VITE_` est public.
 
