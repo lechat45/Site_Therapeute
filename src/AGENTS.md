@@ -34,7 +34,7 @@ Mettre la logique dans `domaine/` (testable sans navigateur) plutôt que dans un
 
 | Écran (route) | Fichier | Composants principaux |
 |---|---|---|
-| Tableau de bord `/`, espace de groupe `/groupe` | `Statistiques.tsx` | `Graphiques.tsx` |
+| Tableau de bord `/` (bandeau d'accueil `BandeauAccueil`, puis statistiques), espace de groupe `/groupe` | `Statistiques.tsx` | `Graphiques.tsx` |
 | Mes clients `/clients` | `Clients.tsx` | `Avatar` |
 | Fiche client `/clients/:id` | `FicheClient.tsx` | `CarteSuiviClient`, `EvolutionClient`, `RendezVousClient`, `OutilsClient` (notes, exercices remis) |
 | Séance `/clients/:id/seances/:id` | `FicheSeance.tsx` | `FeuilleSeance` (fiche papier), `ExercicesRendus` |

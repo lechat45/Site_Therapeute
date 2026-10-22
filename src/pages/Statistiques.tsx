@@ -14,8 +14,9 @@ import {
 } from '../composants/Graphiques';
 import { Icone } from '../composants/Icone';
 import { donnees } from '../donnees';
-import { nombre, pourcentage } from '../domaine/format';
+import { dateDuJour, jourLisible, nombre, pourcentage } from '../domaine/format';
 import { resumeDuJour } from '../domaine/taches';
+import { useTherapeute } from '../etat/session';
 import { useTaches } from '../etat/tachesContexte';
 import type { PeriodeStatistiques, Perimetre, StatistiquesDisponibles } from '../domaine/types';
 import { useChargement } from '../etat/useChargement';
@@ -89,7 +90,8 @@ export function VueStatistiques({
   return (
     <>
       {perimetre === 'groupe' && <BandeauGroupe s={s} />}
-      <Indicateurs s={s} />
+      {/* Sur l'accueil, le bandeau fort est l'accueil du jour : pas de second bandeau sombre. */}
+      <Indicateurs s={s} vedette={perimetre === 'groupe'} />
       <div className="grille-tableau-bord">
         <CarteEmotions s={s} />
         <div className="colonne">
@@ -122,12 +124,12 @@ function BandeauGroupe({ s }: { s: StatistiquesDisponibles }) {
   );
 }
 
-function Indicateurs({ s }: { s: StatistiquesDisponibles }) {
+function Indicateurs({ s, vedette }: { s: StatistiquesDisponibles; vedette: boolean }) {
   const k = s.kpis;
   const jours = k.duree_moyenne_suivi_jours;
   return (
     <section className="indicateurs" aria-label="Indicateurs clés">
-      <div className="carte indicateur indicateur-vedette">
+      <div className={`carte indicateur${vedette ? ' indicateur-vedette' : ''}`}>
         <div className="indicateur-libelle">Séances par client (moyenne)</div>
         <div className="indicateur-valeur">
           {nombre(k.moyenne_seances_par_client)}
@@ -266,15 +268,46 @@ function CarteMois({ s }: { s: StatistiquesDisponibles }) {
   );
 }
 
-function BandeauTaches() {
+/** Accueil du jour (bandeau fort du design Flow, un seul par écran) : bonjour, ce qui attend. */
+function BandeauAccueil() {
+  const t = useTherapeute();
   const { taches, aujourdhui } = useTaches();
-  if (!taches.length && !aujourdhui.length) return null;
+  const jour = jourLisible(dateDuJour());
+  const questionnaires = taches.filter((x) => x.type === 'questionnaire').length;
   return (
-    <Link to="/taches" className="bandeau-taches">
-      <Icone nom="cloche" />
-      <span>{resumeDuJour(taches, aujourdhui.length)}</span>
-      <span className="bandeau-taches-lien">Voir les tâches →</span>
-    </Link>
+    <section className="bandeau-fort bandeau-accueil" aria-labelledby="titre-accueil">
+      <div>
+        <p className="sur-titre">{jour.charAt(0).toUpperCase() + jour.slice(1)}</p>
+        <h1 id="titre-accueil">Bonjour {t.prenom}</h1>
+        <p className="sous-titre">
+          {taches.length || aujourdhui.length
+            ? resumeDuJour(taches, aujourdhui.length)
+            : "Rien à faire pour l'instant : bonne journée."}
+        </p>
+      </div>
+      <div className="bandeau-tuiles">
+        <div className="tuile">
+          <span>Rendez-vous aujourd’hui</span>
+          <strong>{aujourdhui.length}</strong>
+        </div>
+        <div className="tuile">
+          <span>Tâches à faire</span>
+          <strong>{taches.length}</strong>
+        </div>
+        <div className="tuile">
+          <span>Questionnaires reçus</span>
+          <strong>{questionnaires}</strong>
+        </div>
+      </div>
+      <div className="actions">
+        <Link to="/taches" className="bouton bouton-principal">
+          <Icone nom="taches" taille={16} /> Voir les tâches
+        </Link>
+        <Link to="/emploi-du-temps" className="bouton">
+          <Icone nom="calendrier" taille={16} /> Emploi du temps
+        </Link>
+      </div>
+    </section>
   );
 }
 
@@ -327,10 +360,11 @@ export function TableauDeBord() {
   };
   return (
     <div className="page">
-      <div className="entete-page">
+      <BandeauAccueil />
+      <div className="entete-section">
         <div>
-          <h1>Mon tableau de bord</h1>
-          <p className="sous-titre">Statistiques calculées sur vos seuls clients. Personne d'autre n'y a accès.</p>
+          <h2>Mon tableau de bord</h2>
+          <p className="aide">Statistiques calculées sur vos seuls clients. Personne d'autre n'y a accès.</p>
         </div>
         <div className="actions">
           <BasculeVue libelle="Période" valeur={periode} changer={choisir} options={PERIODES} />
@@ -339,7 +373,6 @@ export function TableauDeBord() {
           </Link>
         </div>
       </div>
-      <BandeauTaches />
       <VueStatistiques perimetre="personnel" periode={periode} />
     </div>
   );

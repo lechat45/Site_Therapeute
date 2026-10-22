@@ -35,7 +35,8 @@ Un fichier suivant peut surcharger les précédents : garder cet ordre.
   réglable change seulement `html` (`data-taille`).
 - **Un seul bouton `.bouton-principal` par zone**, un seul bandeau fort par écran, pas de
   dégradés (sauf les courbes des bandeaux forts), ombres brun chaud (`--ombre…`).
-- **Nouveau bandeau fort** : `background: var(--courbes), var(--bandeau);` +
+- **Nouveau bandeau fort** : le plus simple est la classe `.bandeau-fort` (`composants.css`,
+  voir `docs/DESIGN.md` section 7). Sinon : `background: var(--courbes), var(--bandeau);` +
   `background-repeat: no-repeat;` (sinon les courbes réapparaissent dans la bordure de 1 px),
   et ajouter son sélecteur à la règle qui définit `--courbes` dans `base.css`. Une variable
   CSS qui en utilise une autre est calculée là où elle est déclarée : c'est pourquoi

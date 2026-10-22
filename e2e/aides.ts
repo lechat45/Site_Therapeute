@@ -5,7 +5,7 @@ import { expect, type Page } from '@playwright/test';
 export async function seConnecter(page: Page) {
   await page.goto('/');
   await page.getByRole('button', { name: 'Se connecter' }).click(); // identifiants de démo pré-remplis
-  await expect(page.getByRole('heading', { name: 'Mon tableau de bord' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /^Bonjour / })).toBeVisible();
 }
 
 export async function creerClient(page: Page, prenom = 'Alex', nom = 'Testeur') {

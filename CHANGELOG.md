@@ -3,6 +3,31 @@
 Format : une entrée par livraison, la plus récente en haut. Numéro de version dans
 `package.json`.
 
+## 0.10.4 — 2026-10-22
+
+### Modifié
+- **Tableau de bord** : il s'ouvre sur un **bandeau d'accueil** (design Flow) : la date,
+  « Bonjour <prénom> », ce qui attend aujourd'hui, trois tuiles (rendez-vous du jour, tâches
+  à faire, questionnaires reçus) et les boutons « Voir les tâches » et « Emploi du temps ».
+  Il remplace l'encadré violet des tâches ; les quatre chiffres clés deviennent des cartes
+  blanches (un seul bandeau sombre par écran). Le titre « Mon tableau de bord » passe au-dessus
+  des statistiques, avec le choix de la période.
+- Bandeau fort : styles mis en commun (`.bandeau-fort`, `composants.css`) pour l'accueil et la
+  fiche client ; sur téléphone, les tuiles se rangent côte à côte.
+- Paramètres : les rubriques passent à la ligne au lieu d'être coupées ; la rubrique ouverte est
+  en violet léger (le violet plein reste au bouton « Enregistrer »).
+- Menu : la spécialité sous le nom tient sur deux lignes au lieu d'être coupée.
+
+### Corrigé
+- Tâches, sur téléphone : la page était plus large que l'écran (495 px pour 390) ; un libellé
+  masqué du tableau « Historique des envois » sortait de sa zone défilante.
+- Erreur 404 à chaque chargement : l'icône d'onglet manquait (`public/favicon.svg`, logo violet).
+- Activité et tableau de bord : les courbes du bandeau sombre passaient sous le texte ; à la
+  connexion sur téléphone, derrière le grand titre.
+- Activité : les jours du tableau « Créneaux les plus demandés » s'affichaient en majuscules
+  (style des en-têtes de colonne appliqué aux en-têtes de ligne).
+- Tableau de bord sur téléphone : « Questionnaires reçus » débordait de sa tuile.
+
 ## 0.10.3 — 2026-10-22
 
 Deux parties retirées de l'interface à la demande de l'utilisateur. Elles ne sont **pas

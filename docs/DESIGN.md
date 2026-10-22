@@ -144,11 +144,21 @@ tomberaient sous 11 px.
 Fond brun très sombre (`--bandeau`), texte blanc, **courbes décoratives d'accent**
 (`--courbes` : deux anneaux violets dans le coin bas-droit, taille réglée par `--courbe`),
 petites tuiles translucides si besoin. **Un seul par écran**, pour l'information
-principale. Utilisé ici pour : l'écran de connexion (`.connexion-visuel`), l'indicateur
-vedette des tableaux de bord (`.indicateur-vedette`) et l'en-tête de la fiche client
-(`.bandeau-client` : barre de progression du parcours, tuiles « Séances » et « Dernière
-séance »). Un nouveau bandeau doit être ajouté à
-la liste des sélecteurs qui définissent `--courbes` dans `base.css`.
+principale. Styles communs : `.bandeau-fort` (`composants.css`), avec `.sur-titre`,
+`.sous-titre`, `.bandeau-tuiles` > `.tuile` (`<span>` libellé + `<strong>` valeur) et
+`.actions`. Utilisé ici pour :
+- l'**accueil du tableau de bord** (`.bandeau-fort.bandeau-accueil` : date, « Bonjour
+  <prénom> », ce qui attend aujourd'hui, tuiles rendez-vous / tâches / questionnaires) ;
+- l'**en-tête de la fiche client** (`.bandeau-fort.bandeau-client` : barre de progression du
+  parcours, tuiles « Séances » et « Dernière séance ») ;
+- l'**écran de connexion** (`.connexion-visuel`) ;
+- l'**indicateur vedette** (`.indicateur-vedette`) des écrans qui n'ont pas d'autre bandeau
+  (Activité, Espace de groupe) ; pas sur l'accueil, qui a déjà le sien.
+
+Un nouveau bandeau utilise `.bandeau-fort` (les courbes y sont déjà déclarées) ; un bandeau
+d'une autre classe doit être ajouté à la liste des sélecteurs qui définissent `--courbes` dans
+`base.css`. Taille des courbes : `--courbe` (plus petite sur une petite carte ou sur
+téléphone, pour ne jamais passer sous le texte).
 
 ## 8. À faire / à éviter
 

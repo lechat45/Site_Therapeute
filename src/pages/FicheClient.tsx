@@ -122,7 +122,7 @@ export function FicheClient() {
       </nav>
 
       {/* En-tête = bandeau fort du design Flow (docs/DESIGN.md, section 7) : un seul par écran. */}
-      <section className="bandeau-client" aria-label={`Fiche de ${client.prenom} ${client.nom}`}>
+      <section className="bandeau-fort bandeau-client" aria-label={`Fiche de ${client.prenom} ${client.nom}`}>
         <div>
           <p className="sur-titre">Fiche client</p>
           <h1>

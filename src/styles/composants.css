@@ -278,7 +278,18 @@ input[readonly] {
 
 /* Tableaux */
 .tableau-conteneur {
+  /* position: relative : un libellé masqué (.visuellement-cache) d'une cellule reste dans
+     la zone défilante ; sans cela il élargissait toute la page sur téléphone (Tâches). */
+  position: relative;
   overflow-x: auto;
+}
+/* En-têtes de LIGNE : texte normal (le style « sur-titre » est pour les en-têtes de colonne) */
+tbody th {
+  font-size: inherit;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--encre);
 }
 table {
   width: 100%;
@@ -463,4 +474,155 @@ dialog:focus {
 .question-sortie p {
   flex: 1 1 100%;
   font-size: 0.9rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Bandeau fort du design Flow (docs/DESIGN.md, section 7) : fond très  */
+/* sombre, courbes d'accent, tuiles translucides. UN SEUL par écran.    */
+/* Accueil (.bandeau-accueil), fiche client (.bandeau-client).          */
+/* Courbes : --courbes, déclarée dans base.css.                         */
+/* ------------------------------------------------------------------ */
+.bandeau-fort {
+  --courbe: 130px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px 28px;
+  align-items: start;
+  padding: 26px 28px;
+  border-radius: var(--rayon-bandeau);
+  background: var(--courbes), var(--bandeau);
+  background-repeat: no-repeat;
+  color: rgb(255 255 255 / 82%);
+}
+.bandeau-fort h1 {
+  margin-top: 4px;
+  color: #fff;
+  font-weight: 700;
+}
+.bandeau-fort .sur-titre {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 65%);
+}
+.bandeau-fort .sous-titre {
+  margin-top: 4px;
+  color: rgb(255 255 255 / 75%);
+}
+.bandeau-fort .coordonnees {
+  color: rgb(255 255 255 / 80%);
+}
+.bandeau-fort .coordonnees a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+.bandeau-progression {
+  max-width: 420px;
+  height: 6px;
+  margin-top: 16px;
+  border-radius: 3px;
+  background: rgb(255 255 255 / 14%);
+  overflow: hidden;
+}
+.bandeau-progression span {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: var(--violet-400);
+}
+.bandeau-progression-libelle {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: rgb(255 255 255 / 65%);
+}
+.bandeau-tuiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.tuile {
+  min-width: 130px;
+  padding: 10px 14px;
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: var(--rayon);
+  background: rgb(255 255 255 / 7%);
+}
+.tuile span {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 65%);
+}
+.tuile strong {
+  display: block;
+  margin-top: 2px;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #fff;
+}
+.bandeau-fort > .actions {
+  grid-column: 1 / -1;
+}
+/* Boutons sur fond sombre : translucides ; l'action principale reste violette. */
+.bandeau-fort .bouton:not(.bouton-principal) {
+  background: rgb(255 255 255 / 8%);
+  border-color: rgb(255 255 255 / 18%);
+  color: #fff;
+}
+.bandeau-fort .bouton:not(.bouton-principal):hover {
+  background: rgb(255 255 255 / 15%);
+}
+.bandeau-fort .bouton-danger:not(.bouton-principal) {
+  color: color-mix(in oklab, var(--danger) 30%, white);
+}
+.bandeau-fort .bouton-principal {
+  background: var(--violet-600);
+  border-color: var(--violet-600);
+}
+.bandeau-fort .bouton-principal:hover {
+  background: var(--violet-700);
+  border-color: var(--violet-700);
+}
+.bandeau-fort :focus-visible {
+  outline-color: #fff;
+}
+@media (max-width: 760px) {
+  .bandeau-fort {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+  /* téléphone : tuiles côte à côte plutôt qu'empilées */
+  .bandeau-tuiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 8px;
+  }
+  .tuile {
+    min-width: 0;
+    padding: 8px 10px;
+  }
+  /* minuscules et césure : « QUESTIONNAIRES REÇUS » débordait de sa tuile */
+  .tuile span {
+    font-size: 0.75rem;
+    letter-spacing: 0;
+    text-transform: none;
+    hyphens: auto;
+    overflow-wrap: anywhere;
+  }
+  .tuile strong {
+    font-size: 1.15rem;
+  }
+}
+
+/* Accueil du tableau de bord : grand titre (Flow : 32 à 46 px, gras) */
+.bandeau-accueil h1 {
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  letter-spacing: -0.02em;
+}
+.bandeau-accueil .sous-titre {
+  max-width: 70ch;
+  margin-top: 8px;
 }

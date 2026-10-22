@@ -58,6 +58,8 @@
   background-repeat: no-repeat;
   border-color: transparent;
   border-radius: var(--rayon-bandeau);
+  /* courbes plus petites : sur une petite carte, elles passaient sous le texte */
+  --courbe: 52px;
 }
 .indicateur-vedette .indicateur-libelle,
 .indicateur-vedette .indicateur-detail,

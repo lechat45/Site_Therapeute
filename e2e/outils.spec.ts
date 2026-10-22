@@ -136,7 +136,7 @@ test('parties masquées : ni exercices ni argent dans l’interface @telephone',
   // leurs adresses ramènent à l'accueil
   for (const adresse of ['/exercices', '/recus', '/rentabilite']) {
     await page.goto(adresse);
-    await expect(page.getByRole('heading', { name: 'Mon tableau de bord' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /^Bonjour / })).toBeVisible();
   }
 
   // fiche client : pas de prix, pas d'exercices remis

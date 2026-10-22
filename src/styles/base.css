@@ -73,7 +73,7 @@
    puisse changer d'un bandeau à l'autre. */
 .indicateur-vedette,
 .connexion-visuel,
-.bandeau-client {
+.bandeau-fort {
   --courbe: 90px;
   --courbes:
     radial-gradient(

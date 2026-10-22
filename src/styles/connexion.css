@@ -87,6 +87,8 @@
     grid-template-columns: 1fr;
   }
   .connexion-visuel {
+    /* courbes plus petites : sur téléphone, elles passaient derrière le grand titre */
+    --courbe: 90px;
     gap: 20px;
     padding: 32px 20px;
   }

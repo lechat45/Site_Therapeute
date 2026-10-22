@@ -131,12 +131,17 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+/* Spécialité ou courriel : jusqu'à deux lignes plutôt que coupée (« Thérapeute comportementa… ») */
 .utilisateur-courriel {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   font-size: 0.86rem;
+  line-height: 1.35;
   color: var(--encre-3);
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 .bouton-deconnexion {
   display: flex;
@@ -280,26 +285,15 @@
   box-shadow: 0 0 0 2px var(--surface);
 }
 
-.bandeau-taches {
+/* Titre de section dans une page (ex. « Mon tableau de bord » sous l'accueil) */
+.entete-section {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 10px 14px;
-  padding: 14px 18px;
-  border: 1px solid var(--violet-200);
-  border-radius: var(--rayon);
-  background: var(--violet-50);
-  color: var(--encre);
-  font-weight: 600;
-  text-decoration: none;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px 14px;
+  margin-top: 4px;
 }
-.bandeau-taches svg {
-  color: var(--accent);
-}
-.bandeau-taches-lien {
-  margin-left: auto;
-  color: var(--accent);
-}
-.bandeau-taches:hover {
-  border-color: var(--violet-300);
+.entete-section h2 {
+  font-size: 1.2rem;
 }

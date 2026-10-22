@@ -3,13 +3,12 @@
 /* ------------------------------------------------------------------ */
 /* Paramètres                                                          */
 /* ------------------------------------------------------------------ */
+/* Les rubriques passent à la ligne : en défilement horizontal, les dernières étaient
+   coupées au bord sans indice (vers 1100 px de large). */
 .onglets-page {
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
-  overflow-x: auto;
-  padding-bottom: 4px;
-  scrollbar-width: thin;
-  -webkit-overflow-scrolling: touch;
 }
 .onglet-page {
   display: inline-flex;
@@ -28,12 +27,13 @@
   cursor: pointer;
 }
 .onglet-page:hover {
-  border-color: var(--violet-300);
+  background: var(--surface-2);
 }
+/* Rubrique ouverte : violet léger (le violet plein reste au bouton « Enregistrer ») */
 .onglet-page[aria-current='page'] {
-  border-color: var(--accent);
-  background: var(--accent);
-  color: #fff;
+  border-color: var(--violet-300);
+  background: var(--accent-doux);
+  color: var(--violet-800);
 }
 
 .interrupteur {
