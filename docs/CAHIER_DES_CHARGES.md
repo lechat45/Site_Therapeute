@@ -66,6 +66,8 @@ Tout ce qui a été ajouté ensuite (journal, exercices, reçus, activité, tâc
   restent hors du menu, accessibles depuis Paramètres › Tarifs.
 - **Espace de groupe enrichi sans rien de personnel** (0.11.0) : repères et comparaison « vous et
   le groupe » tirés des seuls agrégats publiés ; vos chiffres restent sur votre écran.
+- **Présentation du site** (0.12.0) : bouton « Découvrir le site » (connexion) et
+  « Présentation du site » (menu), qui expliquent le site en détail ; à tenir à jour.
 - **Fiche client en onglets** et **rendez-vous guidé** (« Avec qui ? Quand ? Où ? », créneaux
   libres en un clic) : demandés pour rendre ces parties plus intuitives (0.11.0).
 - **Démonstration publique sur GitHub Pages** (`lechat45/Site_Therapeute`, mode démo

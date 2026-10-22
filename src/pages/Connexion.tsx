@@ -6,6 +6,7 @@ import { useState, type FormEvent } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { Erreur } from '../composants/Commun';
 import { Icone } from '../composants/Icone';
+import { Presentation } from '../composants/Presentation';
 import { donnees } from '../donnees';
 import { EMAIL_DEMO, MOT_DE_PASSE_DEMO } from '../donnees/cleDemo';
 import { messageErreur } from '../domaine/format';
@@ -25,6 +26,7 @@ export function Connexion() {
   const [code, setCode] = useState('');
   const [resterConnecte, setResterConnecte] = useState(false);
   const [envoi, setEnvoi] = useState(false);
+  const [presentation, setPresentation] = useState(false);
   const [erreur, setErreur] = useState<string | null>(null);
 
   if (therapeute) return <Navigate to={depuis} replace />;
@@ -87,6 +89,10 @@ export function Connexion() {
               <span>Une synthèse évolutive et une lecture des questionnaires, avec ou sans IA.</span>
             </li>
           </ul>
+          {/* Présentation détaillée du site, sans compte (config/presentation.ts) */}
+          <button type="button" className="bouton bouton-decouvrir" onClick={() => setPresentation(true)}>
+            <Icone nom="etoile" taille={16} /> Découvrir le site
+          </button>
         </div>
         <p style={{ fontSize: '0.8rem', opacity: 0.8 }}>
           Conçu pour le suivi en séances : parcours initial, bilan, séances complémentaires.
@@ -206,6 +212,7 @@ export function Connexion() {
           )}
         </form>
       </section>
+      {presentation && <Presentation fermer={() => setPresentation(false)} />}
     </div>
   );
 }

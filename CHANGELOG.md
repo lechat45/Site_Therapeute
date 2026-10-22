@@ -3,6 +3,21 @@
 Format : une entrée par livraison, la plus récente en haut. Numéro de version dans
 `package.json`.
 
+## 0.12.0 — 2026-10-22
+
+### Ajouté
+- **Présentation du site** en diapositives, qui explique chaque partie en détail (16 parties :
+  accueil, clients, fiche client, fiche de séance, emploi du temps, tâches, relances, journal,
+  activité, budget, espace de groupe, assistant IA, paramètres, sécurité, premiers pas).
+  Bouton « Découvrir le site » sur la page de connexion (sans compte) et « Présentation du
+  site » dans le menu ; une fois connecté, « Ouvrir cet écran » mène à la partie présentée.
+  Précédent / Suivant, flèches du clavier, points de progression cliquables, Échap pour fermer.
+  Les parties masquées (`config/fonctions.ts`) ne sont pas présentées.
+- Contenu : `src/config/presentation.ts` ; affichage : `src/composants/Presentation.tsx` ;
+  la boîte de dialogue commune accepte une classe (`classe`) pour le grand format.
+- Tests : `tests/presentation.test.ts` (contenu complet, parties masquées absentes) et un
+  parcours e2e (connexion puis menu, ordinateur et téléphone).
+
 ## 0.11.0 — 2026-10-22
 
 ### Ajouté

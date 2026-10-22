@@ -79,7 +79,8 @@ src/
   App.tsx, main.tsx     routes (publiques par jeton : /q /d /r) et point d'entrée
   domaine/              logique PURE et testée (types, tâches, agenda, reçus, statistiques…)
   config/               référentiels et valeurs par défaut (miroirs des migrations) ;
-                        fonctions.ts = parties de l'interface masquées ou non (exercices : masqués)
+                        fonctions.ts = parties de l'interface masquées ou non (exercices : masqués) ;
+                        presentation.ts = contenu de la présentation du site
   donnees/              accès aux données : source.ts (contrat) → demo.ts | supabase.ts
   etat/                 contextes React : session, réglages, tâches ; hooks
   composants/           composants réutilisables (cartes, boîtes de dialogue, graphiques…)
@@ -120,6 +121,7 @@ Jamais l'inverse : `domaine/` n'importe ni React, ni `donnees/`, ni le navigateu
 | Reçus : émission, annulation, lien, groupés, export, livre des recettes (accès : Paramètres › Tarifs) | `journal_exercices_recus` (`recus`, `emettre_recu`, `annuler_recu`), `prolongements` (`preparer_lien_recu`, `recu_public`), `rappels_recus_groupes` (`recus_lignes`, `emettre_recu_groupe`) | `recus.ts`, `texte.ts` (`numeroRecu`), `config/ressources.ts` | `Recus` (+ impression), `RecuPublic`, `FeuilleRecu`, `DialogueLienRecu` | `prolongements`, `rappelsRecus`, `sqlOutils`, `sqlProlongements`, `sqlRappelsRecus`, e2e |
 | Réglages, affichage, daltonisme | `parametres` (toutes migrations) | `config/parametresDefaut.ts` | `Parametres`, `pages/parametres/*`, `etat/reglages`, `styles/accessibilite.css` | `sql` (défauts SQL = TS), e2e `parcours` |
 | Style (design Flow en violet) | — | — | `styles/base.css` (variables), `structure.css` (menu), `composants.css`, `Icone` ; règles : `docs/DESIGN.md` | e2e (ordinateur + téléphone) |
+| Présentation du site (diapositives) | — | `config/presentation.ts` (contenu, une diapositive par partie) | `composants/Presentation.tsx` ; boutons dans `Connexion` et `Structure` (menu) | `presentation`, e2e `parcours` |
 | Menu de navigation | — | — | `composants/Structure.tsx` (sans Rentabilité ni Reçus : décision de l'utilisateur) | e2e `parcours` |
 | Publication (GitHub Pages, sous-dossier) | — | `domaine/messages.ts` (`racineSite`, liens clients) | `vite.config.ts` (`base`), `App.tsx` (`basename`), `.github/workflows/github-pages.yml` ; `docs/DEPLOIEMENT.md` | `outils`, `prolongements` (liens) |
 
@@ -255,6 +257,10 @@ Les migrations sont désignées par la fin de leur nom (`supabase/migrations/AAA
 - **Nouveau modèle d'exercice** : `MODELES_RESSOURCES` (`config/ressources.ts`). Texte simple :
   `# intertitre`, `- liste`, `? question`, ligne vide = paragraphe. Jamais de HTML.
 - **Remplacer les 14 émotions** : README, section dédiée.
+- **Une partie du site change** (nouvel écran, fonction ajoutée ou retirée) : mettre à jour sa
+  diapositive dans `config/presentation.ts` (titre, résumé, points, `ecran`) ; une partie
+  masquable porte `partie: 'exercices' | 'argent'`. La présentation est lue par des
+  thérapeutes : phrases courtes, concrètes, au vouvoiement.
 - **Ajouter ou retirer un lien du menu** : `composants/Structure.tsx` (composant `Lien`,
   groupé sous un `nav-titre`). Retirer un lien ne supprime pas l'écran : la route reste dans
   `App.tsx`. Vérifier les tests e2e qui cliquent sur ce lien (`getByRole('link', …)`).

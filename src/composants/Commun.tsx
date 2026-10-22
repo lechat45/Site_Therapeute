@@ -41,6 +41,7 @@ export function Dialogue({
   titre,
   children,
   pied,
+  classe,
 }: {
   ouvert: boolean;
   fermer: () => void;
@@ -48,6 +49,8 @@ export function Dialogue({
   children: ReactNode;
   /** Boutons du bas ; `null` si le contenu les porte lui-même. */
   pied: ReactNode;
+  /** Classe en plus sur la boîte (ex. « presentation » : grand format). */
+  classe?: string;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
   const ouvertRef = useRef(ouvert);
@@ -68,6 +71,7 @@ export function Dialogue({
   return (
     <dialog
       ref={ref}
+      className={classe}
       aria-labelledby="titre-dialogue"
       tabIndex={-1}
       // Échap : c'est le parent qui décide de fermer (il peut d'abord poser une question).

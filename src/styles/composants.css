@@ -626,3 +626,109 @@ dialog:focus {
   max-width: 70ch;
   margin-top: 8px;
 }
+
+/* ------------------------------------------------------------------ */
+/* Présentation du site (0.12.0) : grande boîte, une diapositive à la   */
+/* fois ; points de progression cliquables (étape en cours : plus large */
+/* et pleine, aria-current : pas seulement la couleur).                 */
+/* ------------------------------------------------------------------ */
+dialog.presentation {
+  width: min(760px, calc(100vw - 32px));
+}
+.presentation .dialogue-pied {
+  align-items: center;
+  justify-content: space-between;
+}
+.presentation-compteur {
+  font-size: 0.8667rem;
+  color: var(--encre-3);
+  font-variant-numeric: tabular-nums;
+}
+.presentation-corps {
+  display: grid;
+  gap: 18px;
+}
+.presentation-etapes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.presentation-point {
+  width: 22px;
+  height: 6px;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  background: var(--piste);
+  cursor: pointer;
+}
+.presentation-point:hover {
+  background: var(--violet-300);
+}
+.presentation-point[aria-current='step'] {
+  width: 36px;
+  background: var(--accent);
+}
+.diapositive {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+  min-height: 360px;
+  align-content: start;
+}
+.diapositive-icone {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 22%;
+  background: var(--accent-doux);
+  color: var(--violet-800);
+}
+.diapositive-etape {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--encre-3);
+}
+.diapositive-titre {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+.diapositive-resume {
+  font-size: 1.05rem;
+  color: var(--encre-2);
+}
+.diapositive-points {
+  display: grid;
+  gap: 10px;
+  margin: 6px 0 4px;
+  padding: 0;
+  list-style: none;
+}
+.diapositive-points li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+.diapositive-points svg {
+  flex: none;
+  margin-top: 4px;
+  color: var(--accent);
+}
+@media (pointer: coarse) {
+  .presentation-point {
+    height: 12px;
+  }
+}
+@media (max-width: 560px) {
+  .diapositive {
+    min-height: 0;
+  }
+  .diapositive-titre {
+    font-size: 1.35rem;
+  }
+}

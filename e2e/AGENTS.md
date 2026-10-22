@@ -18,7 +18,7 @@ Complète `../AGENTS.md`. Lancer : `npm run test:e2e` ; un fichier :
 | Fichier | Parcours |
 |---|---|
 | `aides.ts` | `seConnecter(page)` (attend le titre « Bonjour … » de l'accueil), `creerClient(page, prénom, nom)`, `aujourdhui()` |
-| `parcours.spec.ts` | connexion, séance enregistrée automatiquement, relance et réponse du client, corbeille, mode daltonien, emploi du temps, questionnaires, créneau libre en un clic, espace de groupe |
+| `parcours.spec.ts` | connexion, séance enregistrée automatiquement, relance et réponse du client, corbeille, mode daltonien, emploi du temps, questionnaires, créneau libre en un clic, espace de groupe, présentation du site |
 | `outils.spec.ts` | 0.7 : tâches (perso, « plus tard », filtres), journal, exercice remis par lien, reçu (émettre, annuler), activité |
 | `prolongements.spec.ts` | 0.8 : exercice à compléter, reçu par lien + export CSV, tâche récurrente |
 | `rappelsRecus.spec.ts` | 0.9 : rappel d'exercice, exercices rendus sur la séance, reçu groupé + livre des recettes |

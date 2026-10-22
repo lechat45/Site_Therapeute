@@ -45,6 +45,9 @@ Documentation :
 
 ## Essayer la maquette (aucun serveur requis)
 
+Pour une visite guidée, cliquez sur **« Découvrir le site »** sur la page de connexion (ou
+**« Présentation du site »** dans le menu, une fois connecté) : chaque partie y est expliquée.
+
 ```bash
 npm install
 ```

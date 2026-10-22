@@ -297,3 +297,13 @@
 .entete-section h2 {
   font-size: 1.2rem;
 }
+
+/* « Présentation du site » : un bouton qui a l'allure d'un lien du menu */
+.nav-bouton {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}

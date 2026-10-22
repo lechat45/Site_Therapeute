@@ -12,6 +12,7 @@ import { useTaches } from '../etat/tachesContexte';
 import { Avatar } from './Avatar';
 import { Dialogue, useNotifier } from './Commun';
 import { Icone, type NomIcone } from './Icone';
+import { Presentation } from './Presentation';
 import { EXERCICES_VISIBLES } from '../config/fonctions';
 
 function Lien({
@@ -46,6 +47,7 @@ export function Structure() {
   const { taches } = useTaches();
   const notifier = useNotifier();
   const [menuOuvert, setMenuOuvert] = useState(false);
+  const [presentation, setPresentation] = useState(false);
   const { pathname } = useLocation();
   const naviguer = useNavigate();
 
@@ -116,6 +118,10 @@ export function Structure() {
         <Lien vers="/groupe" icone="groupe" libelle="Espace de groupe" />
         <div className="nav-titre">Compte</div>
         <Lien vers="/parametres" icone="reglages" libelle="Paramètres" />
+        {/* Présentation détaillée du site, en diapositives (config/presentation.ts) */}
+        <button type="button" className="nav-lien nav-bouton" onClick={() => setPresentation(true)}>
+          <Icone nom="etoile" /> Présentation du site
+        </button>
 
         <div className="pied">
           <Link to="/parametres?onglet=profil" className="utilisateur" title="Mon profil">
@@ -136,6 +142,17 @@ export function Structure() {
       <main className="contenu" id="contenu">
         <Outlet />
       </main>
+
+      {presentation && (
+        <Presentation
+          fermer={() => setPresentation(false)}
+          ouvrirEcran={(chemin) => {
+            setPresentation(false);
+            setMenuOuvert(false);
+            naviguer(chemin);
+          }}
+        />
+      )}
 
       <Dialogue
         ouvert={avertissement}

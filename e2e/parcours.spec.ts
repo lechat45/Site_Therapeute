@@ -164,3 +164,25 @@ test('espace de groupe : repères anonymes et comparaison « vous et le groupe �
   await expect(comparaison.getByText(/rien n'est envoyé au groupe/)).toBeVisible();
   await expect(comparaison.getByText('Séances par client')).toBeVisible();
 });
+
+test('présentation du site : depuis la connexion, puis depuis le menu vers un écran @telephone', async ({ page }) => {
+  await page.goto('/connexion');
+  await page.getByRole('button', { name: 'Découvrir le site' }).click();
+  const presentation = page.getByRole('dialog', { name: 'Présentation du site' });
+  await expect(presentation.getByRole('heading', { name: 'Bienvenue' })).toBeVisible();
+  await page.keyboard.press('ArrowRight');
+  await expect(presentation.getByRole('heading', { name: 'Le tableau de bord' })).toBeVisible();
+  // sans compte, pas de raccourci vers les écrans
+  await expect(presentation.getByRole('button', { name: /Ouvrir cet écran/ })).toHaveCount(0);
+  await page.keyboard.press('Escape');
+  await expect(presentation).toBeHidden();
+
+  await seConnecter(page);
+  if (await page.getByRole('button', { name: 'Ouvrir le menu' }).isVisible())
+    await page.getByRole('button', { name: 'Ouvrir le menu' }).click();
+  await page.getByRole('button', { name: 'Présentation du site' }).click();
+  await presentation.getByRole('button', { name: /\. L’emploi du temps$/ }).click();
+  await presentation.getByRole('button', { name: /Ouvrir cet écran/ }).click();
+  await expect(page).toHaveURL(/\/emploi-du-temps$/);
+  await expect(presentation).toBeHidden();
+});
