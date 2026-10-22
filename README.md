@@ -25,7 +25,11 @@ SaaS de suivi pour thérapeutes comportementalistes émotionnels :
   imprimer en PDF ou à envoyer par lien, récapitulatif annuel et trimestriel, livre des
   recettes pour le tableur (facultatifs, sans paiement en ligne) ;
 - fiche de séance enregistrée automatiquement, corbeille des clients (30 jours), accord
-  de relance du client (RGPD) ;
+  de relance du client ;
+- **RGPD** : consentement noté sur chaque fiche, export des données d'un client ou de tout
+  son compte, fiches à revoir après 5 ans, politique de confidentialité publique ;
+- **présentation du site** en diapositives (« Découvrir le site ») ;
+- espace de groupe enrichi : repères anonymes et comparaison « vous et le groupe » ;
 - double authentification, comptes gérés par l'administrateur (pas d'inscription
   libre, pas de « mot de passe oublié »), option « rester connecté 8 h » ;
 - profil, couleurs, nom du site, taille du texte, **mode daltonien** ;
@@ -36,7 +40,10 @@ Documentation :
 - **[AGENTS.md](AGENTS.md)** — reprendre le code (Codex, Claude ou humain) : commandes,
   « terminé » veut dire…, index fonctionnalité → fichiers, règles, lexique, recettes, pièges.
   Chaque dossier important a aussi son `AGENTS.md` (`src/`, `src/domaine/`, `src/donnees/`,
-  `supabase/`, `tests/`, `e2e/`) ;
+  `src/styles/`, `supabase/`, `tests/`, `e2e/`) ;
+- **[docs/DESIGN.md](docs/DESIGN.md)** — système de design Flow, en violet ;
+- **[docs/DEPLOIEMENT.md](docs/DEPLOIEMENT.md)** — publication (GitHub Pages, production) ;
+- **[docs/RGPD.md](docs/RGPD.md)** — données de santé : ce qui est fait, ce qu'il reste à faire ;
 - **[docs/CAHIER_DES_CHARGES.md](docs/CAHIER_DES_CHARGES.md)** — demande d'origine, ce
   qu'elle est devenue, décisions prises et questions ouvertes ;
 - **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** — architecture, données, sécurité,
@@ -63,20 +70,22 @@ identifiants pré-remplis `demo@exemple.fr` / `demo`, avec 8 thérapeutes et env
 À essayer :
 
 - *Tâches* : filtres, « Plus tard », « Mes tâches », récapitulatif « Votre semaine ».
-- *Exercices et documents* : « Remettre à un client » (« Journal des émotions » est à
-  compléter), puis « Voir comme le client » et répondre ; la réponse arrive dans *Tâches*.
-- *Reçus* : « Émettre un reçu », cocher plusieurs séances d'un client pour un reçu groupé,
-  « Envoyer », récapitulatif, livre des recettes ; *Activité* : un an d'historique fictif.
-- *Tâches > Exercices* : « Rappeler l'exercice » (exercice sans réponse depuis 10 jours).
-- *Tâches > Mes tâches* : « Répéter chaque mois » ; une fiche client : « Questionnaire par
-  e-mail » puis « Proposer des créneaux libres » (habitudes du client d'abord).
-- *Emploi du temps* : trois semaines de rendez-vous fictifs autour d'aujourd'hui. Cliquez sur
-  un créneau libre pour planifier, sur un rendez-vous pour le modifier ou commencer la
-  séance. *Paramètres > Emploi du temps* : couleurs vérifiées et aperçu « comme le voit une
-  personne daltonienne ».
-- *Fiche client* : « Questionnaire par e-mail ». Le bouton « Tester le questionnaire »
-  ouvre la page que verrait le client. Ses réponses arrivent dans *Tâches*, lues
-  automatiquement (tendance, priorité, suggestion), et sur la fiche (courbes).
+- *Reçus* (par *Paramètres > Tarifs*, « Mes reçus ») : « Émettre un reçu », cocher plusieurs
+  séances d'un client pour un reçu groupé, « Envoyer », récapitulatif, livre des recettes ;
+  *Activité* : un an d'historique fictif.
+- *Tâches > Mes tâches* : « Répéter chaque mois ».
+- *Emploi du temps* : trois semaines de rendez-vous fictifs autour d'aujourd'hui. « Nouveau
+  rendez-vous » (ou un clic sur un créneau libre) : avec qui ? quand ? (créneaux libres en
+  un clic, d'abord aux habitudes du client) où ? Un clic sur un rendez-vous pour le modifier
+  ou commencer la séance. *Paramètres > Emploi du temps* : couleurs vérifiées et aperçu
+  « comme le voit une personne daltonienne ».
+- *Fiche client*, onglet « Relances et questionnaires » : « Questionnaire par e-mail », puis
+  « Proposer des créneaux libres ». Le bouton « Tester le questionnaire » ouvre la page que
+  verrait le client. Ses réponses arrivent dans *Tâches*, lues automatiquement (tendance,
+  priorité, suggestion), et sur la fiche (onglet « Séances », courbes).
+- *Fiche client*, « Vue d'ensemble » : « Données personnelles » (consentement, « Exporter ses
+  données ») ; *Paramètres > Confidentialité* : « Télécharger toutes mes données ».
+- *Exercices et documents* : **masqués** dans cette version (`src/config/fonctions.ts`).
 - *Paramètres* : profil et signature, affichage (mode daltonien, taille du texte),
   questionnaires (7 types de questions, bibliothèque, aperçu), relances, tarifs,
   double authentification, assistant IA.

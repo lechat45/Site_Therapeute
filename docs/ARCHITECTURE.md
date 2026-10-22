@@ -228,8 +228,10 @@ Thérapeute ─► Tâche « Questionnaire reçu de Léa », lue automatiquement
   stockés les **tâches personnelles** (`taches_perso` : titre, échéance et client
   facultatifs, faite le) et les **reports « plus tard »** (`reports_taches` : clé de la
   tâche calculée → date de retour ; la clé d'une relance contient son rang, la relance
-  suivante n'est donc pas masquée). Filtres par famille avec compteurs, récapitulatif de la
-  semaine (`recapSemaine`), et, dans le message de relance, **créneaux libres** des deux
+  suivante n'est donc pas masquée). L'écran Tâches ne montre que des tâches (pas de planning
+  des rendez-vous, décision de l'utilisateur en 0.10.2). Filtres par famille avec compteurs,
+  récapitulatif de la semaine (`recapSemaine`), et, dans le message de relance comme dans le
+  formulaire de rendez-vous, **créneaux libres** des deux
   prochaines semaines (`creneauxLibres` : jours et heures de travail, sans chevauchement),
   en commençant par les **habitudes du client** (`habitudesClient` : jour et heure revenus au
   moins deux fois sur l'année écoulée). **Tâches récurrentes** (`recurrence` : semaine, mois) :
@@ -343,6 +345,11 @@ que sur un seul reçu valide, et `annuler_recu()` annule les lignes avec le reç
   (fond beige, cartes blanches, menu sur le fond, un seul bandeau sombre par écran). Règles
   et correspondance des variables : `docs/DESIGN.md`. Mise en ligne de la démonstration
   (GitHub Pages, sous-dossier) : `docs/DEPLOIEMENT.md`.
+- **Parcours dans l'interface** (0.11 à 0.13) : fiche client en **onglets** (vue d'ensemble,
+  séances, relances et questionnaires, notes ; `?vue=` dans l'adresse) ; **rendez-vous guidé**
+  (« Avec qui ? Quand ? Où ? », créneaux libres en un clic, phrase récapitulative) ;
+  **présentation du site** en diapositives (`config/presentation.ts`) ; parties masquables
+  (`config/fonctions.ts`).
 - **Profil** : photo (réduite à 160 px dans le navigateur, 300 Ko au plus), spécialité,
   téléphone, signature des messages (variable `{signature}`).
 - Chaque thérapeute choisit le **nom du site** et la **couleur principale**. Toutes les

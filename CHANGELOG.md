@@ -3,6 +3,23 @@
 Format : une entrée par livraison, la plus récente en haut. Numéro de version dans
 `package.json`.
 
+## 0.13.1 — 2026-10-22
+
+Documentation remise à jour pour reprendre le projet (Codex, Claude, humains) ; aucun
+changement de comportement.
+
+### Documentation
+- `AGENTS.md` : section « État actuel » (ce qui est affiché, masqué, hors menu, à faire hors du
+  code), liste complète de `docs/`, check-list « terminé » (RGPD, présentation).
+- `src/AGENTS.md` : tableau des écrans refait (fiche en onglets, rendez-vous guidé, pages
+  publiques dont `/confidentialite`), nouveaux tableaux des onglets de Paramètres, des
+  composants et des fichiers de `config/` (interrupteurs, présentation, RGPD).
+- `src/domaine/AGENTS.md` : `comparaison.ts`, `rgpd.ts` ; `src/donnees/AGENTS.md` : purges,
+  exports RGPD, champs `consentement_le` / `accord_relance_le`, version du jeu de démo.
+- `README.md` : fonctions récentes, documents `DESIGN`, `DEPLOIEMENT`, `RGPD`, parcours « à
+  essayer » corrigés (reçus par Paramètres › Tarifs, onglets de la fiche, exercices masqués).
+- `docs/ARCHITECTURE.md`, `e2e/AGENTS.md` : écran Tâches, parcours d'interface, contenu des tests.
+
 ## 0.13.0 — 2026-10-22
 
 Mise aux normes **RGPD** (données de santé, article 9). Détail, et ce qu'il reste à faire hors

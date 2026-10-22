@@ -45,3 +45,13 @@ temps · relances et questionnaires · IA · statistiques. Chercher `// ---` dan
   relisent `localStorage` (le lien peut être ouvert dans un autre onglet).
 - Les statistiques de la démo (`calculerStatistiques`) doivent rester égales à `statistiques()`
   en SQL : un test charge le jeu de démo dans PostgreSQL et compare.
+- **Purges à l'ouverture de la liste des clients** (`listerClients`, une fois par session en
+  Supabase) : `purger_corbeille` (30 jours) et `purger_journal_connexions` (12 mois, RGPD) ; en
+  démo, `purgerCorbeille()` fait les deux (`DUREE_JOURNAL_CONNEXIONS_MOIS`, `config/rgpd.ts`).
+- **Exports RGPD** : pas d'opération dédiée ; l'écran assemble les lectures existantes
+  (`lireClient`, `listerSeances`, `listerEnvois`, `listerRendezVous`, `notes`, `listerRemises`,
+  `listerRecus`…) puis `domaine/rgpd.ts` met en forme. La RLS garantit qu'on ne lit que ses
+  propres données.
+- **Champs d'un client** : `consentement_le` (RGPD, migration `rgpd`) et `accord_relance_le`
+  suivent le même chemin : type `SuiviClient`, contrôle de format dans `verifierSuivi`
+  (`demo.ts`), `versResume`, `creerClient`, jeu de démo. `VERSION_JEU_DEMO` = 16.

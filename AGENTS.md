@@ -31,6 +31,19 @@ sans lui.
 - **En ligne** : démonstration (mode démo) sur <https://lechat45.github.io/Site_Therapeute/>,
   publiée automatiquement à chaque envoi sur `main` du dépôt `lechat45/Site_Therapeute`.
 
+### État actuel (version 0.13.1, 22 octobre 2026)
+
+- **Affiché** : tableau de bord (bandeau d'accueil), clients (fiche en onglets), séances,
+  emploi du temps (rendez-vous guidé), tâches (sans planning des rendez-vous), journal,
+  activité, espace de groupe (repères, « vous et le groupe »), budget (tarifs ; rentabilité et
+  reçus par Paramètres › Tarifs), assistant IA facultatif, présentation du site, RGPD.
+- **Masqué** (code gardé) : exercices et documents (`src/config/fonctions.ts`).
+- **Hors menu** : Rentabilité et Reçus (décision de l'utilisateur, 0.9.3).
+- **À faire hors du code avant de vraies données** : `docs/RGPD.md` section 3 (hébergeur HDS,
+  contrats, analyse d'impact, éditeur à renseigner dans `src/config/rgpd.ts`).
+- Ce qui a changé et pourquoi : `CHANGELOG.md` ; choix de l'utilisateur à respecter :
+  `docs/CAHIER_DES_CHARGES.md` (« Décisions »).
+
 ## 2. Démarrer et vérifier
 
 | Action | Commande |
@@ -42,7 +55,7 @@ sans lui.
 | Tests unitaires + SQL | `npm test` (~1 min ; le 1er lancement migre une base PGlite) |
 | Seulement les tests SQL | `npm run test:sql` |
 | Un seul fichier de test | `npx vitest run tests/outils` (filtre sur le nom de fichier) |
-| Tests de bout en bout | `npm run test:e2e` (Playwright, port 5191, ~4 min) |
+| Tests de bout en bout | `npm run test:e2e` (Playwright, port 5191, 1 à 4 min) |
 | **Avant de livrer** | `npm run verifier` (lint + format + types + tests + build) |
 | **Tout, d'un coup** | `npm run verifier:complet` (`verifier` puis `test:e2e`) |
 | Comptes (admin) | `npm run comptes -- aide` |
@@ -70,6 +83,9 @@ sans lui.
       `README.md` si l'usage change ; idée réalisée retirée de `docs/IDEES.md`.
 - [ ] Forme du jeu de démo changée → `VERSION_JEU_DEMO` incrémentée (`src/donnees/jeuDemo.ts`).
 - [ ] Textes en français ; aucun état signalé par la seule couleur.
+- [ ] Nouvelle donnée sur un client : présente dans `exportClient` (`domaine/rgpd.ts`) et effacée
+      avec la fiche ; durée annoncée dans la politique = durée appliquée (`docs/RGPD.md`).
+- [ ] Une partie du site change : sa diapositive est à jour (`config/presentation.ts`).
 - [ ] Changement visuel : conforme à `docs/DESIGN.md` (variables, un seul accent violet par
       zone, pas de dégradés) et regardé sur ordinateur **et** téléphone.
 
@@ -96,7 +112,8 @@ e2e/                    Playwright sur le mode démo — voir e2e/AGENTS.md
 scripts/comptes.mjs     administration des comptes (clé service_role, hors application)
 .github/workflows/      verifier.yml (tests) et github-pages.yml (publication de la démo)
 vite.config.ts          Vite + Vitest ; `base` = CHEMIN_BASE (sous-dossier de GitHub Pages)
-docs/                   ARCHITECTURE, CAHIER_DES_CHARGES, IDEES
+docs/                   ARCHITECTURE, CAHIER_DES_CHARGES (demande + décisions), IDEES,
+                        DESIGN (design Flow en violet), DEPLOIEMENT (GitHub Pages), RGPD
 ```
 
 Dépendances autorisées : `pages → composants → etat → donnees → domaine/config → _shared`.

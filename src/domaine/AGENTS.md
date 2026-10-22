@@ -14,6 +14,9 @@ Complète `../../AGENTS.md` et `../AGENTS.md`.
 - Jours locaux au format `AAAA-MM-JJ` (chaînes comparables) ; horodatages ISO pour les
   instants. Jamais de calcul de jours en millisecondes sur des dates locales (heure d'été).
 
+- **RGPD** : une nouvelle donnée sur un client doit être ajoutée à `exportClient` (et à son
+  test) ; voir `docs/RGPD.md`.
+
 ## Fichiers
 
 | Fichier | Contenu | Miroir SQL | Tests |
@@ -32,6 +35,8 @@ Complète `../../AGENTS.md` et `../AGENTS.md`.
 | `messages.ts` | modèles de messages (`remplirModele`), liens `mailto:` / `sms:`, liens publics `/q` `/d` `/r`, `masquerLien`, `insererAvantSignature` | `confirmer_envoi` (masquage) | `logique`, `outils` |
 | `securite.ts` | TOTP (RFC 6238), jetons et empreintes SHA-256, règles des mots de passe | empreintes des jetons | `logique` |
 | `contexteAnalyse.ts` | contexte d'une séance pour l'IA | — | `analyse` |
+| `comparaison.ts` | espace de groupe : `reperesGroupe` (jamais une case `masque`), `comparerIndicateurs`, `comparerEmotions`, `position` (± 10 %), `phrasePosition` | — (lit les agrégats de `statistiques()`) | `comparaison` |
+| `rgpd.ts` | `exportClient` (toutes les données d'UN client, en clair, sans jeton ni identifiant interne), `exportComplet` (tout le thérapeute), `fichesARevoir` (durée de conservation), `nomFichierExport` | durées : `purger_journal_connexions` | `rgpd`, `sqlRgpd` |
 
 Code partagé avec la fonction Edge et les tests : `supabase/functions/_shared/` (`analyse.ts`,
 `questionnaire.ts` — validation des réponses, miroir de `repondre_questionnaire`, `fiche.ts`,
