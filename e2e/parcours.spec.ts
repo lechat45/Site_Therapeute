@@ -24,6 +24,7 @@ test('nouvelle séance : les notes sont enregistrées automatiquement', async ({
 test('relance : le client répond, la réponse arrive dans les tâches', async ({ page, context }) => {
   await seConnecter(page);
   await creerClient(page);
+  await page.getByRole('tab', { name: 'Relances et questionnaires' }).click();
   await page.getByRole('button', { name: 'Questionnaire par e-mail' }).click();
   const message = page.getByLabel('Message');
   await expect(message).toHaveValue(/\/q\/[0-9a-f]{64}/);
@@ -49,6 +50,7 @@ test('fermer après avoir copié le message : on demande s’il est parti', asyn
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   await seConnecter(page);
   await creerClient(page, 'Lou', 'Copie');
+  await page.getByRole('tab', { name: 'Relances et questionnaires' }).click();
   await page.getByRole('button', { name: 'Questionnaire par e-mail' }).click();
   const dialogue = page.getByRole('dialog');
   await expect(dialogue.getByLabel('Message')).toHaveValue(/\/q\/[0-9a-f]{64}/);
@@ -132,4 +134,33 @@ test('questionnaires : création d’un questionnaire avec une question à choix
   await page.getByLabel('Réponse 2', { exact: true }).fill('Difficile');
   await page.getByRole('button', { name: 'Enregistrer le questionnaire' }).click();
   await expect(page.getByText('Questionnaire enregistré.')).toBeVisible();
+});
+
+test('rendez-vous : un créneau libre en un clic, récapitulé avant d’enregistrer @telephone', async ({ page }) => {
+  await seConnecter(page);
+  await page.goto('/clients');
+  await page.locator('tbody tr').first().click();
+  await page.getByRole('button', { name: 'Planifier' }).click();
+  const dialogue = page.getByRole('dialog');
+  const libres = dialogue.getByRole('group', { name: /Prochains créneaux libres/ });
+  const premier = libres.getByRole('button').first();
+  await premier.click();
+  await expect(premier).toHaveAttribute('aria-pressed', 'true');
+  // le créneau choisi remplit le jour et l'heure, et la phrase récapitulative suit
+  await expect(dialogue.getByLabel('Jour')).not.toHaveValue('');
+  await expect(dialogue.getByRole('status').first()).toContainText(/ · .* avec .* · au cabinet/);
+  await dialogue.getByRole('radio', { name: 'En visio' }).click();
+  await expect(dialogue.getByRole('status').first()).toContainText('en visio');
+  await dialogue.getByRole('button', { name: 'Enregistrer' }).click();
+  await expect(page.getByText('Rendez-vous ajouté.')).toBeVisible();
+});
+
+test('espace de groupe : repères anonymes et comparaison « vous et le groupe »', async ({ page }) => {
+  await seConnecter(page);
+  await page.goto('/groupe');
+  await expect(page.getByRole('heading', { name: 'Repères du groupe' })).toBeVisible();
+  await expect(page.getByText('Émotion la plus présente')).toBeVisible();
+  const comparaison = page.locator('section', { has: page.getByRole('heading', { name: 'Vous et le groupe' }) });
+  await expect(comparaison.getByText(/rien n'est envoyé au groupe/)).toBeVisible();
+  await expect(comparaison.getByText('Séances par client')).toBeVisible();
 });

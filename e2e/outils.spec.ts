@@ -47,6 +47,8 @@ test('tâches : ma tâche, « plus tard », filtres et tâches reportées @telep
 test('journal : une note liée à un client, retrouvée sur sa fiche et dans le journal', async ({ page }) => {
   await seConnecter(page);
   await creerClient(page, 'Jade', 'Journal');
+  // fiche client en onglets (0.11.0) : les notes sont dans « Notes »
+  await page.getByRole('tab', { name: 'Notes' }).click();
   const carte = page.locator('section', { has: page.getByRole('heading', { name: 'Notes du journal' }) });
   await carte.getByRole('button', { name: 'Ajouter' }).click();
   const dialogue = page.getByRole('dialog');
@@ -123,37 +125,49 @@ test('activité : statistiques de l’emploi du temps', async ({ page }) => {
   await expect(page.getByRole('table', { name: /jour de la semaine et heure/ })).toBeVisible();
 });
 
-test('parties masquées : ni exercices ni argent dans l’interface @telephone', async ({ page }) => {
-  test.skip(EXERCICES_VISIBLES || ARGENT_VISIBLE, 'au moins une partie est affichée (src/config/fonctions.ts)');
+test('parties masquées : absentes de l’interface (exercices, argent) @telephone', async ({ page }) => {
+  test.skip(EXERCICES_VISIBLES && ARGENT_VISIBLE, 'aucune partie masquée (src/config/fonctions.ts)');
   await seConnecter(page);
-
-  // menu : ni « Exercices et documents », ni « Rentabilité », ni « Reçus »
-  await page.goto('/');
   const menu = page.getByRole('navigation', { name: 'Navigation principale' });
-  for (const nom of ['Exercices et documents', 'Rentabilité', 'Reçus'])
-    await expect(menu.getByRole('link', { name: nom })).toHaveCount(0);
 
-  // leurs adresses ramènent à l'accueil
-  for (const adresse of ['/exercices', '/recus', '/rentabilite']) {
-    await page.goto(adresse);
+  if (!EXERCICES_VISIBLES) {
+    // ni lien, ni écran, ni carte sur la fiche, ni filtre dans les tâches
+    await page.goto('/');
+    await expect(menu.getByRole('link', { name: 'Exercices et documents' })).toHaveCount(0);
+    await page.goto('/exercices');
     await expect(page.getByRole('heading', { name: /^Bonjour / })).toBeVisible();
+    await page.goto('/clients');
+    await page.locator('tbody tr').first().click();
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Exercices remis' })).toHaveCount(0);
+    await page.goto('/taches');
+    const filtres = page.getByRole('group', { name: 'Afficher' });
+    await expect(filtres.getByRole('button', { name: /^Exercices/ })).toHaveCount(0);
   }
 
-  // fiche client : pas de prix, pas d'exercices remis
-  await page.goto('/clients');
-  await page.locator('tbody tr').first().click();
-  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-  await expect(page.getByText('€')).toHaveCount(0);
-  await expect(page.getByRole('heading', { name: 'Exercices remis' })).toHaveCount(0);
+  if (!ARGENT_VISIBLE) {
+    // ni écrans, ni prix sur la fiche, ni onglet « Tarifs », ni coordonnées des reçus
+    for (const adresse of ['/recus', '/rentabilite']) {
+      await page.goto(adresse);
+      await expect(page.getByRole('heading', { name: /^Bonjour / })).toBeVisible();
+    }
+    await page.goto('/clients');
+    await page.locator('tbody tr').first().click();
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    await expect(page.getByText('€')).toHaveCount(0);
+    await page.goto('/parametres');
+    await expect(page.getByRole('button', { name: 'Tarifs' })).toHaveCount(0);
+    await expect(page.getByText('Pour les reçus')).toHaveCount(0);
+  }
+});
 
-  // paramètres : pas d'onglet « Tarifs », pas de coordonnées pour les reçus
-  await page.goto('/parametres');
-  await expect(page.getByRole('button', { name: 'Tarifs' })).toHaveCount(0);
-  await expect(page.getByText('Pour les reçus')).toHaveCount(0);
-
-  // tâches : pas de filtre « Exercices »
-  await page.goto('/taches');
-  await expect(page.getByRole('group', { name: 'Afficher' }).getByRole('button', { name: /^Exercices/ })).toHaveCount(
-    0,
-  );
+test('budget : rentabilité et reçus accessibles depuis Paramètres › Tarifs', async ({ page }) => {
+  test.skip(!ARGENT_VISIBLE, 'Tarifs, reçus et rentabilité masqués (src/config/fonctions.ts)');
+  await seConnecter(page);
+  await page.goto('/parametres?onglet=tarifs');
+  await page.getByRole('link', { name: 'Voir la rentabilité' }).click();
+  await expect(page).toHaveURL(/\/rentabilite$/);
+  await page.goto('/parametres?onglet=tarifs');
+  await page.getByRole('link', { name: 'Mes reçus' }).click();
+  await expect(page).toHaveURL(/\/recus$/);
 });

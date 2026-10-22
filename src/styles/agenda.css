@@ -443,3 +443,105 @@ button.legende-categorie {
 .pave-meta svg {
   flex: none;
 }
+
+/* ------------------------------------------------------------------ */
+/* Formulaire de rendez-vous (0.11.0) : avec qui ? quand ? où ?         */
+/* ------------------------------------------------------------------ */
+.formulaire-rdv {
+  display: grid;
+  gap: 18px;
+}
+/* Phrase récapitulative, mise à jour à chaque choix */
+.resume-rdv {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border: 1px solid var(--violet-200);
+  border-radius: var(--rayon-menu);
+  background: var(--violet-50);
+  color: var(--encre);
+  font-weight: 600;
+}
+.resume-rdv svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--accent);
+}
+.etape-rdv {
+  display: grid;
+  gap: 12px;
+}
+.titre-etape {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9333rem;
+}
+.numero-etape {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent-doux);
+  color: var(--violet-800);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.creneaux-libres {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+}
+.creneau-libre {
+  display: grid;
+  gap: 1px;
+  justify-items: start;
+  min-height: 44px;
+  padding: 7px 10px;
+  border: 1px solid var(--bordure-forte);
+  border-bottom-color: var(--bordure-bas);
+  border-radius: var(--rayon-petit);
+  background: var(--surface);
+  color: var(--encre);
+  font: inherit;
+  font-size: 0.8667rem;
+  text-align: left;
+  cursor: pointer;
+}
+.creneau-libre:hover {
+  background: var(--surface-2);
+}
+.creneau-libre strong {
+  font-size: 1rem;
+}
+/* Créneau choisi : contour épais + fond teinté (pas seulement la couleur : aria-pressed) */
+.creneau-libre[aria-pressed='true'] {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+  background: var(--accent-doux);
+}
+.creneau-habituel {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--violet-800);
+}
+.grille-quand {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.plus-options > summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--accent);
+}
+.plus-options-corps {
+  display: grid;
+  gap: 14px;
+  margin-top: 12px;
+}

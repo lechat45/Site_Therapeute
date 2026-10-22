@@ -2,6 +2,7 @@
 // (le tarif d'un client se règle sur sa fiche).
 
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Erreur, useNotifier } from '../../composants/Commun';
 import { Icone } from '../../composants/Icone';
 import { messageErreur } from '../../domaine/format';
@@ -38,6 +39,18 @@ export function OngletTarifs() {
             Vous pouvez le modifier séance par séance.
           </p>
         </div>
+        {/* Accès au budget : « Rentabilité » et « Reçus » ne sont plus dans le menu (choix de
+            l'utilisateur, 0.9.3) ; on y accède d'ici quand les tarifs sont suivis. */}
+        {parametres.tarifs_actifs && (
+          <div className="actions">
+            <Link to="/rentabilite" className="bouton bouton-petit">
+              <Icone nom="activite" taille={15} /> Voir la rentabilité
+            </Link>
+            <Link to="/recus" className="bouton bouton-petit">
+              <Icone nom="recu" taille={15} /> Mes reçus
+            </Link>
+          </div>
+        )}
       </div>
       <div className="carte-corps" style={{ display: 'grid', gap: 18 }}>
         <label className="interrupteur">

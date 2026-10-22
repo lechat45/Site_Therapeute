@@ -79,7 +79,7 @@ src/
   App.tsx, main.tsx     routes (publiques par jeton : /q /d /r) et point d'entrée
   domaine/              logique PURE et testée (types, tâches, agenda, reçus, statistiques…)
   config/               référentiels et valeurs par défaut (miroirs des migrations) ;
-                        fonctions.ts = parties de l'interface masquées (exercices, argent)
+                        fonctions.ts = parties de l'interface masquées ou non (exercices : masqués)
   donnees/              accès aux données : source.ts (contrat) → demo.ts | supabase.ts
   etat/                 contextes React : session, réglages, tâches ; hooks
   composants/           composants réutilisables (cartes, boîtes de dialogue, graphiques…)
@@ -107,7 +107,7 @@ Jamais l'inverse : `domaine/` n'importe ni React, ni `donnees/`, ni le navigateu
 | Comptes, connexion, double authentification, inactivité | `schema_initial` (`mfa_satisfaite`), `relances_questionnaires` (journal des connexions) | `securite.ts` (TOTP, mots de passe) | `Connexion`, `parametres/OngletSecurite`, `etat/session`, `etat/inactivite`, `scripts/comptes.mjs` | `logique` (sécurité, session), `sql` (2FA) |
 | Clients, corbeille (30 j) | `schema_initial`, `ameliorations` (`supprime_le`, `purger_corbeille`, vue `clients_resume`) | — | `Clients`, `FicheClient` | `sql` (RLS, corbeille), e2e `parcours` |
 | Séances (fiche papier), parcours 3 + bilan + unité | `schema_initial` (`numeroter_seance`, `enregistrer_seance`, `seance_cases`) | `_shared/fiche.ts`, `config/referentiels.ts` | `FicheSeance`, `FeuilleSeance`, `ExercicesRendus` | `sql` (parcours, cases), e2e `parcours` |
-| Statistiques perso et groupe anonyme | `statistiques()` (`ameliorations`) | `statistiques.ts` (miroir démo) | `Statistiques` (accueil + groupe), `Graphiques` | `sql` (égalité SQL = démo, seuils) |
+| Statistiques perso et groupe anonyme | `statistiques()` (`ameliorations`) | `statistiques.ts` (miroir démo), `comparaison.ts` (repères du groupe, « vous et le groupe ») | `Statistiques` (accueil + groupe), `Graphiques` | `sql` (égalité SQL = démo, seuils), `comparaison` |
 | Assistant IA (facultatif) | `usage_ia`, `plateforme`, `consommer_quota_ia` | `contexteAnalyse.ts`, `_shared/analyse.ts`, `_shared/questionnaire.ts` | `FicheSeance` (Analyser), `parametres/OngletIA`, `functions/assistant-ia` | `analyse`, `sql` (quota) |
 | Questionnaires et relances | `relances_questionnaires` (`preparer_envoi`, `questionnaire_public`, `repondre_questionnaire`…) | `taches.ts` (`prochaineRelance`), `messages.ts`, `_shared/questionnaire.ts` | `DialogueEnvoi`, `CarteSuiviClient`, `QuestionnairePublic`, `parametres/OngletQuestionnaires`, `OngletRelances` | `logique`, `sql` (liens, réponses), e2e `parcours` |
 | Tâches (calculées, perso, « plus tard », récurrence, semaine) | `journal_exercices_recus` (`taches_perso`, `reports_taches`), `prolongements` (`tache_recurrente`) | `taches.ts`, `config/taches.ts` | `pages/Taches` (sans planning des rendez-vous : décision de l'utilisateur), `CartesTaches`, `MesTaches`, `RecapSemaine`, `etat/tachesContexte`, `styles/taches.css` (`.liste-taches`) | `outils`, `prolongements`, `rappelsRecus`, `sqlOutils`, `sqlProlongements`, e2e |
@@ -115,9 +115,9 @@ Jamais l'inverse : `domaine/` n'importe ni React, ni `donnees/`, ni le navigateu
 | Activité (statistiques de l'agenda) | — | `activite.ts` | `Activite` | `outils`, e2e `outils` |
 | Journal (notes) | `journal_exercices_recus` (`notes`, vue `journal`) | — | `Journal`, `DialogueNote`, `OutilsClient` (fiche client) | `sqlOutils`, e2e `outils` |
 | Exercices et documents remis, à compléter, rappel (**masqué**) | `journal_exercices_recus` (`documents`, `remises`, `preparer_remise`, `document_public`), `prolongements` (`repondre_document`, `questions_document`), `rappels_recus_groupes` (`relancer_remise`) | `texte.ts`, `exercices.ts`, `config/ressources.ts` | `Exercices`, `DocumentPublic`, `DialogueRemise`, `DialogueRappelExercice`, `ReponsesExercice`, `DocumentTexte` | `outils`, `prolongements`, `rappelsRecus`, `sqlOutils`, `sqlProlongements`, `sqlRappelsRecus`, e2e |
-| Parties masquées (interrupteurs) | — | `config/fonctions.ts` (`EXERCICES_VISIBLES`, `ARGENT_VISIBLE`, à `false`) | menu, routes (`App.tsx`), fiche client, fiche de séance, Paramètres, `etat/tachesContexte` | e2e `outils` (« parties masquées ») ; tests des parties masquées en `test.skip` |
-| Tarifs et rentabilité (**masqué**) | `relances_questionnaires` (`tarifer_seance`) | `rentabilite.ts` | `Rentabilite`, `parametres/OngletTarifs` | `logique`, `sql` (tarifs) |
-| Reçus : émission, annulation, lien, groupés, export, livre des recettes (**masqué**) | `journal_exercices_recus` (`recus`, `emettre_recu`, `annuler_recu`), `prolongements` (`preparer_lien_recu`, `recu_public`), `rappels_recus_groupes` (`recus_lignes`, `emettre_recu_groupe`) | `recus.ts`, `texte.ts` (`numeroRecu`), `config/ressources.ts` | `Recus` (+ impression), `RecuPublic`, `FeuilleRecu`, `DialogueLienRecu` | `prolongements`, `rappelsRecus`, `sqlOutils`, `sqlProlongements`, `sqlRappelsRecus`, e2e |
+| Parties masquées (interrupteurs) | — | `config/fonctions.ts` (`EXERCICES_VISIBLES = false`, `ARGENT_VISIBLE = true`) | menu, routes (`App.tsx`), fiche client, fiche de séance, Paramètres, `etat/tachesContexte` | e2e `outils` (« parties masquées ») ; tests des parties masquées en `test.skip` |
+| Tarifs et rentabilité (accès : Paramètres › Tarifs) | `relances_questionnaires` (`tarifer_seance`) | `rentabilite.ts` | `Rentabilite`, `parametres/OngletTarifs` | `logique`, `sql` (tarifs) |
+| Reçus : émission, annulation, lien, groupés, export, livre des recettes (accès : Paramètres › Tarifs) | `journal_exercices_recus` (`recus`, `emettre_recu`, `annuler_recu`), `prolongements` (`preparer_lien_recu`, `recu_public`), `rappels_recus_groupes` (`recus_lignes`, `emettre_recu_groupe`) | `recus.ts`, `texte.ts` (`numeroRecu`), `config/ressources.ts` | `Recus` (+ impression), `RecuPublic`, `FeuilleRecu`, `DialogueLienRecu` | `prolongements`, `rappelsRecus`, `sqlOutils`, `sqlProlongements`, `sqlRappelsRecus`, e2e |
 | Réglages, affichage, daltonisme | `parametres` (toutes migrations) | `config/parametresDefaut.ts` | `Parametres`, `pages/parametres/*`, `etat/reglages`, `styles/accessibilite.css` | `sql` (défauts SQL = TS), e2e `parcours` |
 | Style (design Flow en violet) | — | — | `styles/base.css` (variables), `structure.css` (menu), `composants.css`, `Icone` ; règles : `docs/DESIGN.md` | e2e (ordinateur + téléphone) |
 | Menu de navigation | — | — | `composants/Structure.tsx` (sans Rentabilité ni Reçus : décision de l'utilisateur) | e2e `parcours` |
@@ -180,12 +180,18 @@ Les migrations sont désignées par la fin de leur nom (`supabase/migrations/AAA
     Naviguer avec le routeur (`Link`, `useNavigate`, `Navigate`), jamais `<a href="/…">` ni
     `location.href = '/…'` ; liens envoyés aux clients avec `lienQuestionnaire`,
     `lienDocument`, `lienRecu`. *Pourquoi : sinon page blanche ou liens morts en ligne.*
-16. **Parties masquées : ne pas les rallumer sans l'utilisateur.** Les exercices et
-    documents, et tout ce qui parle d'argent (tarifs, reçus, rentabilité), sont retirés de
-    l'interface par `src/config/fonctions.ts`. Tout nouvel affichage qui en relève doit être
-    conditionné par `EXERCICES_VISIBLES` ou `ARGENT_VISIBLE` ; leur code, leurs tables et
-    leurs tests sont gardés en état de marche. *Pourquoi : choix de l'utilisateur (0.10.3),
-    réversible.*
+16. **Parties masquables : n'y toucher que sur demande de l'utilisateur.**
+    `src/config/fonctions.ts` affiche ou masque des parties entières. Aujourd'hui : les
+    **exercices et documents sont masqués** (`EXERCICES_VISIBLES = false`, depuis 0.10.3) ;
+    **l'argent est affiché** (`ARGENT_VISIBLE = true` : masqué en 0.10.3, remis en 0.11.0). Tout
+    nouvel affichage qui relève d'une de ces parties est conditionné par sa constante ; leur
+    code, leurs tables et leurs tests restent en état de marche. *Pourquoi : choix de
+    l'utilisateur, réversible.*
+17. **Espace de groupe : rien de personnel.** Il n'affiche que les agrégats de
+    `statistiques('groupe')` (seuils d'anonymat appliqués en SQL ; une case `masque` n'est
+    jamais exploitée, même pour un « repère »). Les comparaisons avec vos propres chiffres se
+    font sur votre écran (`domaine/comparaison.ts`) : aucune donnée personnelle n'est envoyée
+    au groupe. Une nouvelle information de groupe = un nouvel agrégat en SQL, avec seuil et test.
 
 ## 7. Lexique (français → anglais)
 

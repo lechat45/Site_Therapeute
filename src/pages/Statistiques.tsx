@@ -14,6 +14,13 @@ import {
 } from '../composants/Graphiques';
 import { Icone } from '../composants/Icone';
 import { donnees } from '../donnees';
+import {
+  comparerEmotions,
+  comparerIndicateurs,
+  phrasePosition,
+  reperesGroupe,
+  type LigneComparaison,
+} from '../domaine/comparaison';
 import { dateDuJour, jourLisible, nombre, pourcentage } from '../domaine/format';
 import { resumeDuJour } from '../domaine/taches';
 import { useTherapeute } from '../etat/session';
@@ -92,6 +99,8 @@ export function VueStatistiques({
       {perimetre === 'groupe' && <BandeauGroupe s={s} />}
       {/* Sur l'accueil, le bandeau fort est l'accueil du jour : pas de second bandeau sombre. */}
       <Indicateurs s={s} vedette={perimetre === 'groupe'} />
+      {perimetre === 'groupe' && <ReperesGroupe s={s} />}
+      {perimetre === 'groupe' && <ComparaisonGroupe groupe={s} />}
       <div className="grille-tableau-bord">
         <CarteEmotions s={s} />
         <div className="colonne">
@@ -120,6 +129,95 @@ function BandeauGroupe({ s }: { s: StatistiquesDisponibles }) {
           <strong>{s.seuils.clients} clients d'autres thérapeutes</strong> y contribuent.
         </span>
       </div>
+    </div>
+  );
+}
+
+/** Repères du groupe : quelques faits lisibles, tirés des seules cases publiées. */
+function ReperesGroupe({ s }: { s: StatistiquesDisponibles }) {
+  const reperes = reperesGroupe(s);
+  if (!reperes.length) return null;
+  return (
+    <section className="carte" aria-labelledby="titre-reperes">
+      <div className="carte-entete">
+        <div>
+          <h2 id="titre-reperes">Repères du groupe</h2>
+          <p className="aide">Tirés des seuls chiffres publiés (agrégats anonymes, seuils respectés).</p>
+        </div>
+      </div>
+      <ul className="carte-corps reperes">
+        {reperes.map((r) => (
+          <li key={r.libelle} className="repere">
+            <span className="repere-libelle">{r.libelle}</span>
+            <strong className="repere-valeur">{r.valeur}</strong>
+            <span className="repere-detail">{r.detail}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+/**
+ * « Vous et le groupe » : vos chiffres (calculés pour vous seul) en regard des moyennes du
+ * groupe. Rien de personnel ne part : la comparaison se fait sur votre écran.
+ */
+function ComparaisonGroupe({ groupe }: { groupe: StatistiquesDisponibles }) {
+  const perso = useChargement(() => donnees.statistiques('personnel', 'tout'), [], 'statistiques:personnel:tout');
+  const vous = perso.donnees;
+  if (!vous || !vous.disponible || vous.kpis.nb_seances === 0) return null;
+  return (
+    <section className="carte" aria-labelledby="titre-comparaison">
+      <div className="carte-entete">
+        <div>
+          <h2 id="titre-comparaison">Vous et le groupe</h2>
+          <p className="aide">
+            <Icone nom="cadenas" taille={13} /> Vos chiffres ne sont visibles que par vous : la comparaison se fait sur
+            votre écran, rien n'est envoyé au groupe.
+          </p>
+        </div>
+      </div>
+      <div className="carte-corps grille-comparaison">
+        <TableauComparaison titre="Le suivi" lignes={comparerIndicateurs(vous, groupe)} />
+        <TableauComparaison titre="Émotions au temps présent (% des séances)" lignes={comparerEmotions(vous, groupe)} />
+      </div>
+    </section>
+  );
+}
+
+function TableauComparaison({ titre, lignes }: { titre: string; lignes: LigneComparaison[] }) {
+  return (
+    <div>
+      <h3 className="sous-titre-section">{titre}</h3>
+      <ul className="comparaisons">
+        {lignes.map((l) => {
+          const max = Math.max(l.vous ?? 0, l.groupe ?? 0, 1);
+          return (
+            <li key={l.libelle} className="comparaison">
+              <div className="comparaison-tete">
+                <span className="comparaison-libelle">{l.libelle}</span>
+                <span className={`comparaison-position position-${l.position ?? 'aucune'}`}>
+                  {l.position === 'plus' && <Icone nom="haut" taille={12} />}
+                  {l.position === 'moins' && <Icone nom="bas" taille={12} />}
+                  {phrasePosition(l.position)}
+                </span>
+              </div>
+              <div className="comparaison-barres">
+                <span className="comparaison-nom">Vous</span>
+                <span className="mini-piste">
+                  <span className="barre-vous" style={{ width: `${((l.vous ?? 0) / max) * 100}%` }} />
+                </span>
+                <strong>{l.vous === null ? '—' : String(l.vous).replace('.', ',')}</strong>
+                <span className="comparaison-nom">Groupe</span>
+                <span className="mini-piste">
+                  <span className="barre-groupe" style={{ width: `${((l.groupe ?? 0) / max) * 100}%` }} />
+                </span>
+                <strong>{l.groupe === null ? '—' : String(l.groupe).replace('.', ',')}</strong>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }

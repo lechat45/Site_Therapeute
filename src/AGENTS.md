@@ -36,7 +36,7 @@ Mettre la logique dans `domaine/` (testable sans navigateur) plutôt que dans un
 |---|---|---|
 | Tableau de bord `/` (bandeau d'accueil `BandeauAccueil`, puis statistiques), espace de groupe `/groupe` | `Statistiques.tsx` | `Graphiques.tsx` |
 | Mes clients `/clients` | `Clients.tsx` | `Avatar` |
-| Fiche client `/clients/:id` | `FicheClient.tsx` | `CarteSuiviClient`, `EvolutionClient`, `RendezVousClient`, `OutilsClient` (notes, exercices remis) |
+| Fiche client `/clients/:id` (bandeau + onglets `?vue=apercu|seances|suivi|notes`) | `FicheClient.tsx` | `CarteSuiviClient`, `EvolutionClient`, `RendezVousClient`, `OutilsClient` (notes, exercices remis) |
 | Séance `/clients/:id/seances/:id` | `FicheSeance.tsx` | `FeuilleSeance` (fiche papier), `ExercicesRendus` |
 | Tâches `/taches` | `Taches.tsx` | `CartesTaches`, `MesTaches`, `RecapSemaine`, `LectureQuestionnaire`, `DialogueEnvoi`, `DialogueRappel`, `DialogueRappelExercice`, `ReponsesExercice` |
 | Emploi du temps `/emploi-du-temps` | `EmploiDuTemps.tsx` | `Agenda` (semaine, jour, légende), `DialogueRendezVous` |

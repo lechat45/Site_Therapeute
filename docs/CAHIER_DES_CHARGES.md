@@ -62,6 +62,12 @@ Tout ce qui a été ajouté ensuite (journal, exercices, reçus, activité, tâc
   (version 0.10.3) : tarifs, reçus, rentabilité, coordonnées des reçus ; écran et tâches des
   exercices. Masqués, pas supprimés : interrupteurs `EXERCICES_VISIBLES` et `ARGENT_VISIBLE`
   dans `src/config/fonctions.ts`, à rallumer seulement sur demande de l'utilisateur.
+- **Budget remis** (version 0.11.0, `ARGENT_VISIBLE = true`) ; « Rentabilité » et « Reçus »
+  restent hors du menu, accessibles depuis Paramètres › Tarifs.
+- **Espace de groupe enrichi sans rien de personnel** (0.11.0) : repères et comparaison « vous et
+  le groupe » tirés des seuls agrégats publiés ; vos chiffres restent sur votre écran.
+- **Fiche client en onglets** et **rendez-vous guidé** (« Avec qui ? Quand ? Où ? », créneaux
+  libres en un clic) : demandés pour rendre ces parties plus intuitives (0.11.0).
 - **Démonstration publique sur GitHub Pages** (`lechat45/Site_Therapeute`, mode démo
   seulement, jamais de vraies données) : `docs/DEPLOIEMENT.md`.
 - **Pas de polices téléchargées** (Google Fonts) : la politique de sécurité du site

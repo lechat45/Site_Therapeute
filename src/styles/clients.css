@@ -277,3 +277,59 @@ a.etape:hover {
 .bandeau-client {
   --courbe: 130px;
 }
+
+/* ------------------------------------------------------------------ */
+/* Fiche client : onglets (0.11.0)                                      */
+/* Onglet ouvert : texte gras + barre d'accent de 3 px dessous (comme   */
+/* l'élément actif du menu) ; aria-selected, donc pas la couleur seule. */
+/* ------------------------------------------------------------------ */
+.onglets-fiche {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  border-bottom: 1px solid var(--bordure);
+}
+.onglet-fiche {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: var(--rayon-menu) var(--rayon-menu) 0 0;
+  background: transparent;
+  color: var(--encre-2);
+  font: inherit;
+  cursor: pointer;
+}
+.onglet-fiche:hover {
+  background: rgb(0 0 0 / 4%);
+  color: var(--encre);
+}
+.onglet-fiche[aria-selected='true'] {
+  color: var(--encre);
+  font-weight: 600;
+}
+.onglet-fiche[aria-selected='true']::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: -1px;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--accent);
+}
+.vue-fiche {
+  display: grid;
+  gap: 20px;
+}
+@media (max-width: 560px) {
+  .onglet-fiche {
+    padding: 8px 10px;
+  }
+}
+.vue-etroite {
+  max-width: 760px;
+}

@@ -1,9 +1,9 @@
 // Parties de l'application affichées ou masquées, en un seul endroit.
 //
-// À la demande de l'utilisateur (version 0.10.3), deux parties sont RETIRÉES DE
-// L'INTERFACE, sans être supprimées : le code, les tables SQL, les données et les
-// tests restent, pour pouvoir les rallumer en passant la constante à `true`.
-// Ne pas les remettre sans lui (docs/CAHIER_DES_CHARGES.md, décisions).
+// À la demande de l'utilisateur, une partie peut être RETIRÉE DE L'INTERFACE sans être
+// supprimée : le code, les tables SQL, les données et les tests restent, et la constante
+// la rallume. Historique : les deux parties masquées en 0.10.3 ; l'argent remis en 0.11.0.
+// Ne changer ces valeurs qu'à sa demande (docs/CAHIER_DES_CHARGES.md, décisions).
 //
 // Les liens publics déjà envoyés aux clients (/d/<jeton> document, /r/<jeton> reçu)
 // restent ouverts : un client qui a reçu un lien peut toujours l'ouvrir.
@@ -21,4 +21,4 @@ export const EXERCICES_VISIBLES = false;
  * séance), écrans « Rentabilité » et « Reçus » (routes), coordonnées des reçus
  * (Paramètres › Mon profil). Revient à `parametres.tarifs_actifs` désactivé partout.
  */
-export const ARGENT_VISIBLE = false;
+export const ARGENT_VISIBLE = true;

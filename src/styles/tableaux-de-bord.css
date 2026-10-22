@@ -489,3 +489,105 @@
   width: 16px;
   height: 16px;
 }
+
+/* ------------------------------------------------------------------ */
+/* Espace de groupe (0.11.0) : repères et « Vous et le groupe »         */
+/* ------------------------------------------------------------------ */
+.reperes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+  gap: 12px;
+  margin: 0;
+  list-style: none;
+}
+.repere {
+  display: grid;
+  gap: 2px;
+  padding: 12px 14px;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon-menu);
+  background: var(--surface-2);
+}
+.repere-libelle {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--encre-3);
+}
+.repere-valeur {
+  font-size: 1.15rem;
+  color: var(--encre);
+}
+.repere-valeur::first-letter {
+  text-transform: uppercase;
+}
+.repere-detail {
+  font-size: 0.8rem;
+  color: var(--encre-3);
+}
+.grille-comparaison {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px 32px;
+}
+.comparaisons {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.comparaison-tete {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 10px;
+  margin-bottom: 6px;
+}
+.comparaison-libelle {
+  font-weight: 600;
+}
+/* La position est écrite en toutes lettres (et fléchée) : jamais la couleur seule */
+.comparaison-position {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  color: var(--encre-3);
+}
+.comparaison-barres {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) 44px;
+  gap: 4px 10px;
+  align-items: center;
+  font-size: 0.8667rem;
+}
+.comparaison-barres strong {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.comparaison-nom {
+  color: var(--encre-3);
+}
+.comparaison-barres .mini-piste {
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--piste);
+  overflow: hidden;
+}
+.barre-vous,
+.barre-groupe {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+}
+.comparaison-barres .barre-vous {
+  background: var(--accent);
+}
+/* le groupe : gris foncé, pour se distinguer du violet sans dépendre de la couleur
+   (chaque barre est aussi nommée « Vous » / « Groupe ») */
+.comparaison-barres .barre-groupe {
+  background: var(--encre-3);
+}

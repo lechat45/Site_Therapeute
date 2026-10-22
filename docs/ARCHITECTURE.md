@@ -247,8 +247,8 @@ Thérapeute ─► Tâche « Questionnaire reçu de Léa », lue automatiquement
 
 ## 3 ter. Tarifs et rentabilité (facultatifs)
 
-> **Masqué dans l'interface depuis 0.10.3** (`ARGENT_VISIBLE = false`, `src/config/fonctions.ts`),
-> comme les reçus : tout ce qui suit reste en place et se rallume d'une ligne.
+> Masqué en 0.10.3, **remis en 0.11.0** (`ARGENT_VISIBLE = true`, `src/config/fonctions.ts`).
+> « Rentabilité » et « Reçus » ne sont pas dans le menu : on y accède par Paramètres › Tarifs.
 
 Tarif par défaut (Paramètres), tarif propre à un client (fiche), et tarif de chaque
 séance, pré-rempli à sa création (déclencheur `tarifer_seance`) puis modifiable. La page
@@ -365,6 +365,11 @@ que sur un seul reçu valide, et `annuler_recu()` annule les lignes avec le reç
 ---
 
 ## 4. Statistiques
+
+> **Espace de groupe (0.11.0)** : en plus des graphiques, des « Repères du groupe » et une
+> comparaison « Vous et le groupe », calculés dans le navigateur (`domaine/comparaison.ts`) à
+> partir des agrégats déjà publiés et de vos propres statistiques : aucun nouvel échange de
+> données, aucune case masquée exploitée.
 
 Une seule fonction SQL sert les deux espaces, avec les mêmes définitions :
 

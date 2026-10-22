@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=24"
   },
-  "version": "0.10.4",
+  "version": "0.11.0",
   "type": "module",
   "description": "SaaS de suivi thérapeutique pour thérapeutes comportementalistes émotionnels",
   "scripts": {

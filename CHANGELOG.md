@@ -3,6 +3,35 @@
 Format : une entrée par livraison, la plus récente en haut. Numéro de version dans
 `package.json`.
 
+## 0.11.0 — 2026-10-22
+
+### Ajouté
+- **Espace de groupe** : « Repères du groupe » (émotion la plus présente, motif le plus fréquent,
+  âge le plus représenté, mois le plus chargé, séances par thérapeute) et « Vous et le groupe »
+  (vos indicateurs et vos émotions face aux moyennes du groupe, « au-dessus / comparable / en
+  dessous » écrit en toutes lettres). Rien de nouveau ne part de la base : tout est tiré des
+  agrégats déjà publiés (cases masquées par les seuils ignorées) ; vos chiffres ne servent qu'à
+  l'affichage sur votre écran. Logique pure : `domaine/comparaison.ts`, tests
+  `tests/comparaison.test.ts`.
+- **Rendez-vous plus intuitif** : le formulaire suit l'ordre « Avec qui ? Quand ? Où ? », avec les
+  **prochains créneaux libres** en un clic (d'abord aux habitudes du client), la durée et la
+  modalité en boutons, une **phrase récapitulative** en tête, et « Plus d'options » (répéter,
+  note) replié.
+- Paramètres › Tarifs : boutons « Voir la rentabilité » et « Mes reçus » (ces écrans ne sont pas
+  dans le menu depuis 0.9.3).
+
+### Modifié
+- **Budget remis** : `ARGENT_VISIBLE = true` (tarifs, prix des séances, reçus, rentabilité,
+  coordonnées des reçus). Les exercices et documents restent masqués.
+- **Fiche client en onglets** sous le bandeau : « Vue d'ensemble » (parcours, rendez-vous,
+  synthèse, problématiques), « Séances » (historique, évolution), « Relances et
+  questionnaires », « Notes ». L'onglet ouvert est dans l'adresse (`?vue=seances|suivi|notes`) ;
+  flèches gauche/droite au clavier.
+
+### Tests
+- e2e : créneau libre en un clic (ordinateur et téléphone), espace de groupe, accès au budget
+  depuis Paramètres ; le test « parties masquées » vérifie chaque partie séparément.
+
 ## 0.10.4 — 2026-10-22
 
 ### Modifié

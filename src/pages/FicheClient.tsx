@@ -1,13 +1,13 @@
-// Fiche d'un client : identité, parcours (3 séances, bilan, séances à
-// l'unité), évolution, séances, rendez-vous, suivi (relances), exercices
-// remis, notes du journal, synthèse IA, problématiques.
+// Fiche d'un client : bandeau (identité, parcours, actions), puis quatre onglets
+// (0.11.0) : vue d'ensemble (parcours, rendez-vous, synthèse IA, problématiques),
+// séances (historique, évolution), relances et questionnaires, notes.
 
 import { useEffect, useState, type FormEvent } from 'react';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { CarteSuiviClient } from '../composants/CarteSuiviClient';
 import { Chargement, Dialogue, Erreur, useNotifier } from '../composants/Commun';
 import { EvolutionClient } from '../composants/EvolutionClient';
-import { Icone } from '../composants/Icone';
+import { Icone, type NomIcone } from '../composants/Icone';
 import { DocumentsClient, NotesClient } from '../composants/OutilsClient';
 import { RendezVousClient } from '../composants/RendezVousClient';
 import { casesTempsPresent, EMOTIONS, NUMERO_BILAN, PROBLEMATIQUES, SEANCES_INITIALES } from '../config/referentiels';
@@ -27,6 +27,16 @@ const resumeTempsPresent = (s: Seance) =>
     .filter((c) => c.zone.startsWith('present1'))
     .map((c) => libelleEmotion(c.emotion_id))
     .join(' → ');
+
+/** Rubriques de la fiche (onglets), dans l'ordre. */
+const VUES = [
+  { cle: 'apercu', libelle: 'Vue d’ensemble', icone: 'clients' },
+  { cle: 'seances', libelle: 'Séances', icone: 'document' },
+  { cle: 'suivi', libelle: 'Relances et questionnaires', icone: 'envoyer' },
+  { cle: 'notes', libelle: 'Notes', icone: 'livre' },
+] as const satisfies readonly { cle: string; libelle: string; icone: NomIcone }[];
+type Vue = (typeof VUES)[number]['cle'];
+const estVue = (x: string | null): x is Vue => VUES.some((v) => v.cle === x);
 
 /** Libellé de l'action « séance suivante » selon l'avancement du parcours. */
 export function libelleSeanceSuivante(nb: number) {
@@ -65,6 +75,19 @@ export function FicheClient() {
   const [edition, setEdition] = useState(false);
   const [suppression, setSuppression] = useState(false);
   const { hash } = useLocation();
+  const [recherche, setRecherche] = useSearchParams();
+  const demandee = recherche.get('vue');
+  // anciens liens vers une ancre (#evolution) : ouvrir l'onglet qui la contient
+  const vue: Vue = estVue(demandee) ? demandee : hash === '#evolution' ? 'seances' : 'apercu';
+  const choisirVue = (v: Vue) =>
+    setRecherche(
+      (r) => {
+        if (v === 'apercu') r.delete('vue');
+        else r.set('vue', v);
+        return r;
+      },
+      { replace: true },
+    );
   useEffect(() => {
     if (hash && fiche.donnees) document.getElementById(hash.slice(1))?.scrollIntoView({ block: 'start' });
   }, [hash, fiche.donnees]);
@@ -209,36 +232,136 @@ export function FicheClient() {
         </div>
       )}
 
-      <div className="grille-fiche">
-        <div className="colonne">
-          <section className="carte" aria-labelledby="titre-parcours">
-            <div className="carte-entete">
-              <div>
-                <h2 id="titre-parcours">Parcours</h2>
-                <p className="aide">
-                  {SEANCES_INITIALES} séances initiales, un bilan, puis des séances supplémentaires à l'unité.
-                </p>
-              </div>
-            </div>
-            <div className="carte-corps">
-              <Parcours client={client} seances={seances} ajouter={nouvelleSeance} occupe={creationEnCours} />
-            </div>
-          </section>
+      {/* Onglets (0.11.0) : une fiche longue devient quatre vues claires ; la vue ouverte est
+          dans l'adresse (?vue=…), pour les liens et le bouton « retour ». */}
+      <div className="onglets-fiche" role="tablist" aria-label="Rubriques de la fiche">
+        {VUES.map((v) => (
+          <button
+            key={v.cle}
+            id={`onglet-${v.cle}`}
+            type="button"
+            role="tab"
+            aria-selected={vue === v.cle}
+            aria-controls={`vue-${v.cle}`}
+            tabIndex={vue === v.cle ? 0 : -1}
+            className="onglet-fiche"
+            onClick={() => choisirVue(v.cle)}
+            onKeyDown={(e) => {
+              const i = VUES.findIndex((x) => x.cle === vue);
+              const pas = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+              if (!pas) return;
+              const suivante = VUES[(i + pas + VUES.length) % VUES.length].cle;
+              choisirVue(suivante);
+              document.getElementById(`onglet-${suivante}`)?.focus();
+            }}
+          >
+            <Icone nom={v.icone} taille={16} /> {v.libelle}
+            {v.cle === 'seances' && <span className="compteur">{seances.length}</span>}
+          </button>
+        ))}
+      </div>
 
-          <section className="carte" aria-labelledby="titre-evolution" id="evolution">
-            <div className="carte-entete">
-              <div>
-                <h2 id="titre-evolution" style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                  <Icone nom="evolution" /> Évolution
-                </h2>
-                <p className="aide">Ce que disent le questionnaire de suivi et les fiches, au fil du temps.</p>
+      {vue === 'apercu' && (
+        <div className="grille-fiche" role="tabpanel" id="vue-apercu" aria-labelledby="onglet-apercu">
+          <div className="colonne">
+            <section className="carte" aria-labelledby="titre-parcours">
+              <div className="carte-entete">
+                <div>
+                  <h2 id="titre-parcours">Parcours</h2>
+                  <p className="aide">
+                    {SEANCES_INITIALES} séances initiales, un bilan, puis des séances supplémentaires à l'unité.
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className="carte-corps">
-              <EvolutionClient seances={seances} envois={envois} />
-            </div>
-          </section>
+              <div className="carte-corps">
+                <Parcours client={client} seances={seances} ajouter={nouvelleSeance} occupe={creationEnCours} />
+              </div>
+            </section>
+            {!client.supprime_le && <RendezVousClient clientId={client.id} />}
+          </div>
+          <div className="colonne">
+            <section className="carte panneau-ia" aria-labelledby="titre-synthese">
+              <div className="carte-entete">
+                <div>
+                  <h2 id="titre-synthese" style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    <Icone nom="etincelles" /> Synthèse évolutive
+                  </h2>
+                  <p className="aide">Rédigée par l'IA à partir des notes de chaque séance, à relire.</p>
+                </div>
+              </div>
+              <div className="carte-corps" style={{ display: 'grid', gap: 12 }}>
+                {client.synthese_ia ? (
+                  <>
+                    <p className="synthese">{client.synthese_ia}</p>
+                    <p className="meta">
+                      Mise à jour le {dateHeure(client.synthese_ia_maj_le)}
+                      {analysee && <> · jusqu'à la séance {analysee.numero}</>}
+                      {analysee?.analyse_ia?.modele && <> · {analysee.analyse_ia.modele}</>}
+                    </p>
+                  </>
+                ) : (
+                  <p className="meta">
+                    Aucune synthèse pour l'instant. Lancez l'analyse IA depuis une fiche de séance après avoir rédigé
+                    vos notes.
+                  </p>
+                )}
+                {derniere && !derniere.analyse_ia && (
+                  <Link className="bouton bouton-doux" to={`/clients/${client.id}/seances/${derniere.id}#ia`}>
+                    <Icone nom="etincelles" taille={16} /> Analyser la séance {derniere.numero}
+                  </Link>
+                )}
+              </div>
+            </section>
 
+            <section className="carte" aria-labelledby="titre-problematiques-client">
+              <div className="carte-entete">
+                <div>
+                  <h2 id="titre-problematiques-client">Problématiques</h2>
+                  <p className="aide">Motifs de consultation retenus (alimentent les statistiques).</p>
+                </div>
+              </div>
+              <div className="carte-corps" style={{ display: 'grid', gap: 12 }}>
+                {problematiques.length ? (
+                  <div className="puces">
+                    {problematiques.map((p) => (
+                      <span key={p.problematique_id} className={`puce${p.source === 'ia' ? ' puce-ia' : ''}`}>
+                        {p.source === 'ia' && <Icone nom="etincelles" taille={12} titre="Suggérée par l'IA" />}
+                        {PROBLEMATIQUES.find((x) => x.id === p.problematique_id)?.libelle}
+                        <button
+                          aria-label={`Retirer ${PROBLEMATIQUES.find((x) => x.id === p.problematique_id)?.libelle}`}
+                          onClick={() => retirerProblematique(p.problematique_id)}
+                        >
+                          <Icone nom="croix" taille={12} />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="meta">Aucune problématique retenue.</p>
+                )}
+                {disponibles.length > 0 && (
+                  <select
+                    aria-label="Ajouter une problématique"
+                    value=""
+                    onChange={(e) => e.target.value && ajouterProblematique(Number(e.target.value))}
+                  >
+                    <option value="">+ Ajouter une problématique…</option>
+                    {disponibles.map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {p.libelle}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </div>
+            </section>
+            {EXERCICES_VISIBLES && !client.supprime_le && <DocumentsClient client={client} />}
+          </div>
+        </div>
+      )}
+
+      {vue === 'seances' && (
+        <div className="vue-fiche" role="tabpanel" id="vue-seances" aria-labelledby="onglet-seances">
           <section className="carte" aria-labelledby="titre-seances">
             <div className="carte-entete">
               <h2 id="titre-seances">Historique des séances</h2>
@@ -297,91 +420,37 @@ export function FicheClient() {
               )}
             </div>
           </section>
-        </div>
-
-        <div className="colonne">
-          {!client.supprime_le && <RendezVousClient clientId={client.id} />}
-          <CarteSuiviClient client={client} seances={seances} envois={envois} recharger={fiche.recharger} />
-          {EXERCICES_VISIBLES && !client.supprime_le && <DocumentsClient client={client} />}
-          {!client.supprime_le && <NotesClient client={client} />}
-
-          <section className="carte panneau-ia" aria-labelledby="titre-synthese">
+          <section className="carte" aria-labelledby="titre-evolution" id="evolution">
             <div className="carte-entete">
               <div>
-                <h2 id="titre-synthese" style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                  <Icone nom="etincelles" /> Synthèse évolutive
+                <h2 id="titre-evolution" style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                  <Icone nom="evolution" /> Évolution
                 </h2>
-                <p className="aide">Rédigée par l'IA à partir des notes de chaque séance, à relire.</p>
+                <p className="aide">Ce que disent le questionnaire de suivi et les fiches, au fil du temps.</p>
               </div>
             </div>
-            <div className="carte-corps" style={{ display: 'grid', gap: 12 }}>
-              {client.synthese_ia ? (
-                <>
-                  <p className="synthese">{client.synthese_ia}</p>
-                  <p className="meta">
-                    Mise à jour le {dateHeure(client.synthese_ia_maj_le)}
-                    {analysee && <> · jusqu'à la séance {analysee.numero}</>}
-                    {analysee?.analyse_ia?.modele && <> · {analysee.analyse_ia.modele}</>}
-                  </p>
-                </>
-              ) : (
-                <p className="meta">
-                  Aucune synthèse pour l'instant. Lancez l'analyse IA depuis une fiche de séance après avoir rédigé vos
-                  notes.
-                </p>
-              )}
-              {derniere && !derniere.analyse_ia && (
-                <Link className="bouton bouton-doux" to={`/clients/${client.id}/seances/${derniere.id}#ia`}>
-                  <Icone nom="etincelles" taille={16} /> Analyser la séance {derniere.numero}
-                </Link>
-              )}
-            </div>
-          </section>
-
-          <section className="carte" aria-labelledby="titre-problematiques-client">
-            <div className="carte-entete">
-              <div>
-                <h2 id="titre-problematiques-client">Problématiques</h2>
-                <p className="aide">Motifs de consultation retenus (alimentent les statistiques).</p>
-              </div>
-            </div>
-            <div className="carte-corps" style={{ display: 'grid', gap: 12 }}>
-              {problematiques.length ? (
-                <div className="puces">
-                  {problematiques.map((p) => (
-                    <span key={p.problematique_id} className={`puce${p.source === 'ia' ? ' puce-ia' : ''}`}>
-                      {p.source === 'ia' && <Icone nom="etincelles" taille={12} titre="Suggérée par l'IA" />}
-                      {PROBLEMATIQUES.find((x) => x.id === p.problematique_id)?.libelle}
-                      <button
-                        aria-label={`Retirer ${PROBLEMATIQUES.find((x) => x.id === p.problematique_id)?.libelle}`}
-                        onClick={() => retirerProblematique(p.problematique_id)}
-                      >
-                        <Icone nom="croix" taille={12} />
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              ) : (
-                <p className="meta">Aucune problématique retenue.</p>
-              )}
-              {disponibles.length > 0 && (
-                <select
-                  aria-label="Ajouter une problématique"
-                  value=""
-                  onChange={(e) => e.target.value && ajouterProblematique(Number(e.target.value))}
-                >
-                  <option value="">+ Ajouter une problématique…</option>
-                  {disponibles.map((p) => (
-                    <option key={p.id} value={p.id}>
-                      {p.libelle}
-                    </option>
-                  ))}
-                </select>
-              )}
+            <div className="carte-corps">
+              <EvolutionClient seances={seances} envois={envois} />
             </div>
           </section>
         </div>
-      </div>
+      )}
+
+      {vue === 'suivi' && (
+        <div className="vue-fiche vue-etroite" role="tabpanel" id="vue-suivi" aria-labelledby="onglet-suivi">
+          <CarteSuiviClient client={client} seances={seances} envois={envois} recharger={fiche.recharger} />
+        </div>
+      )}
+
+      {vue === 'notes' && (
+        <div className="vue-fiche" role="tabpanel" id="vue-notes" aria-labelledby="onglet-notes">
+          {client.supprime_le ? (
+            <p className="meta">Fiche dans la corbeille : restaurez-la pour ajouter des notes.</p>
+          ) : (
+            <NotesClient client={client} />
+          )}
+        </div>
+      )}
 
       {edition && (
         <DialogueIdentite client={client} ouvert fermer={() => setEdition(false)} enregistre={fiche.recharger} />
