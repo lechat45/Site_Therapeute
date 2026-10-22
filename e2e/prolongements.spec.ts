@@ -4,8 +4,10 @@
 import { readFileSync } from 'node:fs';
 import { expect, test } from '@playwright/test';
 import { aujourdhui, creerClient, seConnecter } from './aides';
+import { ARGENT_VISIBLE, EXERCICES_VISIBLES } from '../src/config/fonctions';
 
 test('exercice à compléter : le client répond, ses réponses arrivent dans les tâches', async ({ page, context }) => {
+  test.skip(!EXERCICES_VISIBLES, 'Exercices et documents masqués (src/config/fonctions.ts)');
   await seConnecter(page);
   await creerClient(page, 'Inès', 'Devoir');
   const carte = page.locator('section', { has: page.getByRole('heading', { name: 'Exercices remis' }) });
@@ -41,6 +43,7 @@ test('exercice à compléter : le client répond, ses réponses arrivent dans le
 });
 
 test('reçus : envoyé par lien, ouvert par le client ; export pour le tableur', async ({ page, context }) => {
+  test.skip(!ARGENT_VISIBLE, 'Tarifs, reçus et rentabilité masqués (src/config/fonctions.ts)');
   await seConnecter(page);
   await page.goto('/recus');
   const ligne = page

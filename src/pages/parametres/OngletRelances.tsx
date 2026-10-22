@@ -11,6 +11,7 @@ import { lienQuestionnaire, remplirModele } from '../../domaine/messages';
 import { useReglages } from '../../etat/reglages';
 import { useTherapeute } from '../../etat/session';
 import type { Parametres } from '../../domaine/types';
+import { EXERCICES_VISIBLES } from '../../config/fonctions';
 
 type Champs = Pick<
   Parametres,
@@ -138,35 +139,37 @@ export function OngletRelances() {
         </div>
       </section>
 
-      <section className="carte" aria-labelledby="t-exercices">
-        <div className="carte-entete">
-          <div>
-            <h2 id="t-exercices" style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-              <Icone nom="document" /> Exercices à compléter
-            </h2>
-            <p className="aide">
-              Quand un client n'a pas répondu à un exercice reçu par lien, l'onglet Tâches vous propose de le lui
-              rappeler (nouveau lien, message préparé).
-            </p>
+      {EXERCICES_VISIBLES && (
+        <section className="carte" aria-labelledby="t-exercices">
+          <div className="carte-entete">
+            <div>
+              <h2 id="t-exercices" style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                <Icone nom="document" /> Exercices à compléter
+              </h2>
+              <p className="aide">
+                Quand un client n'a pas répondu à un exercice reçu par lien, l'onglet Tâches vous propose de le lui
+                rappeler (nouveau lien, message préparé).
+              </p>
+            </div>
           </div>
-        </div>
-        <div className="carte-corps">
-          <label className="champ" style={{ maxWidth: 360 }}>
-            <span className="etiquette">Proposer un rappel</span>
-            <span className="champ-unite">
-              <input
-                type="number"
-                inputMode="numeric"
-                min={0}
-                max={60}
-                value={f.exercice_rappel_jours}
-                onChange={(e) => maj('exercice_rappel_jours', Math.max(0, Math.min(60, Number(e.target.value) || 0)))}
-              />
-              <span>jours après la remise (0 : jamais)</span>
-            </span>
-          </label>
-        </div>
-      </section>
+          <div className="carte-corps">
+            <label className="champ" style={{ maxWidth: 360 }}>
+              <span className="etiquette">Proposer un rappel</span>
+              <span className="champ-unite">
+                <input
+                  type="number"
+                  inputMode="numeric"
+                  min={0}
+                  max={60}
+                  value={f.exercice_rappel_jours}
+                  onChange={(e) => maj('exercice_rappel_jours', Math.max(0, Math.min(60, Number(e.target.value) || 0)))}
+                />
+                <span>jours après la remise (0 : jamais)</span>
+              </span>
+            </label>
+          </div>
+        </section>
+      )}
 
       <section className="carte" aria-labelledby="t-modeles">
         <div className="carte-entete">

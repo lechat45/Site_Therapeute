@@ -9,6 +9,7 @@ import { donnees } from '../../donnees';
 import { messageErreur } from '../../domaine/format';
 import { useReglages } from '../../etat/reglages';
 import { useSession, useTherapeute } from '../../etat/session';
+import { ARGENT_VISIBLE } from '../../config/fonctions';
 
 /** Réduit une image à 160 × 160 px (JPEG) : la photo reste légère. */
 function reduireImage(fichier: File): Promise<string> {
@@ -173,42 +174,45 @@ export function OngletProfil() {
             nom.
           </span>
         </div>
-        <fieldset className="groupe-champs">
-          <legend>Pour les reçus (notes d'honoraires)</legend>
-          <div className="champ">
-            <label htmlFor="p-adresse">Adresse professionnelle</label>
-            <textarea
-              id="p-adresse"
-              rows={2}
-              maxLength={300}
-              placeholder={'12 rue des Lilas\n75000 Paris'}
-              value={adresse}
-              onChange={(e) => setAdresse(e.target.value)}
-              autoComplete="street-address"
-            />
-          </div>
-          <div className="grille-2" style={{ alignItems: 'start' }}>
+        {/* Coordonnées des reçus : partie « argent », masquée (config/fonctions.ts). */}
+        {ARGENT_VISIBLE && (
+          <fieldset className="groupe-champs">
+            <legend>Pour les reçus (notes d'honoraires)</legend>
             <div className="champ">
-              <label htmlFor="p-siret">SIRET</label>
-              <input
-                id="p-siret"
-                inputMode="numeric"
-                maxLength={17}
-                placeholder="14 chiffres"
-                value={siret}
-                onChange={(e) => setSiret(e.target.value)}
+              <label htmlFor="p-adresse">Adresse professionnelle</label>
+              <textarea
+                id="p-adresse"
+                rows={2}
+                maxLength={300}
+                placeholder={'12 rue des Lilas\n75000 Paris'}
+                value={adresse}
+                onChange={(e) => setAdresse(e.target.value)}
+                autoComplete="street-address"
               />
             </div>
-            <div className="champ">
-              <label htmlFor="p-mention">Mention en bas du reçu</label>
-              <input id="p-mention" maxLength={300} value={mention} onChange={(e) => setMention(e.target.value)} />
-              <span className="indication">Ex. : « TVA non applicable, article 293 B du CGI. »</span>
+            <div className="grille-2" style={{ alignItems: 'start' }}>
+              <div className="champ">
+                <label htmlFor="p-siret">SIRET</label>
+                <input
+                  id="p-siret"
+                  inputMode="numeric"
+                  maxLength={17}
+                  placeholder="14 chiffres"
+                  value={siret}
+                  onChange={(e) => setSiret(e.target.value)}
+                />
+              </div>
+              <div className="champ">
+                <label htmlFor="p-mention">Mention en bas du reçu</label>
+                <input id="p-mention" maxLength={300} value={mention} onChange={(e) => setMention(e.target.value)} />
+                <span className="indication">Ex. : « TVA non applicable, article 293 B du CGI. »</span>
+              </div>
             </div>
-          </div>
-          <p className="meta">
-            Recopiées sur chaque reçu au moment où vous l'émettez : les reçus déjà émis ne changent pas.
-          </p>
-        </fieldset>
+            <p className="meta">
+              Recopiées sur chaque reçu au moment où vous l'émettez : les reçus déjà émis ne changent pas.
+            </p>
+          </fieldset>
+        )}
         <div className="champ">
           <label htmlFor="p-email">Adresse de connexion</label>
           <input id="p-email" value={t.email} readOnly />

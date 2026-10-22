@@ -3,6 +3,28 @@
 Format : une entrée par livraison, la plus récente en haut. Numéro de version dans
 `package.json`.
 
+## 0.10.3 — 2026-10-22
+
+Deux parties retirées de l'interface à la demande de l'utilisateur. Elles ne sont **pas
+supprimées** : code, tables SQL, données et tests restent, et chacune se rallume d'une ligne
+dans `src/config/fonctions.ts`.
+
+### Retiré de l'interface
+- **Exercices et documents** (`EXERCICES_VISIBLES = false`) : lien du menu et écran
+  (`/exercices` ramène à l'accueil), carte « Exercices remis » de la fiche client, exercices
+  rendus sur la fiche de séance, tâches « exercice complété » et « exercice à rappeler » (et
+  leur filtre, et leur mention sur l'accueil), réglage du rappel d'exercice.
+- **Tout ce qui parle d'argent** (`ARGENT_VISIBLE = false`) : onglet Paramètres › Tarifs,
+  tarif sur la fiche client (en-tête et formulaire) et sur la fiche de séance, coordonnées des
+  reçus dans Paramètres › Mon profil, écrans « Rentabilité » et « Reçus » (`/rentabilite` et
+  `/recus` ramènent à l'accueil).
+- Les liens déjà envoyés aux clients (`/d/<jeton>`, `/r/<jeton>`) restent ouverts.
+
+### Tests
+- Les 7 tests e2e des parties masquées sautent tant qu'elles le sont (`test.skip`, raison
+  écrite) ; ils passent quand on les rallume (vérifié). Nouveau test « parties masquées »
+  (ordinateur et téléphone).
+
 ## 0.10.2 — 2026-10-21
 
 ### Modifié

@@ -14,6 +14,7 @@ import { useReglages } from '../etat/reglages';
 import { dateHeure, LIBELLE_TYPE, messageErreur, pourcentage } from '../domaine/format';
 import type { AnalyseIA, Client, ClientProblematique, FicheSeance as Fiche, Seance, ZoneFiche } from '../domaine/types';
 import { useChargement } from '../etat/useChargement';
+import { ARGENT_VISIBLE, EXERCICES_VISIBLES } from '../config/fonctions';
 
 /** Forme canonique de la fiche (pour détecter les modifications de façon fiable). */
 function normaliser(f: Fiche): Fiche {
@@ -269,7 +270,7 @@ function Formulaire({
           </div>
         </div>
         <div className="actions">
-          {parametres.tarifs_actifs && (
+          {ARGENT_VISIBLE && parametres.tarifs_actifs && (
             <label className="tarif-seance" title="Tarif de cette séance (facultatif)">
               <span>Tarif</span>
               <input
@@ -311,7 +312,9 @@ function Formulaire({
         </div>
       </div>
 
-      <ExercicesRendus clientId={client.id} depuis={precedente} jusqua={estDerniere ? null : seance.date_seance} />
+      {EXERCICES_VISIBLES && (
+        <ExercicesRendus clientId={client.id} depuis={precedente} jusqua={estDerniere ? null : seance.date_seance} />
+      )}
 
       <FeuilleSeance
         client={client}

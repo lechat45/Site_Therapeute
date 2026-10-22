@@ -2,6 +2,7 @@
 
 import { expect, test } from '@playwright/test';
 import { creerClient, seConnecter } from './aides';
+import { ARGENT_VISIBLE, EXERCICES_VISIBLES } from '../src/config/fonctions';
 
 test('tâches : ma tâche, « plus tard », filtres et tâches reportées @telephone', async ({ page }) => {
   await seConnecter(page);
@@ -63,6 +64,7 @@ test('journal : une note liée à un client, retrouvée sur sa fiche et dans le 
 });
 
 test('exercices : remis par lien, le client l’ouvre sans compte', async ({ page, context }) => {
+  test.skip(!EXERCICES_VISIBLES, 'Exercices et documents masqués (src/config/fonctions.ts)');
   await seConnecter(page);
   await creerClient(page, 'Léo', 'Exercice');
   const carte = page.locator('section', { has: page.getByRole('heading', { name: 'Exercices remis' }) });
@@ -87,6 +89,7 @@ test('exercices : remis par lien, le client l’ouvre sans compte', async ({ pag
 });
 
 test('reçus : émettre, imprimer, annuler avec un motif', async ({ page }) => {
+  test.skip(!ARGENT_VISIBLE, 'Tarifs, reçus et rentabilité masqués (src/config/fonctions.ts)');
   await seConnecter(page);
   await page.goto('/recus');
   await page.getByRole('button', { name: 'Émettre un reçu' }).first().click();
@@ -118,4 +121,39 @@ test('activité : statistiques de l’emploi du temps', async ({ page }) => {
     page.getByRole('list', { name: 'Heures de consultation par semaine' }).getByRole('listitem'),
   ).toHaveCount(4);
   await expect(page.getByRole('table', { name: /jour de la semaine et heure/ })).toBeVisible();
+});
+
+test('parties masquées : ni exercices ni argent dans l’interface @telephone', async ({ page }) => {
+  test.skip(EXERCICES_VISIBLES || ARGENT_VISIBLE, 'au moins une partie est affichée (src/config/fonctions.ts)');
+  await seConnecter(page);
+
+  // menu : ni « Exercices et documents », ni « Rentabilité », ni « Reçus »
+  await page.goto('/');
+  const menu = page.getByRole('navigation', { name: 'Navigation principale' });
+  for (const nom of ['Exercices et documents', 'Rentabilité', 'Reçus'])
+    await expect(menu.getByRole('link', { name: nom })).toHaveCount(0);
+
+  // leurs adresses ramènent à l'accueil
+  for (const adresse of ['/exercices', '/recus', '/rentabilite']) {
+    await page.goto(adresse);
+    await expect(page.getByRole('heading', { name: 'Mon tableau de bord' })).toBeVisible();
+  }
+
+  // fiche client : pas de prix, pas d'exercices remis
+  await page.goto('/clients');
+  await page.locator('tbody tr').first().click();
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  await expect(page.getByText('€')).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'Exercices remis' })).toHaveCount(0);
+
+  // paramètres : pas d'onglet « Tarifs », pas de coordonnées pour les reçus
+  await page.goto('/parametres');
+  await expect(page.getByRole('button', { name: 'Tarifs' })).toHaveCount(0);
+  await expect(page.getByText('Pour les reçus')).toHaveCount(0);
+
+  // tâches : pas de filtre « Exercices »
+  await page.goto('/taches');
+  await expect(page.getByRole('group', { name: 'Afficher' }).getByRole('button', { name: /^Exercices/ })).toHaveCount(
+    0,
+  );
 });

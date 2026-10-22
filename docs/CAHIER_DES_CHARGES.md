@@ -58,6 +58,10 @@ Tout ce qui a été ajouté ensuite (journal, exercices, reçus, activité, tâc
   du jour ni de résumé des rendez-vous de la semaine (ils sont dans l'emploi du temps). Les
   tâches liées aux rendez-vous (rappel, rendez-vous à compléter) restent. Un test e2e le
   vérifie (`e2e/outils.spec.ts`).
+- **Exercices et documents, et tout ce qui parle d'argent, retirés de l'interface**
+  (version 0.10.3) : tarifs, reçus, rentabilité, coordonnées des reçus ; écran et tâches des
+  exercices. Masqués, pas supprimés : interrupteurs `EXERCICES_VISIBLES` et `ARGENT_VISIBLE`
+  dans `src/config/fonctions.ts`, à rallumer seulement sur demande de l'utilisateur.
 - **Démonstration publique sur GitHub Pages** (`lechat45/Site_Therapeute`, mode démo
   seulement, jamais de vraies données) : `docs/DEPLOIEMENT.md`.
 - **Pas de polices téléchargées** (Google Fonts) : la politique de sécurité du site

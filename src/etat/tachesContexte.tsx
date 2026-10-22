@@ -9,8 +9,16 @@ import { donnees } from '../donnees';
 import { decalerJour, horodatage, jourDe } from '../domaine/agenda';
 import { dateDuJour, messageErreur } from '../domaine/format';
 import { useReglages } from './reglages';
-import { calculerTaches, recapSemaine, separerReportees, type RecapSemaine, type Tache } from '../domaine/taches';
+import {
+  calculerTaches,
+  familleTache,
+  recapSemaine,
+  separerReportees,
+  type RecapSemaine,
+  type Tache,
+} from '../domaine/taches';
 import type { ClientResume, Envoi, Remise, RendezVous, ReportTache, TachePerso } from '../domaine/types';
+import { EXERCICES_VISIBLES } from '../config/fonctions';
 
 interface Donnees {
   clients: ClientResume[];
@@ -76,7 +84,7 @@ export function FournisseurTaches({ children }: { children: ReactNode }) {
 
   const recharger = useCallback(() => setJeton((j) => j + 1), []);
   const jour = dateDuJour();
-  const toutes = calculerTaches(
+  const calculees = calculerTaches(
     etat.clients,
     etat.envois,
     parametres,
@@ -86,6 +94,8 @@ export function FournisseurTaches({ children }: { children: ReactNode }) {
     etat.tachesPerso,
     etat.remises,
   );
+  // Exercices masqués (config/fonctions.ts) : leurs tâches disparaissent partout (liste, badge, accueil).
+  const toutes = EXERCICES_VISIBLES ? calculees : calculees.filter((t) => familleTache(t) !== 'exercices');
   const { actives, reportees } = separerReportees(toutes, etat.reports, jour);
   const aujourdhui = etat.rendezVous.filter((r) => jourDe(r.debut) === jour && r.statut !== 'annule');
   const semaine = recapSemaine(jour, etat.clients, etat.envois, etat.rendezVous, etat.tachesPerso, parametres);

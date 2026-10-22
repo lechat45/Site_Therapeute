@@ -13,6 +13,10 @@ SaaS de suivi pour thérapeutes comportementalistes émotionnels :
   personnes daltoniennes (pictogramme, nom et motif en plus de la couleur), rappels de
   rendez-vous préparés à la main, séance démarrée depuis le rendez-vous ;
 - **journal** de notes privées, libres ou liées à un client ;
+> **Version actuelle** : les exercices et documents, et tout ce qui parle d'argent (tarifs,
+> reçus, rentabilité), sont **masqués** dans l'interface (`src/config/fonctions.ts`). Ils
+> restent décrits ci-dessous car ils se rallument d'une ligne.
+
 - **exercices et documents** à remettre aux clients (lien personnel sans compte ou papier),
   dont des **exercices à compléter** dont les réponses reviennent dans les Tâches et en tête
   de la séance suivante, avec rappel proposé si le client n'a pas répondu ;

@@ -16,13 +16,14 @@ import { OngletQuestionnaires } from './parametres/OngletQuestionnaires';
 import { OngletRelances } from './parametres/OngletRelances';
 import { OngletSecurite } from './parametres/OngletSecurite';
 import { OngletTarifs } from './parametres/OngletTarifs';
+import { ARGENT_VISIBLE } from '../config/fonctions';
 
 /** Rubriques, dans l'ordre du menu ; `?onglet=<cle>` ouvre directement l'une d'elles. */
 const ONGLETS: { cle: string; libelle: string; icone: NomIcone }[] = [
   { cle: 'profil', libelle: 'Mon profil', icone: 'utilisateur' },
   { cle: 'affichage', libelle: 'Affichage', icone: 'palette' },
   { cle: 'securite', libelle: 'Sécurité', icone: 'cadenas' },
-  { cle: 'tarifs', libelle: 'Tarifs', icone: 'euro' },
+  ...(ARGENT_VISIBLE ? [{ cle: 'tarifs', libelle: 'Tarifs', icone: 'euro' as const }] : []),
   { cle: 'agenda', libelle: 'Emploi du temps', icone: 'calendrier' },
   { cle: 'relances', libelle: 'Relances et messages', icone: 'envoyer' },
   { cle: 'questionnaires', libelle: 'Questionnaires', icone: 'questionnaire' },
@@ -76,7 +77,7 @@ export function Parametres() {
         {onglet === 'profil' && <OngletProfil />}
         {onglet === 'affichage' && <OngletAffichage />}
         {onglet === 'securite' && <OngletSecurite />}
-        {onglet === 'tarifs' && <OngletTarifs />}
+        {ARGENT_VISIBLE && onglet === 'tarifs' && <OngletTarifs />}
         {onglet === 'agenda' && <OngletEmploiDuTemps />}
         {onglet === 'relances' && <OngletRelances />}
         {onglet === 'questionnaires' && <OngletQuestionnaires />}

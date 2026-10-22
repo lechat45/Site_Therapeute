@@ -4,8 +4,10 @@
 import { readFileSync } from 'node:fs';
 import { expect, test } from '@playwright/test';
 import { creerClient, seConnecter } from './aides';
+import { ARGENT_VISIBLE, EXERCICES_VISIBLES } from '../src/config/fonctions';
 
 test('exercice non rendu : le rappel prépare un nouveau lien', async ({ page, context }) => {
+  test.skip(!EXERCICES_VISIBLES, 'Exercices et documents masqués (src/config/fonctions.ts)');
   await seConnecter(page);
   await page.goto('/taches?filtre=exercices');
   const carte = page.locator('article', { has: page.getByRole('heading', { name: /^Rappeler l'exercice à / }) });
@@ -25,6 +27,7 @@ test('exercice non rendu : le rappel prépare un nouveau lien', async ({ page, c
 });
 
 test('fiche de séance : l’exercice rendu par le client s’affiche en tête', async ({ page, context }) => {
+  test.skip(!EXERCICES_VISIBLES, 'Exercices et documents masqués (src/config/fonctions.ts)');
   await seConnecter(page);
   await creerClient(page, 'Lina', 'Seance');
   await page.getByRole('button', { name: 'Démarrer la séance 1' }).click();
@@ -53,6 +56,7 @@ test('fiche de séance : l’exercice rendu par le client s’affiche en tête',
 });
 
 test('reçu groupé pour plusieurs séances d’un même client ; livre des recettes', async ({ page }) => {
+  test.skip(!ARGENT_VISIBLE, 'Tarifs, reçus et rentabilité masqués (src/config/fonctions.ts)');
   await seConnecter(page);
   await page.goto('/recus');
   await page.getByRole('button', { name: /^Tout afficher/ }).click();

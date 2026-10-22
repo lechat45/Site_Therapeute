@@ -17,6 +17,7 @@ import { FicheClient } from './pages/FicheClient';
 import { FicheSeance } from './pages/FicheSeance';
 import { EspaceGroupe, TableauDeBord } from './pages/Statistiques';
 import { Taches } from './pages/Taches';
+import { ARGENT_VISIBLE, EXERCICES_VISIBLES } from './config/fonctions';
 
 // Pages moins fréquentes, chargées à la demande. Le questionnaire public,
 // ouvert par les clients sur leur téléphone, reste ainsi léger.
@@ -72,11 +73,20 @@ const routeur = createBrowserRouter(
         { path: 'emploi-du-temps', element: <EmploiDuTemps /> },
         { path: 'activite', element: differe(<Activite />) },
         { path: 'journal', element: differe(<Journal />) },
-        { path: 'exercices', element: differe(<Exercices />) },
-        { path: 'exercices/:ressourceId/imprimer', element: differe(<ImpressionDocument />) },
-        { path: 'recus', element: differe(<Recus />) },
-        { path: 'recus/:recuId', element: differe(<ImpressionRecu />) },
-        { path: 'rentabilite', element: differe(<Rentabilite />) },
+        // Parties masquées (config/fonctions.ts) : sans elles, leurs adresses mènent à l'accueil.
+        ...(EXERCICES_VISIBLES
+          ? [
+              { path: 'exercices', element: differe(<Exercices />) },
+              { path: 'exercices/:ressourceId/imprimer', element: differe(<ImpressionDocument />) },
+            ]
+          : []),
+        ...(ARGENT_VISIBLE
+          ? [
+              { path: 'recus', element: differe(<Recus />) },
+              { path: 'recus/:recuId', element: differe(<ImpressionRecu />) },
+              { path: 'rentabilite', element: differe(<Rentabilite />) },
+            ]
+          : []),
         { path: 'groupe', element: <EspaceGroupe /> },
         { path: 'parametres', element: differe(<Parametres />) },
         { path: '*', element: <Navigate to="/" replace /> },

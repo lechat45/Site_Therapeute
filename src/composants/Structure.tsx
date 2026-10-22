@@ -12,6 +12,7 @@ import { useTaches } from '../etat/tachesContexte';
 import { Avatar } from './Avatar';
 import { Dialogue, useNotifier } from './Commun';
 import { Icone, type NomIcone } from './Icone';
+import { EXERCICES_VISIBLES } from '../config/fonctions';
 
 function Lien({
   vers,
@@ -104,7 +105,8 @@ export function Structure() {
         <Lien vers="/emploi-du-temps" icone="calendrier" libelle="Emploi du temps" />
         <Lien vers="/taches" icone="taches" libelle="Tâches" badge={taches.length} />
         <Lien vers="/journal" icone="livre" libelle="Journal" />
-        <Lien vers="/exercices" icone="document" libelle="Exercices et documents" />
+        {/* Exercices et documents masqués à la demande de l'utilisateur (config/fonctions.ts). */}
+        {EXERCICES_VISIBLES && <Lien vers="/exercices" icone="document" libelle="Exercices et documents" />}
         <div className="nav-titre">Suivi de l'activité</div>
         <Lien vers="/activite" icone="activite" libelle="Activité" />
         {/* « Rentabilité » et « Reçus » retirés du menu à la demande de l'utilisateur (0.9.3) :

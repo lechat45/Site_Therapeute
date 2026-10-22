@@ -25,6 +25,11 @@ Complète `../AGENTS.md`. Lancer : `npm run test:e2e` ; un fichier :
 
 ## Conventions
 
+- **Parties masquées** (`src/config/fonctions.ts`) : un test d'une partie masquée commence par
+  `test.skip(!EXERCICES_VISIBLES, '…')` ou `test.skip(!ARGENT_VISIBLE, '…')`. Il redevient
+  actif tout seul quand la partie est rallumée. Le test « parties masquées »
+  (`outils.spec.ts`) vérifie qu'elles n'apparaissent nulle part.
+
 - Sélecteurs **accessibles** et en français : `getByRole('button', { name: '…' })`,
   `getByLabel('…')`, `getByRole('heading', …)`. Pas de sélecteur CSS sauf pour une zone sans rôle
   (`.liste-miennes`, `.tableau-recu`). Changer un libellé de l'interface ⇒ chercher ce libellé

@@ -247,6 +247,9 @@ Thérapeute ─► Tâche « Questionnaire reçu de Léa », lue automatiquement
 
 ## 3 ter. Tarifs et rentabilité (facultatifs)
 
+> **Masqué dans l'interface depuis 0.10.3** (`ARGENT_VISIBLE = false`, `src/config/fonctions.ts`),
+> comme les reçus : tout ce qui suit reste en place et se rallume d'une ligne.
+
 Tarif par défaut (Paramètres), tarif propre à un client (fiche), et tarif de chaque
 séance, pré-rempli à sa création (déclencheur `tarifer_seance`) puis modifiable. La page
 Rentabilité affiche le chiffre d'affaires indicatif (période, par mois, par client), le
@@ -306,6 +309,9 @@ que sur un seul reçu valide, et `annuler_recu()` annule les lignes avec le reç
   voit une personne protanope, deutéranope ou tritanope (filtre SVG, mêmes matrices).
 
 ## 3 ter ter. Journal, exercices et documents, activité
+
+> **Exercices et documents masqués dans l'interface depuis 0.10.3** (`EXERCICES_VISIBLES =
+> false`, `src/config/fonctions.ts`) ; le journal et l'activité restent affichés.
 
 - **Journal** (`notes`) : notes privées, libres ou liées à un client (clé composite),
   épinglables ; vue `journal` sans les clients de la corbeille. Même protection que les

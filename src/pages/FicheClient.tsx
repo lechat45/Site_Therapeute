@@ -17,6 +17,7 @@ import { useReglages } from '../etat/reglages';
 import { euros } from '../domaine/rentabilite';
 import type { Client, Seance } from '../domaine/types';
 import { useChargement } from '../etat/useChargement';
+import { ARGENT_VISIBLE, EXERCICES_VISIBLES } from '../config/fonctions';
 
 const libelleEmotion = (id: number) => EMOTIONS.find((e) => e.id === id)?.libelle ?? '?';
 
@@ -143,7 +144,7 @@ export function FicheClient() {
               </a>
             )}
             {!client.email && !client.telephone && <span>Aucune coordonnée</span>}
-            {parametres.tarifs_actifs && (
+            {ARGENT_VISIBLE && parametres.tarifs_actifs && (
               <span>
                 <Icone nom="euro" taille={14} />{' '}
                 {client.prix_seance !== null
@@ -301,7 +302,7 @@ export function FicheClient() {
         <div className="colonne">
           {!client.supprime_le && <RendezVousClient clientId={client.id} />}
           <CarteSuiviClient client={client} seances={seances} envois={envois} recharger={fiche.recharger} />
-          {!client.supprime_le && <DocumentsClient client={client} />}
+          {EXERCICES_VISIBLES && !client.supprime_le && <DocumentsClient client={client} />}
           {!client.supprime_le && <NotesClient client={client} />}
 
           <section className="carte panneau-ia" aria-labelledby="titre-synthese">
@@ -595,7 +596,7 @@ function DialogueIdentite({
         <span className="indication" style={{ marginTop: -8 }}>
           Facultatifs : ils servent à préparer les relances et le questionnaire de suivi.
         </span>
-        {parametres.tarifs_actifs && (
+        {ARGENT_VISIBLE && parametres.tarifs_actifs && (
           <div className="champ" style={{ maxWidth: 260 }}>
             <label htmlFor="id-prix">Tarif d'une séance pour ce client</label>
             <div className="champ-unite">

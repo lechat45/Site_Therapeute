@@ -78,7 +78,8 @@ sans lui.
 src/
   App.tsx, main.tsx     routes (publiques par jeton : /q /d /r) et point d'entrée
   domaine/              logique PURE et testée (types, tâches, agenda, reçus, statistiques…)
-  config/               référentiels et valeurs par défaut (miroirs des migrations)
+  config/               référentiels et valeurs par défaut (miroirs des migrations) ;
+                        fonctions.ts = parties de l'interface masquées (exercices, argent)
   donnees/              accès aux données : source.ts (contrat) → demo.ts | supabase.ts
   etat/                 contextes React : session, réglages, tâches ; hooks
   composants/           composants réutilisables (cartes, boîtes de dialogue, graphiques…)
@@ -113,9 +114,10 @@ Jamais l'inverse : `domaine/` n'importe ni React, ni `donnees/`, ni le navigateu
 | Emploi du temps (couleurs daltoniennes) | `emploi_du_temps` (`rendez_vous`, vue `agenda`) | `agenda.ts`, `couleurs.ts`, `config/agenda.ts` | `EmploiDuTemps`, `Agenda`, `DialogueRendezVous`, `DialogueRappel`, `RendezVousClient`, `parametres/OngletEmploiDuTemps` | `logique` (agenda, couleurs), `sql`, e2e |
 | Activité (statistiques de l'agenda) | — | `activite.ts` | `Activite` | `outils`, e2e `outils` |
 | Journal (notes) | `journal_exercices_recus` (`notes`, vue `journal`) | — | `Journal`, `DialogueNote`, `OutilsClient` (fiche client) | `sqlOutils`, e2e `outils` |
-| Exercices et documents remis, à compléter, rappel | `journal_exercices_recus` (`documents`, `remises`, `preparer_remise`, `document_public`), `prolongements` (`repondre_document`, `questions_document`), `rappels_recus_groupes` (`relancer_remise`) | `texte.ts`, `exercices.ts`, `config/ressources.ts` | `Exercices`, `DocumentPublic`, `DialogueRemise`, `DialogueRappelExercice`, `ReponsesExercice`, `DocumentTexte` | `outils`, `prolongements`, `rappelsRecus`, `sqlOutils`, `sqlProlongements`, `sqlRappelsRecus`, e2e |
-| Tarifs et rentabilité | `relances_questionnaires` (`tarifer_seance`) | `rentabilite.ts` | `Rentabilite`, `parametres/OngletTarifs` | `logique`, `sql` (tarifs) |
-| Reçus : émission, annulation, lien, groupés, export, livre des recettes | `journal_exercices_recus` (`recus`, `emettre_recu`, `annuler_recu`), `prolongements` (`preparer_lien_recu`, `recu_public`), `rappels_recus_groupes` (`recus_lignes`, `emettre_recu_groupe`) | `recus.ts`, `texte.ts` (`numeroRecu`), `config/ressources.ts` | `Recus` (+ impression), `RecuPublic`, `FeuilleRecu`, `DialogueLienRecu` | `prolongements`, `rappelsRecus`, `sqlOutils`, `sqlProlongements`, `sqlRappelsRecus`, e2e |
+| Exercices et documents remis, à compléter, rappel (**masqué**) | `journal_exercices_recus` (`documents`, `remises`, `preparer_remise`, `document_public`), `prolongements` (`repondre_document`, `questions_document`), `rappels_recus_groupes` (`relancer_remise`) | `texte.ts`, `exercices.ts`, `config/ressources.ts` | `Exercices`, `DocumentPublic`, `DialogueRemise`, `DialogueRappelExercice`, `ReponsesExercice`, `DocumentTexte` | `outils`, `prolongements`, `rappelsRecus`, `sqlOutils`, `sqlProlongements`, `sqlRappelsRecus`, e2e |
+| Parties masquées (interrupteurs) | — | `config/fonctions.ts` (`EXERCICES_VISIBLES`, `ARGENT_VISIBLE`, à `false`) | menu, routes (`App.tsx`), fiche client, fiche de séance, Paramètres, `etat/tachesContexte` | e2e `outils` (« parties masquées ») ; tests des parties masquées en `test.skip` |
+| Tarifs et rentabilité (**masqué**) | `relances_questionnaires` (`tarifer_seance`) | `rentabilite.ts` | `Rentabilite`, `parametres/OngletTarifs` | `logique`, `sql` (tarifs) |
+| Reçus : émission, annulation, lien, groupés, export, livre des recettes (**masqué**) | `journal_exercices_recus` (`recus`, `emettre_recu`, `annuler_recu`), `prolongements` (`preparer_lien_recu`, `recu_public`), `rappels_recus_groupes` (`recus_lignes`, `emettre_recu_groupe`) | `recus.ts`, `texte.ts` (`numeroRecu`), `config/ressources.ts` | `Recus` (+ impression), `RecuPublic`, `FeuilleRecu`, `DialogueLienRecu` | `prolongements`, `rappelsRecus`, `sqlOutils`, `sqlProlongements`, `sqlRappelsRecus`, e2e |
 | Réglages, affichage, daltonisme | `parametres` (toutes migrations) | `config/parametresDefaut.ts` | `Parametres`, `pages/parametres/*`, `etat/reglages`, `styles/accessibilite.css` | `sql` (défauts SQL = TS), e2e `parcours` |
 | Style (design Flow en violet) | — | — | `styles/base.css` (variables), `structure.css` (menu), `composants.css`, `Icone` ; règles : `docs/DESIGN.md` | e2e (ordinateur + téléphone) |
 | Menu de navigation | — | — | `composants/Structure.tsx` (sans Rentabilité ni Reçus : décision de l'utilisateur) | e2e `parcours` |
@@ -178,6 +180,12 @@ Les migrations sont désignées par la fin de leur nom (`supabase/migrations/AAA
     Naviguer avec le routeur (`Link`, `useNavigate`, `Navigate`), jamais `<a href="/…">` ni
     `location.href = '/…'` ; liens envoyés aux clients avec `lienQuestionnaire`,
     `lienDocument`, `lienRecu`. *Pourquoi : sinon page blanche ou liens morts en ligne.*
+16. **Parties masquées : ne pas les rallumer sans l'utilisateur.** Les exercices et
+    documents, et tout ce qui parle d'argent (tarifs, reçus, rentabilité), sont retirés de
+    l'interface par `src/config/fonctions.ts`. Tout nouvel affichage qui en relève doit être
+    conditionné par `EXERCICES_VISIBLES` ou `ARGENT_VISIBLE` ; leur code, leurs tables et
+    leurs tests sont gardés en état de marche. *Pourquoi : choix de l'utilisateur (0.10.3),
+    réversible.*
 
 ## 7. Lexique (français → anglais)
 

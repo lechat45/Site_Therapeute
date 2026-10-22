@@ -48,6 +48,7 @@ import {
 } from '../composants/CartesTaches';
 import { DialogueLecture } from '../composants/LectureQuestionnaire';
 import { MesTaches } from '../composants/MesTaches';
+import { EXERCICES_VISIBLES } from '../config/fonctions';
 
 type Filtre = 'tout' | FamilleTache | 'reportees';
 
@@ -57,7 +58,7 @@ const HISTORIQUE_COURT = 8;
 const FILTRES: { cle: Filtre; libelle: string; icone: NomIcone }[] = [
   { cle: 'tout', libelle: 'Tout', icone: 'taches' },
   { cle: 'questionnaires', libelle: 'Questionnaires', icone: 'questionnaire' },
-  { cle: 'exercices', libelle: 'Exercices', icone: 'document' },
+  ...(EXERCICES_VISIBLES ? [{ cle: 'exercices' as const, libelle: 'Exercices', icone: 'document' as const }] : []),
   { cle: 'relances', libelle: 'Relances', icone: 'envoyer' },
   { cle: 'agenda', libelle: 'Rendez-vous', icone: 'calendrier' },
   { cle: 'perso', libelle: 'Mes tâches', icone: 'crayon' },
