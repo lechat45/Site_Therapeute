@@ -333,6 +333,7 @@ function DialogueNouveauClient({
   const [email, setEmail] = useState('');
   const [telephone, setTelephone] = useState('');
   const [accord, setAccord] = useState(false);
+  const [consentement, setConsentement] = useState(false);
   const [envoi, setEnvoi] = useState(false);
   const [erreur, setErreur] = useState<string | null>(null);
   const notifier = useNotifier();
@@ -354,6 +355,7 @@ function DialogueNouveauClient({
         email: email.trim() || null,
         telephone: telephone.trim() || null,
         accord_relance_le: accord ? dateDuJour() : null,
+        consentement_le: consentement ? dateDuJour() : null,
       });
       notifier(`Fiche de ${client.prenom} ${client.nom} créée.`);
       cree(client.id);
@@ -434,6 +436,14 @@ function DialogueNouveauClient({
             />
           </div>
         </div>
+        {/* RGPD : notes de séance = données de santé ; consentement explicite (docs/RGPD.md) */}
+        <label className="case-a-cocher">
+          <input type="checkbox" checked={consentement} onChange={(e) => setConsentement(e.target.checked)} />
+          <span>
+            Le client a donné son consentement au traitement de ses données
+            <span className="meta"> (formulaire signé ; sinon, à noter plus tard sur sa fiche)</span>
+          </span>
+        </label>
         <label className="case-a-cocher">
           <input type="checkbox" checked={accord} onChange={(e) => setAccord(e.target.checked)} />
           <span>

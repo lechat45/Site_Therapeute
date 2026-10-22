@@ -490,3 +490,34 @@
     display: none;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Données personnelles (RGPD, 0.13.0)                                  */
+/* ------------------------------------------------------------------ */
+.rgpd-bloc {
+  display: grid;
+  gap: 8px;
+}
+.rgpd-bloc h3 {
+  font-size: 0.9333rem;
+}
+.liste-a-revoir {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.liste-a-revoir li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--bordure);
+}
+.liste-a-revoir li:last-child {
+  border-bottom: 0;
+}
+.liste-a-revoir li > .meta {
+  flex: 1 1 200px;
+}

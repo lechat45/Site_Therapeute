@@ -3,6 +3,7 @@
 // quotidien par thérapeute). Sans Gemini, tout continue de fonctionner
 // grâce aux lectures locales.
 
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { GEMINI_MODELE_PAR_DEFAUT } from '../../../supabase/functions/_shared/analyse.ts';
 import { useNotifier } from '../../composants/Commun';
@@ -58,6 +59,12 @@ export function OngletIA() {
               IA.
             </li>
             <li>Le nom et le prénom du client sont retirés des textes avant tout envoi à Gemini.</li>
+            {/* RGPD : transfert possible hors de l'Union européenne (docs/RGPD.md, sous-traitants) */}
+            <li>
+              Gemini est un service de Google qui peut traiter les textes hors de l’Union européenne : informez vos
+              clients (la <Link to="/confidentialite">politique de confidentialité</Link> le mentionne) et n’écrivez
+              dans vos notes aucun autre élément qui les identifierait.
+            </li>
           </ul>
 
           <label className="interrupteur">

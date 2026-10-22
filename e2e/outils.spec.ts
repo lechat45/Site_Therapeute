@@ -171,3 +171,24 @@ test('budget : rentabilité et reçus accessibles depuis Paramètres › Tarifs'
   await page.getByRole('link', { name: 'Mes reçus' }).click();
   await expect(page).toHaveURL(/\/recus$/);
 });
+
+test('RGPD : politique publique, consentement noté, export des données d’un client', async ({ page }) => {
+  // la politique de confidentialité est lisible sans compte, depuis la page de connexion
+  await page.goto('/connexion');
+  await page.getByRole('link', { name: 'Données personnelles et confidentialité' }).click();
+  await expect(page.getByRole('heading', { name: 'Politique de confidentialité' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Vos droits' })).toBeVisible();
+
+  await seConnecter(page);
+  await creerClient(page, 'Rose', 'Rgpd');
+  const carte = page.locator('section', { has: page.getByRole('heading', { name: 'Données personnelles' }) });
+  await expect(carte.getByText('Consentement à recueillir.')).toBeVisible();
+  await carte.getByRole('button', { name: /Noter le consentement/ }).click();
+  await expect(carte.getByText('Consentement noté')).toBeVisible();
+
+  const [fichier] = await Promise.all([
+    page.waitForEvent('download'),
+    carte.getByRole('button', { name: 'Exporter ses données' }).click(),
+  ]);
+  expect(fichier.suggestedFilename()).toMatch(/^donnees-rose-rgpd-\d{4}-\d{2}-\d{2}\.json$/);
+});

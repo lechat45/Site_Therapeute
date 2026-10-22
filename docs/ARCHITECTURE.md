@@ -455,8 +455,11 @@ un juriste ou un DPO.
 - **Relances** : recueillir l'accord du client pour être recontacté par e-mail ou SMS
   (le réglage « Relancer ce client » permet de respecter un refus). Les réponses au
   questionnaire sont elles aussi des données de santé.
-- **À développer** : export complet d'une fiche (droit d'accès et portabilité), durée
-  de conservation et purge, sauvegardes chiffrées (voir `docs/IDEES.md`).
+- **Fait en 0.13.0** : consentement noté sur chaque fiche, export d'une fiche et de toutes
+  ses données, durée de conservation (fiches à revoir à 5 ans, journal des connexions purgé à
+  12 mois), politique de confidentialité publique. Le reste (HDS, contrats, AIPD, registre,
+  violations) : **`docs/RGPD.md`**.
+- **À développer** : sauvegardes chiffrées (voir `docs/IDEES.md`).
 
 ---
 

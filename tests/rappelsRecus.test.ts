@@ -27,6 +27,7 @@ const client = (id = 'c1'): ClientResume => ({
   relance_reportee_au: null,
   accord_relance_le: null,
   supprime_le: null,
+  consentement_le: null,
 });
 
 const remise = (id: string, champs: Partial<Remise> = {}): Remise => ({

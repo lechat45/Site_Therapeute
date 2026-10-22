@@ -38,6 +38,11 @@ export interface SuiviClient {
   relance_reportee_au: string | null;
   /** Date à laquelle le client a accepté d'être recontacté (RGPD) ; `null` = accord non noté. */
   accord_relance_le: string | null;
+  /**
+   * Date à laquelle son consentement au traitement de ses données (données de santé, RGPD
+   * art. 9) a été noté ; `null` = pas encore noté (signalé sur la fiche). Migration `rgpd`.
+   */
+  consentement_le: string | null;
 }
 
 export interface Client extends SuiviClient {

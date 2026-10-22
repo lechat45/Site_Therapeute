@@ -9,6 +9,8 @@ Complète `../AGENTS.md`. Lancer : `npm test` (tout), `npm run test:sql` (fichie
 | Fichier | Ce qu'il couvre |
 |---|---|
 | `logique.test.ts` | socle sans base : relances, rentabilité, messages, date du jour, validation des réponses, lecture locale, sécurité (TOTP, jetons), CORS, période des statistiques, session et inactivité, couleurs daltoniennes, calculs d'agenda |
+| `rgpd.test.ts` | 0.13 : export d'une fiche (cloisonné, lisible), export complet, fiches à revoir (5 ans) |
+| `sqlRgpd.test.ts` | 0.13 : consentement (écriture, vue, RLS), effacement en cascade, purge du journal des connexions |
 | `presentation.test.ts` | 0.12 : présentation du site — diapositives complètes, chemins internes, parties masquées absentes |
 | `comparaison.test.ts` | 0.11 : espace de groupe — repères (jamais une case masquée), « vous et le groupe » (± 10 %, arrondis) |
 | `analyse.test.ts` | assistant IA des séances (`_shared/analyse.ts`) : pseudonymisation, requête et réponse Gemini, repli local |

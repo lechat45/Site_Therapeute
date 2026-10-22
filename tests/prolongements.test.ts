@@ -143,6 +143,7 @@ describe('exercices à compléter', () => {
     relance_reportee_au: null,
     accord_relance_le: null,
     supprime_le: null,
+    consentement_le: null,
   };
   const remise = (champs: Partial<Remise>): Remise => ({
     id: 'x1',

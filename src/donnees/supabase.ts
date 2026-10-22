@@ -337,8 +337,10 @@ export class SourceSupabase implements SourceDonnees {
   // --- clients ------------------------------------------------------------------
   async listerClients() {
     if (!this.corbeillePurgee) {
-      // une fois par session : efface la corbeille de plus de 30 jours
+      // une fois par session : efface la corbeille de plus de 30 jours, et le journal des
+      // connexions de plus de 12 mois (RGPD, durée de conservation : migration `rgpd`)
       verifier(await this.db.rpc('purger_corbeille'));
+      verifier(await this.db.rpc('purger_journal_connexions'));
       this.corbeillePurgee = true;
     }
     return verifier(

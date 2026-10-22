@@ -34,6 +34,7 @@ const client = (champs: Partial<ClientResume> = {}): ClientResume => ({
   relance_reportee_au: null,
   accord_relance_le: '2026-01-01',
   supprime_le: null,
+  consentement_le: null,
   ...champs,
 });
 

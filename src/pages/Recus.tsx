@@ -5,7 +5,7 @@
 
 import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Chargement, Dialogue, Erreur, useNotifier } from '../composants/Commun';
+import { Chargement, Dialogue, Erreur, telecharger, useNotifier } from '../composants/Commun';
 import { DialogueLienRecu } from '../composants/DialogueLienRecu';
 import { FeuilleRecu } from '../composants/FeuilleRecu';
 import { Icone } from '../composants/Icone';
@@ -24,16 +24,6 @@ import { useChargement } from '../etat/useChargement';
 const SANS_RECU_COURT = 8;
 
 const MOIS = Array.from({ length: 12 }, (_, i) => new Date(2026, i, 15).toLocaleDateString('fr-FR', { month: 'long' }));
-
-/** Fichier créé dans le navigateur (rien ne passe par un serveur). */
-function telecharger(nom: string, contenu: string, type: string) {
-  const url = URL.createObjectURL(new Blob([contenu], { type }));
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = nom;
-  a.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
 
 export function Recus() {
   const { parametres: p } = useReglages();

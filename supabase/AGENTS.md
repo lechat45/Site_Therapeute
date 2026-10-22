@@ -18,6 +18,7 @@ Complète `../AGENTS.md`.
 | `20261005090000_journal_exercices_recus` | `notes`, `documents`, `remises`, `recus`, `taches_perso`, `reports_taches` ; vues `journal`, `mes_taches`, `remises_actives` ; coordonnées des reçus |
 | `20261006090000_prolongements` | reçu par lien, réponses aux exercices, tâches récurrentes |
 | `20261007090000_rappels_recus_groupes` | rappel d'exercice non rendu, `recus_lignes` et reçus groupés |
+| `20261022090000_rgpd` | consentement du client (`clients.consentement_le`, vue `clients_resume`), purge du journal des connexions à 12 mois |
 
 ## Où est la version ACTUELLE d'une fonction ou d'une vue
 
@@ -34,6 +35,7 @@ Plusieurs fonctions ont été redéfinies (`create or replace`) : lire la **dern
 | `questionnaire_public(jeton)` / `repondre_questionnaire(jeton, réponses)` | **sans compte** | `ameliorations` |
 | `consommer_quota_ia()` / `quota_ia()` | quota Gemini par thérapeute et commun | `ameliorations` |
 | `purger_corbeille()` | efface les clients restés 30 jours dans la corbeille | `ameliorations` |
+| `purger_journal_connexions()` | efface ses connexions de plus de 12 mois (RGPD) | `rgpd` |
 | `preparer_remise(document, client, mode)` | remise d'un document (copie figée ; lien ou papier) | `journal_exercices_recus` |
 | `document_public(jeton)` | **sans compte** : le document remis (+ `repondu_le`) | `prolongements` |
 | `questions_document(texte)` | questions « ? » (miroir de `questionsDocument`) | `prolongements` |
@@ -46,7 +48,7 @@ Plusieurs fonctions ont été redéfinies (`create or replace`) : lire la **dern
 | `recu_public(jeton)` | **sans compte** : le reçu et ses lignes | `rappels_recus_groupes` |
 | `echeance_suivante(...)`, déclencheur `tache_recurrente` | tâches récurrentes (miroir de `echeanceSuivante`) | `prolongements` |
 | `mfa_satisfaite()` | vrai si la session a fourni le code (ou si la 2FA n'est pas activée) | `schema_initial` |
-| vues `clients_resume`, `agenda`, `journal`, `mes_taches`, `remises_actives` | lectures sans les clients de la corbeille | `ameliorations`, `emploi_du_temps`, `journal_exercices_recus`, `prolongements`, `rappels_recus_groupes` |
+| vues `clients_resume`, `agenda`, `journal`, `mes_taches`, `remises_actives` | lectures sans les clients de la corbeille | `rgpd` (clients_resume), `emploi_du_temps`, `journal_exercices_recus`, `prolongements`, `rappels_recus_groupes` |
 
 Pour retrouver une définition : `grep -n "function public.nom" supabase/migrations/*.sql`
 (la dernière ligne trouvée est la bonne).

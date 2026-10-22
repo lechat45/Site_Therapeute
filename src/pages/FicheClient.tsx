@@ -9,6 +9,7 @@ import { Chargement, Dialogue, Erreur, useNotifier } from '../composants/Commun'
 import { EvolutionClient } from '../composants/EvolutionClient';
 import { Icone, type NomIcone } from '../composants/Icone';
 import { DocumentsClient, NotesClient } from '../composants/OutilsClient';
+import { DonneesPersonnelles } from '../composants/DonneesPersonnelles';
 import { RendezVousClient } from '../composants/RendezVousClient';
 import { casesTempsPresent, EMOTIONS, NUMERO_BILAN, PROBLEMATIQUES, SEANCES_INITIALES } from '../config/referentiels';
 import { donnees } from '../donnees';
@@ -280,6 +281,13 @@ export function FicheClient() {
             {!client.supprime_le && <RendezVousClient clientId={client.id} />}
           </div>
           <div className="colonne">
+            <DonneesPersonnelles
+              client={client}
+              seances={seances}
+              problematiques={problematiques}
+              envois={envois}
+              recharger={fiche.recharger}
+            />
             <section className="carte panneau-ia" aria-labelledby="titre-synthese">
               <div className="carte-entete">
                 <div>

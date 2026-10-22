@@ -4,7 +4,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import { ReponseInvalide, validerReponses } from '../../supabase/functions/_shared/questionnaire.ts';
-import { Chargement, Erreur } from '../composants/Commun';
+import { Chargement, Erreur, PiedPublic } from '../composants/Commun';
 import { Icone } from '../composants/Icone';
 import { EMOTIONS } from '../config/referentiels';
 import { donnees } from '../donnees';
@@ -144,6 +144,7 @@ export function QuestionnairePublic() {
           </form>
         )}
       </div>
+      <PiedPublic />
     </div>
   );
 }

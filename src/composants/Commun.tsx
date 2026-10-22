@@ -2,6 +2,7 @@
 // Confirmation (avant une action définitive) et notifications éphémères
 // (FournisseurNotifications / useNotifier).
 
+import { Link } from 'react-router-dom';
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Icone } from './Icone';
 
@@ -162,3 +163,23 @@ export function FournisseurNotifications({ children }: { children: ReactNode }) 
 }
 
 export const useNotifier = () => useContext(ContexteNotif);
+
+/** Fichier créé dans le navigateur et proposé au téléchargement (rien ne passe par un serveur). */
+export function telecharger(nom: string, contenu: string, type: string) {
+  const url = URL.createObjectURL(new Blob([contenu], { type }));
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = nom;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+/** Pied des pages ouvertes par un client (questionnaire, document, reçu) : lien vers la
+ *  politique de confidentialité (RGPD, information des personnes). */
+export function PiedPublic() {
+  return (
+    <p className="pied-public">
+      <Link to="/confidentialite">Données personnelles et confidentialité</Link>
+    </p>
+  );
+}

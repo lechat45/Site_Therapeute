@@ -95,6 +95,7 @@ import {
 } from './jeuDemo';
 import { memoriserSession, stockageSession } from './memoireSession';
 import { ErreurDonnees, type SourceDonnees } from './source';
+import { DUREE_JOURNAL_CONNEXIONS_MOIS } from '../config/rgpd';
 
 const CLE_JEU = `suivi-therapeutique:demo:v${VERSION_JEU_DEMO}`;
 const CLE_SESSION = 'suivi-therapeutique:demo:session';
@@ -140,6 +141,8 @@ function verifierSuivi(champs: Partial<NouveauClient>) {
     throw new ErreurDonnees('Tarif invalide.');
   if (champs.accord_relance_le && !/^\d{4}-\d{2}-\d{2}$/.test(champs.accord_relance_le))
     throw new ErreurDonnees("Date d'accord invalide.");
+  if (champs.consentement_le && !/^\d{4}-\d{2}-\d{2}$/.test(champs.consentement_le))
+    throw new ErreurDonnees('Date de consentement invalide.');
 }
 
 const versResume = (c: Client, seances: Seance[], problematiques: number[]): ClientResume => ({
@@ -158,6 +161,7 @@ const versResume = (c: Client, seances: Seance[], problematiques: number[]): Cli
   relance_reportee_au: c.relance_reportee_au,
   accord_relance_le: c.accord_relance_le,
   supprime_le: c.supprime_le,
+  consentement_le: c.consentement_le ?? null,
 });
 
 function verifierParametres(p: Parametres) {
@@ -545,6 +549,12 @@ export class SourceDemo implements SourceDonnees {
     const uid = this.moi();
     for (const c of this.jeu.clients.filter((x) => x.therapeute_id === uid && x.supprime_le && x.supprime_le < limite))
       this.effacer(c.id);
+    // Équivalent de `purger_journal_connexions()` : journal gardé 12 mois (RGPD)
+    const debutJournal = new Date();
+    debutJournal.setMonth(debutJournal.getMonth() - DUREE_JOURNAL_CONNEXIONS_MOIS);
+    const avant = this.jeu.journal.length;
+    this.jeu.journal = this.jeu.journal.filter((j) => j.therapeute_id !== uid || j.le >= debutJournal.toISOString());
+    if (this.jeu.journal.length !== avant) this.sauver();
   }
 
   private effacer(id: string) {
@@ -600,6 +610,7 @@ export class SourceDemo implements SourceDonnees {
       relances_actives: nouveau.relances_actives ?? true,
       relance_reportee_au: null,
       accord_relance_le: nouveau.accord_relance_le ?? null,
+      consentement_le: nouveau.consentement_le ?? null,
       supprime_le: null,
     };
     if (!client.nom || !client.prenom) throw new ErreurDonnees('Le nom et le prénom sont obligatoires.');

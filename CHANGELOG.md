@@ -3,6 +3,37 @@
 Format : une entrée par livraison, la plus récente en haut. Numéro de version dans
 `package.json`.
 
+## 0.13.0 — 2026-10-22
+
+Mise aux normes **RGPD** (données de santé, article 9). Détail, et ce qu'il reste à faire hors
+du code (hébergeur HDS, contrats, analyse d'impact, registre) : `docs/RGPD.md`.
+
+### Ajouté
+- **Consentement du client** au traitement de ses données : date sur la fiche
+  (`clients.consentement_le`, migration `20261022090000_rgpd`), case à la création, alerte
+  « Consentement à recueillir » tant qu'il manque, retrait possible.
+- **Droit d'accès et de portabilité** : « Exporter ses données » sur la fiche (JSON lisible,
+  tout ce qui concerne le client, sans jeton ni identifiant interne) ; « Télécharger toutes mes
+  données » pour le thérapeute (Paramètres › Confidentialité).
+- **Durée de conservation** : fiches à revoir 5 ans après la dernière séance (proposées à la
+  corbeille, rien d'automatique) ; journal des connexions purgé à 12 mois
+  (`purger_journal_connexions`, et son miroir en mode démo).
+- **Politique de confidentialité** publique (`/confidentialite`) : responsables, données,
+  bases légales, destinataires (dont l'IA, hors UE), durées, droits, CNIL, sécurité, cookies ;
+  liée depuis la connexion et depuis les pages ouvertes par les clients. Les informations de
+  l'éditeur sont à compléter dans `src/config/rgpd.ts`.
+- Paramètres › Assistant IA : information sur le transfert possible hors de l'UE.
+
+### Modifié
+- `telecharger` (fichier créé dans le navigateur) est partagé dans `composants/Commun.tsx`.
+- Pages ouvertes par les clients : fond uni (design Flow, plus de dégradé).
+- Jeu de démo : version 16 (consentement noté pour environ 4 clients sur 5).
+
+### Tests
+- `tests/rgpd.test.ts` (export d'une fiche cloisonné, export complet, durée de conservation),
+  `tests/sqlRgpd.test.ts` (consentement : écriture, vue, RLS ; effacement en cascade ; purge du
+  journal limitée à ses lignes) ; e2e : politique publique, consentement, export.
+
 ## 0.12.0 — 2026-10-22
 
 ### Ajouté

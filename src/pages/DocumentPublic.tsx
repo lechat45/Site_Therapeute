@@ -5,7 +5,7 @@
 
 import { useEffect, useState, type FormEvent } from 'react';
 import { useParams } from 'react-router-dom';
-import { Chargement, Erreur } from '../composants/Commun';
+import { Chargement, Erreur, PiedPublic } from '../composants/Commun';
 import { DocumentTexte } from '../composants/DocumentTexte';
 import { Icone } from '../composants/Icone';
 import { donnees } from '../donnees';
@@ -136,6 +136,7 @@ export function DocumentPublic() {
           </article>
         )}
       </div>
+      <PiedPublic />
     </div>
   );
 }

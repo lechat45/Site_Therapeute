@@ -162,8 +162,15 @@ authentification. Ils vérifient notamment :
    select cron.schedule('purge-corbeille', '0 3 * * *',
      $$delete from public.clients where supprime_le < now() - interval '30 days'$$);
    ```
-   Sinon, la corbeille de chacun est purgée à l'ouverture de sa liste de clients.
-7. Héberger le contenu de `dist/` : le fichier `_headers` fournit les en-têtes de
+   Sinon, la corbeille de chacun est purgée à l'ouverture de sa liste de clients. Même chose
+   pour le journal des connexions, gardé 12 mois (RGPD) :
+   ```sql
+   select cron.schedule('purge-journal', '15 3 * * *',
+     $$delete from public.journal_connexions where le < now() - interval '12 months'$$);
+   ```
+7. **RGPD** : avant d'ouvrir le service, lire `docs/RGPD.md` (hébergeur certifié HDS,
+   contrats, analyse d'impact, registre) et remplir `src/config/rgpd.ts`.
+8. Héberger le contenu de `dist/` : le fichier `_headers` fournit les en-têtes de
    sécurité (Netlify, Cloudflare Pages ; à reporter ailleurs). Toutes les adresses
    doivent renvoyer vers `index.html`, y compris `/q/…` (questionnaire), `/d/…` (document
    remis au client) et `/r/…` (reçu envoyé au client).

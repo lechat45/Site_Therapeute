@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Chargement, Erreur } from '../composants/Commun';
+import { Chargement, Erreur, PiedPublic } from '../composants/Commun';
 import { FeuilleRecu } from '../composants/FeuilleRecu';
 import { Icone } from '../composants/Icone';
 import { donnees } from '../donnees';
@@ -58,6 +58,7 @@ export function RecuPublic() {
           <FeuilleRecu recu={r.recu} />
         </div>
       )}
+      <PiedPublic />
     </div>
   );
 }

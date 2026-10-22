@@ -66,6 +66,9 @@ Tout ce qui a été ajouté ensuite (journal, exercices, reçus, activité, tâc
   restent hors du menu, accessibles depuis Paramètres › Tarifs.
 - **Espace de groupe enrichi sans rien de personnel** (0.11.0) : repères et comparaison « vous et
   le groupe » tirés des seuls agrégats publiés ; vos chiffres restent sur votre écran.
+- **Mise aux normes RGPD** (0.13.0) : consentement noté, export, durées de conservation,
+  politique publique ; démarches hors code listées dans `docs/RGPD.md`. Durée de conservation
+  proposée : 5 ans après la dernière séance (à valider).
 - **Présentation du site** (0.12.0) : bouton « Découvrir le site » (connexion) et
   « Présentation du site » (menu), qui expliquent le site en détail ; à tenir à jour.
 - **Fiche client en onglets** et **rendez-vous guidé** (« Avec qui ? Quand ? Où ? », créneaux

@@ -8,7 +8,7 @@
   justify-items: center;
   min-height: 100dvh;
   padding: 24px 14px 48px;
-  background: linear-gradient(180deg, var(--violet-100), var(--fond) 260px);
+  background: var(--fond);
 }
 .carte-publique {
   display: grid;
@@ -275,4 +275,43 @@
 }
 .puce-choix.choisi::before {
   content: '✓ ';
+}
+
+/* Pied des pages clients : lien vers la politique de confidentialité (RGPD) */
+.pied-public {
+  margin-top: 18px;
+  font-size: 0.8667rem;
+  text-align: center;
+}
+.pied-public a {
+  color: var(--encre-3);
+}
+
+/* Politique de confidentialité (page publique, lecture longue) */
+.politique {
+  width: min(760px, 100%);
+  align-self: start;
+}
+.politique .carte-corps {
+  display: grid;
+  gap: 12px;
+  padding: 28px clamp(18px, 4vw, 40px) 32px;
+  line-height: 1.6;
+}
+.politique h2 {
+  margin-top: 14px;
+  font-size: 1.15rem;
+}
+.politique ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 20px;
+}
+.sur-titre-politique {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
 }

@@ -68,5 +68,4 @@ réalisé est dans `CHANGELOG.md`.
 | **Rallumer les exercices et documents** : `EXERCICES_VISIBLES = true` dans `src/config/fonctions.ts` | masqués en 0.10.3 à la demande de l'utilisateur ; tout est prêt | S |
 | **Plus de repères de groupe** (séances avant le bilan, modalités, saisons) : nouveaux agrégats SQL dans `statistiques()`, avec seuils, miroir démo et test de parité | enrichir l'espace de groupe sans rien de personnel | M |
 | **Application installable (PWA)** et consultation hors ligne de la liste des clients | tablette au cabinet sans réseau fiable | M |
-| **Sauvegarde / export de toutes ses données** (JSON + CSV) | portabilité RGPD, sérénité | S |
 | **Hébergement de données de santé (HDS)** : choix d'un hébergeur certifié | obligation probable en France, voir `docs/ARCHITECTURE.md` | L |

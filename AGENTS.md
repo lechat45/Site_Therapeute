@@ -23,6 +23,7 @@ sans lui.
 - **Deux modes, choisis tout seuls** : sans variables `VITE_SUPABASE_*` → **mode démo**
   (données fictives dans le navigateur, aucun serveur, identifiants pré-remplis) ; avec →
   **Supabase** (production).
+- **Données de santé, RGPD** : ce qui est fait et ce qu'il reste à faire : `docs/RGPD.md`.
 - **Version** : `package.json` ; historique dans `CHANGELOG.md` ; demande d'origine de
   l'utilisateur et décisions : `docs/CAHIER_DES_CHARGES.md` ; pistes : `docs/IDEES.md` ;
   architecture détaillée : `docs/ARCHITECTURE.md` ; **style** (design Flow en violet) :
@@ -121,6 +122,7 @@ Jamais l'inverse : `domaine/` n'importe ni React, ni `donnees/`, ni le navigateu
 | Reçus : émission, annulation, lien, groupés, export, livre des recettes (accès : Paramètres › Tarifs) | `journal_exercices_recus` (`recus`, `emettre_recu`, `annuler_recu`), `prolongements` (`preparer_lien_recu`, `recu_public`), `rappels_recus_groupes` (`recus_lignes`, `emettre_recu_groupe`) | `recus.ts`, `texte.ts` (`numeroRecu`), `config/ressources.ts` | `Recus` (+ impression), `RecuPublic`, `FeuilleRecu`, `DialogueLienRecu` | `prolongements`, `rappelsRecus`, `sqlOutils`, `sqlProlongements`, `sqlRappelsRecus`, e2e |
 | Réglages, affichage, daltonisme | `parametres` (toutes migrations) | `config/parametresDefaut.ts` | `Parametres`, `pages/parametres/*`, `etat/reglages`, `styles/accessibilite.css` | `sql` (défauts SQL = TS), e2e `parcours` |
 | Style (design Flow en violet) | — | — | `styles/base.css` (variables), `structure.css` (menu), `composants.css`, `Icone` ; règles : `docs/DESIGN.md` | e2e (ordinateur + téléphone) |
+| RGPD (consentement, export, conservation, politique) | `rgpd` (`consentement_le`, `purger_journal_connexions`) | `domaine/rgpd.ts` (`exportClient`, `exportComplet`, `fichesARevoir`), `config/rgpd.ts` (durées, éditeur) | `DonneesPersonnelles` (fiche), `parametres/SectionRgpd`, `pages/Confidentialite` (`/confidentialite`), `PiedPublic` ; guide : `docs/RGPD.md` | `rgpd`, `sqlRgpd`, e2e `outils` |
 | Présentation du site (diapositives) | — | `config/presentation.ts` (contenu, une diapositive par partie) | `composants/Presentation.tsx` ; boutons dans `Connexion` et `Structure` (menu) | `presentation`, e2e `parcours` |
 | Menu de navigation | — | — | `composants/Structure.tsx` (sans Rentabilité ni Reçus : décision de l'utilisateur) | e2e `parcours` |
 | Publication (GitHub Pages, sous-dossier) | — | `domaine/messages.ts` (`racineSite`, liens clients) | `vite.config.ts` (`base`), `App.tsx` (`basename`), `.github/workflows/github-pages.yml` ; `docs/DEPLOIEMENT.md` | `outils`, `prolongements` (liens) |
@@ -194,6 +196,11 @@ Les migrations sont désignées par la fin de leur nom (`supabase/migrations/AAA
     jamais exploitée, même pour un « repère »). Les comparaisons avec vos propres chiffres se
     font sur votre écran (`domaine/comparaison.ts`) : aucune donnée personnelle n'est envoyée
     au groupe. Une nouvelle information de groupe = un nouvel agrégat en SQL, avec seuil et test.
+18. **RGPD (données de santé).** Toute nouvelle donnée sur un client entre dans `exportClient`
+    (et son test) et s'efface avec la fiche ; toute durée de conservation annoncée dans la
+    politique est réellement appliquée (purge SQL + miroir démo + test) ; tout nouveau service
+    tiers est déclaré dans `pages/Confidentialite.tsx` et `docs/RGPD.md` avant d'être branché.
+    *Pourquoi : la politique affichée aux clients doit dire vrai.*
 
 ## 7. Lexique (français → anglais)
 

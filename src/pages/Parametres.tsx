@@ -16,6 +16,7 @@ import { OngletQuestionnaires } from './parametres/OngletQuestionnaires';
 import { OngletRelances } from './parametres/OngletRelances';
 import { OngletSecurite } from './parametres/OngletSecurite';
 import { OngletTarifs } from './parametres/OngletTarifs';
+import { SectionRgpd } from './parametres/SectionRgpd';
 import { ARGENT_VISIBLE } from '../config/fonctions';
 
 /** Rubriques, dans l'ordre du menu ; `?onglet=<cle>` ouvre directement l'une d'elles. */
@@ -123,6 +124,8 @@ function OngletConfidentialite() {
           </ul>
         </div>
       </section>
+
+      <SectionRgpd />
 
       {donnees.reinitialiserDemo && (
         <section className="carte" aria-labelledby="t-demo">

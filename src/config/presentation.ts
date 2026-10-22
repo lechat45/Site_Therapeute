@@ -231,6 +231,8 @@ export const DIAPOSITIVES: Diapositive[] = [
       'Pas d’inscription libre : les comptes sont créés par l’administrateur.',
       'Double authentification possible (application d’authentification) et déconnexion automatique après inactivité.',
       'Les liens envoyés aux clients sont personnels, à durée limitée, et ne donnent accès qu’à leur questionnaire ou document.',
+      'RGPD : le consentement de chaque client se note sur sa fiche (une alerte le rappelle) ; « Exporter ses données » et « Supprimer » répondent à ses droits.',
+      'Les fiches inactives depuis 5 ans vous sont proposées à l’effacement ; une politique de confidentialité est lisible par tous.',
     ],
   },
   {

@@ -28,6 +28,7 @@ const QuestionnairePublic = lazy(() =>
 );
 const DocumentPublic = lazy(() => import('./pages/DocumentPublic').then((m) => ({ default: m.DocumentPublic })));
 const RecuPublic = lazy(() => import('./pages/RecuPublic').then((m) => ({ default: m.RecuPublic })));
+const Confidentialite = lazy(() => import('./pages/Confidentialite').then((m) => ({ default: m.Confidentialite })));
 const Journal = lazy(() => import('./pages/Journal').then((m) => ({ default: m.Journal })));
 const Exercices = lazy(() => import('./pages/Exercices').then((m) => ({ default: m.Exercices })));
 const ImpressionDocument = lazy(() => import('./pages/Exercices').then((m) => ({ default: m.ImpressionDocument })));
@@ -61,6 +62,8 @@ const routeur = createBrowserRouter(
     { path: '/d/:jeton', element: differe(<DocumentPublic />) },
     // Reçu envoyé au client, par son lien personnel.
     { path: '/r/:jeton', element: differe(<RecuPublic />) },
+    // Politique de confidentialité (RGPD) : publique, liée depuis la connexion et les pages clients.
+    { path: '/confidentialite', element: differe(<Confidentialite />) },
     {
       path: '/',
       element: <Protege />,

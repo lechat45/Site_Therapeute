@@ -3,7 +3,7 @@
 // de la plateforme (scripts/comptes.mjs).
 
 import { useState, type FormEvent } from 'react';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { Erreur } from '../composants/Commun';
 import { Icone } from '../composants/Icone';
 import { Presentation } from '../composants/Presentation';
@@ -210,6 +210,9 @@ export function Connexion() {
               plateforme.
             </p>
           )}
+          <p className="meta">
+            <Link to="/confidentialite">Données personnelles et confidentialité</Link>
+          </p>
         </form>
       </section>
       {presentation && <Presentation fermer={() => setPresentation(false)} />}

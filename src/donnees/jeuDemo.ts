@@ -71,7 +71,7 @@ export type RecuDemo = Recu & { therapeute_id: string; jeton_hash: string | null
 export type TachePersoDemo = TachePerso & { therapeute_id: string; precedente: string | null };
 
 /** À incrémenter quand la forme du jeu change : il est alors régénéré chez tout le monde. */
-export const VERSION_JEU_DEMO = 15;
+export const VERSION_JEU_DEMO = 16;
 
 export interface JeuDemo {
   version: typeof VERSION_JEU_DEMO;
@@ -911,6 +911,7 @@ function genererClient(r: Alea, jeu: JeuDemo, therapeuteId: string, detaille: bo
     relances_actives: r() > 0.05,
     relance_reportee_au: null,
     accord_relance_le: null,
+    consentement_le: null,
     supprime_le: null,
   };
   const reglages = jeu.parametres[therapeuteId];
@@ -939,6 +940,9 @@ function genererClient(r: Alea, jeu: JeuDemo, therapeuteId: string, detaille: bo
   // (dérivé de l'identifiant : la suite aléatoire du jeu reste inchangée)
   if ((client.email || client.telephone) && parseInt(client.id.slice(-2), 16) % 6 !== 0)
     client.accord_relance_le = date;
+  // consentement au traitement des données noté à la première séance, sauf pour environ un
+  // client sur cinq (pour montrer l'alerte de la fiche) ; dérivé de l'identifiant, comme ci-dessus
+  if (parseInt(client.id.slice(-3), 16) % 5 !== 0) client.consentement_le = date;
   const lignee: Lignee = r() < 0.5 ? 'pere' : 'mere';
   const objectif = choix(r, OBJECTIFS[principale]);
   const poidsEmotions = new Map<number, number>(EMOTIONS.map((x) => [x.id, 0.3]));
